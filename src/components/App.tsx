@@ -1,5 +1,11 @@
-import React from "react";
+import React from 'react';
+import { DefaultButton } from './Button';
 
-export const App = () => {
-  return <div> App </div>;
+export const App = (): JSX.Element => {
+  return (
+    <div>
+      App
+      <DefaultButton color="primary" />
+    </div>
+  );
 };
