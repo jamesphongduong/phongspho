@@ -5,7 +5,7 @@ import { Navbar } from './Navbar';
 export const App = (): JSX.Element => {
   return (
     <div>
-      <Navbar items={['One', 'Two']} />
+      <Navbar items={['Menu', 'About', 'Login / Register']} />
       {/* <DefaultButton color="primary" /> */}
     </div>
   );

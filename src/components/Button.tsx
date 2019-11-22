@@ -1,16 +1,17 @@
-import { Button, PropTypes } from '@material-ui/core';
+import { Button as MaterialButton, PropTypes } from '@material-ui/core';
 import React from 'react';
 
 interface Props {
   color: PropTypes.Color;
+  text: string;
 }
 
-export const DefaultButton = (props: Props): JSX.Element => {
-  const { color } = props;
+export const Button = (props: Props): JSX.Element => {
+  const { color, text } = props;
 
-  return <Button color={color}>Hello</Button>;
+  return <MaterialButton color={color}>{text}</MaterialButton>;
 };
 
-DefaultButton.defaultProps = {
-  color: 'primary'
+Button.defaultProps = {
+  // color: 'primary'
 };

@@ -3,10 +3,12 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Typography,
-  Button
+  Typography
+  // Button
   // MenuIcon
 } from '@material-ui/core';
+import { Button } from './Button';
+import { withKey } from './hocs/WithKey';
 import MenuIcon from '@material-ui/icons/Menu';
 import shortid from 'shortid';
 
@@ -16,28 +18,28 @@ interface Props {
 
 export const Navbar = (props: Props): JSX.Element => {
   const { items } = props;
-  console.log('items', items);
-  const renderItems = () => {
-    return items.map((item) => {
-      return (
-        <Typography variant="h6" key={shortid.generate()}>
-          {item}
-        </Typography>
-      );
-    });
+
+  const ButtonK = withKey(Button);
+  const renderItems = (): JSX.Element[] => {
+    return items.map(
+      (item): JSX.Element => {
+        return <ButtonK text={item} />;
+      }
+    );
   };
 
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton
+        {/* <IconButton
           edge="start"
           // className={classes.menuButton}
           color="inherit"
           aria-label="menu"
         >
           <MenuIcon />
-        </IconButton>
+        </IconButton> */}
+        {/* <Button /> */}
         {renderItems()}
         {/* <Button color="inherit">Login</Button> */}
       </Toolbar>
