@@ -4,7 +4,6 @@ import {
   Toolbar,
   IconButton,
   Typography
-  // Button
   // MenuIcon
 } from '@material-ui/core';
 import { Button } from './Button';
@@ -19,11 +18,12 @@ interface Props {
 export const Navbar = (props: Props): JSX.Element => {
   const { items } = props;
 
-  const ButtonK = withKey(Button);
   const renderItems = (): JSX.Element[] => {
     return items.map(
       (item): JSX.Element => {
-        return <ButtonK text={item} />;
+        return (
+          <Button color="secondary" text={item} key={shortid.generate()} />
+        );
       }
     );
   };
