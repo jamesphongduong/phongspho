@@ -1,11 +1,12 @@
 import React from 'react';
 import { DefaultButton } from './Button';
+import { Navbar } from './Navbar';
 
 export const App = (): JSX.Element => {
   return (
     <div>
-      App
-      <DefaultButton color="primary" />
+      <Navbar items={['One', 'Two']} />
+      {/* <DefaultButton color="primary" /> */}
     </div>
   );
 };
