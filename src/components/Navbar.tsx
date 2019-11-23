@@ -20,8 +20,8 @@ export const Navbar = (props: Props): JSX.Element => {
         const { label, route } = item;
 
         return (
-          <Link to={`${route}`}>
-            <Button color="secondary" text={label} key={shortid.generate()} />
+          <Link to={`${route}`} key={shortid.generate()}>
+            <Button color="secondary" text={label} />
           </Link>
         );
       }
