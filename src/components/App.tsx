@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from './Button';
 import { Navbar } from './Navbar';
+import { Menu } from './pages/Menu';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { grey, blue } from '@material-ui/core/colors';
 
@@ -17,6 +18,7 @@ export const App = (): JSX.Element => {
     <div>
       <MuiThemeProvider theme={theme}>
         <Navbar items={navbarItems} />
+        <Menu />
       </MuiThemeProvider>
       {/* <Button color="primary" /> */}
     </div>

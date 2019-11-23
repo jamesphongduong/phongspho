@@ -25,6 +25,7 @@ export const Navbar = (props: Props): JSX.Element => {
   return (
     <AppBar position="static">
       <Toolbar className={classes.container}>{renderItems()}</Toolbar>
+      {/* <Button /> */}
     </AppBar>
   );
 };
