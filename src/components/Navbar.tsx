@@ -3,9 +3,11 @@ import { AppBar, Toolbar } from '@material-ui/core';
 import { Button } from './Button';
 import shortid from 'shortid';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
+import { menuItem } from '../types';
 
 interface Props {
-  items: string[];
+  items: menuItem[];
 }
 
 export const Navbar = (props: Props): JSX.Element => {
@@ -15,8 +17,12 @@ export const Navbar = (props: Props): JSX.Element => {
   const renderItems = (): JSX.Element[] => {
     return items.map(
       (item): JSX.Element => {
+        const { label, route } = item;
+
         return (
-          <Button color="secondary" text={item} key={shortid.generate()} />
+          <Link to={`${route}`}>
+            <Button color="secondary" text={label} key={shortid.generate()} />
+          </Link>
         );
       }
     );
@@ -25,7 +31,6 @@ export const Navbar = (props: Props): JSX.Element => {
   return (
     <AppBar position="static">
       <Toolbar className={classes.container}>{renderItems()}</Toolbar>
-      {/* <Button /> */}
     </AppBar>
   );
 };
