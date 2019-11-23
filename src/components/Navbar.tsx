@@ -1,21 +1,15 @@
 import React from 'react';
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography
-  // MenuIcon
-} from '@material-ui/core';
+import { AppBar, Toolbar } from '@material-ui/core';
 import { Button } from './Button';
-import { withKey } from './hocs/WithKey';
-import MenuIcon from '@material-ui/icons/Menu';
 import shortid from 'shortid';
+import { makeStyles } from '@material-ui/core/styles';
 
 interface Props {
   items: string[];
 }
 
 export const Navbar = (props: Props): JSX.Element => {
+  const classes = useStyles();
   const { items } = props;
 
   const renderItems = (): JSX.Element[] => {
@@ -30,19 +24,13 @@ export const Navbar = (props: Props): JSX.Element => {
 
   return (
     <AppBar position="static">
-      <Toolbar>
-        {/* <IconButton
-          edge="start"
-          // className={classes.menuButton}
-          color="inherit"
-          aria-label="menu"
-        >
-          <MenuIcon />
-        </IconButton> */}
-        {/* <Button /> */}
-        {renderItems()}
-        {/* <Button color="inherit">Login</Button> */}
-      </Toolbar>
+      <Toolbar className={classes.container}>{renderItems()}</Toolbar>
     </AppBar>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    justifyContent: 'flex-end'
+  }
+}));
