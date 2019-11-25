@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { TextField, Button, Typography } from '../';
 import Container from '@material-ui/core/Container';
+import { Input } from '@material-ui/core';
 import ReactS3 from 'react-s3';
 import { S3Config } from '../../config';
 import { getMeals, postMeal } from '../../api';
@@ -10,7 +11,7 @@ interface State {
   priceInput: string;
   descriptionInput: string;
   fileInput: File | undefined;
-  [key: string]: string | File | undefined;
+  [key: string]: string | File | undefined; // need to refactor
 }
 
 export class NewDish extends PureComponent<{}, State> {
@@ -78,10 +79,9 @@ export class NewDish extends PureComponent<{}, State> {
           handleInput={this.onInputChange}
           value={descriptionInput}
         />
-        <input type="file" onChange={this.upload} />
-        <div style={{ marginTop: 40 }}>
-          <Button onClick={this.postDish} color="primary" label="create" />
-        </div>
+        {/* <input type="file" onChange={this.upload} /> */}
+        <Input type="file" required />
+        <Button onClick={this.postDish} color="secondary" label="Submit" />
       </Container>
     );
   }

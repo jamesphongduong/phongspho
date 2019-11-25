@@ -10,6 +10,7 @@ interface Props {
   multiline?: boolean;
   handleInput(event: React.ChangeEvent<HTMLInputElement>): void;
   value: string;
+  required?: boolean;
 }
 
 export const TextField = (props: Props): JSX.Element => {
@@ -28,6 +29,7 @@ export const TextField = (props: Props): JSX.Element => {
       id={`${label.toLowerCase()}Input`}
       label={label}
       fullWidth
+      // helperText="Required Field"
       InputProps={
         preLabel
           ? {
@@ -39,4 +41,8 @@ export const TextField = (props: Props): JSX.Element => {
       }
     />
   );
+};
+
+TextField.defaultProps = {
+  required: true
 };

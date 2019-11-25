@@ -28,9 +28,20 @@ export const Navbar = (props: Props): JSX.Element => {
     );
   };
 
+  // if admin
+  const renderNewDishButton = (): JSX.Element => {
+    return (
+      <Link to="/new">
+        <Button color="secondary" label="Create New Dish" />
+      </Link>
+    );
+  };
+
   return (
     <AppBar position="static">
-      <Toolbar className={classes.container}>{renderItems()}</Toolbar>
+      <Toolbar className={classes.container}>
+        {renderNewDishButton()} {renderItems()}
+      </Toolbar>
     </AppBar>
   );
 };
