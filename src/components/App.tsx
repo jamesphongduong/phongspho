@@ -4,7 +4,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { grey, blue } from '@material-ui/core/colors';
 import { Switch, Route } from 'react-router-dom';
 import { About, Auth, Menu, NoMatch, NewDish } from './pages';
-import { Box } from '@material-ui/core';
+import { Box as MaterialBox } from '@material-ui/core';
 
 const theme = createMuiTheme({
   palette: {
@@ -22,7 +22,7 @@ export const App = (): JSX.Element => {
   return (
     <MuiThemeProvider theme={theme}>
       <Navbar items={navbarItems} />
-      <Box p={4}>
+      <MaterialBox p={4}>
         <Switch>
           <Route exact path="/about">
             <About />
@@ -40,7 +40,7 @@ export const App = (): JSX.Element => {
             <NoMatch />
           </Route>
         </Switch>
-      </Box>
+      </MaterialBox>
     </MuiThemeProvider>
   );
 };

@@ -1,5 +1,8 @@
 import React from 'react';
-import { AppBar, Toolbar } from '@material-ui/core';
+import {
+  AppBar as MaterialAppBar,
+  Toolbar as MaterialToolBar
+} from '@material-ui/core';
 import { Button } from './Button';
 import shortid from 'shortid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,11 +41,11 @@ export const Navbar = (props: Props): JSX.Element => {
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar className={classes.container}>
+    <MaterialAppBar position="static">
+      <MaterialToolBar className={classes.container}>
         {renderNewDishButton()} {renderItems()}
-      </Toolbar>
-    </AppBar>
+      </MaterialToolBar>
+    </MaterialAppBar>
   );
 };
 

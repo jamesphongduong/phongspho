@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react';
 import { TextField, Button, Typography } from '../';
-import Container from '@material-ui/core/Container';
-import { Input } from '@material-ui/core';
+import {
+  Input as MaterialInput,
+  Container as MaterialContainer
+} from '@material-ui/core';
 import { isValidText, isValidPrice, isValidImageFile } from '../../utils';
 import { INVALID_PRICE_INPUT, INVALID_TEXT_INPUT } from '../../utils/';
 import ReactS3 from 'react-s3';
 import { S3Config } from '../../config';
-import { getMeals, postMeal } from '../../api';
+import { postMeal } from '../../api';
 
 interface State {
   titleInput: string;
@@ -120,7 +122,7 @@ export class NewDish extends PureComponent<{}, State> {
 
     console.log('RENDER', this.state);
     return (
-      <Container maxWidth="sm">
+      <MaterialContainer maxWidth="sm">
         <Typography text="New Menu Item" variant="h4" />
         <TextField
           label="Title"
@@ -145,7 +147,7 @@ export class NewDish extends PureComponent<{}, State> {
           helperText={INVALID_TEXT_INPUT}
           invalid={showValidations && !descriptionInputValid}
         />
-        <Input
+        <MaterialInput
           type="file"
           required
           error={showValidations && !fileInputValid}
@@ -153,7 +155,7 @@ export class NewDish extends PureComponent<{}, State> {
           onChange={this.localFileUpload}
         />
         <Button onClick={this.postDish} color="secondary" label="Submit" />
-      </Container>
+      </MaterialContainer>
     );
   }
 }

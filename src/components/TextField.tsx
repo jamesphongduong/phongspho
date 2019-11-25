@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   TextField as MaterialTextField,
-  InputAdornment
+  InputAdornment as MaterialInputAdornment
 } from '@material-ui/core';
 
 interface Props {
@@ -37,7 +37,9 @@ export const TextField = (props: Props): JSX.Element => {
         preLabel
           ? {
               startAdornment: (
-                <InputAdornment position="start">{preLabel}</InputAdornment>
+                <MaterialInputAdornment position="start">
+                  {preLabel}
+                </MaterialInputAdornment>
               )
             }
           : undefined
