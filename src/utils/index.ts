@@ -1,1 +1,1 @@
-export { isValidText } from './validation-utils';
+export { isValidText, isValidPrice } from './validation-utils';

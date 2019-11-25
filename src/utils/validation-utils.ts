@@ -5,5 +5,9 @@ const isString = (value): boolean =>
 
 const onlyWhiteSpace = (value): boolean => value.trim().length === 0;
 
+const isPositive = (value): boolean => value >= 0;
+
 export const isValidText = (value): boolean =>
-  isString(value) && !hasNumber(value) && !onlyWhiteSpace(value) ? true : false;
+  isString(value) && !hasNumber(value) && !onlyWhiteSpace(value);
+
+export const isValidPrice = (value): boolean => isPositive(value);
