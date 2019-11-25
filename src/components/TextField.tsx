@@ -7,18 +7,26 @@ import {
 interface Props {
   label: string;
   preLabel?: string;
+  multiline?: boolean;
+  handleInput(event: React.ChangeEvent<HTMLInputElement>): void;
+  value: string;
 }
 
 export const TextField = (props: Props): JSX.Element => {
-  const { preLabel, ...other } = props;
+  const { preLabel, label, handleInput, ...other } = props;
 
   return (
     <MaterialTextField
+      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+        handleInput(event)
+      }
       {...other}
       margin="normal"
       InputLabelProps={{
         shrink: true
       }}
+      id={`${label.toLowerCase()}Input`}
+      label={label}
       fullWidth
       InputProps={
         preLabel

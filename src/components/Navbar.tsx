@@ -21,7 +21,7 @@ export const Navbar = (props: Props): JSX.Element => {
 
         return (
           <Link to={`${route}`} key={shortid.generate()}>
-            <Button color="secondary" text={label} />
+            <Button color="secondary" label={label} variant="text" />
           </Link>
         );
       }
