@@ -11,13 +11,13 @@ export const getMeals = (): AxiosPromise => {
 // POST REQS
 
 export const postMeal = (data): AxiosPromise => {
-  const { titleInput, descriptionInput, priceInput, fileInput } = data;
+  const { titleInput, descriptionInput, priceInput, imageURL } = data;
 
   const postData = {
     title: titleInput,
     description: descriptionInput,
     price: priceInput,
-    file: fileInput
+    imageURL
   };
 
   return axios.post(`${baseURL}/dishes/`, postData);

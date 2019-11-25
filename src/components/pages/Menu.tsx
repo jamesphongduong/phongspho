@@ -28,6 +28,7 @@ export class Menu extends PureComponent<{}, State> {
 
     return dishes.map(
       (dish: dish): JSX.Element => {
+        console.log('dish', dish);
         return (
           <MenuItem
             key={shortid.generate()}

@@ -11,16 +11,19 @@ interface Props {
   handleInput(event: React.ChangeEvent<HTMLInputElement>): void;
   value: string;
   required?: boolean;
+  helperText?: string;
+  invalid?: boolean;
 }
 
 export const TextField = (props: Props): JSX.Element => {
-  const { preLabel, label, handleInput, ...other } = props;
+  const { preLabel, label, handleInput, helperText, invalid, ...other } = props;
 
   return (
     <MaterialTextField
       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
         handleInput(event)
       }
+      error={invalid}
       {...other}
       margin="normal"
       InputLabelProps={{
@@ -29,7 +32,7 @@ export const TextField = (props: Props): JSX.Element => {
       id={`${label.toLowerCase()}Input`}
       label={label}
       fullWidth
-      // helperText="Required Field"
+      helperText={invalid && helperText}
       InputProps={
         preLabel
           ? {

@@ -1,16 +1,11 @@
 {
   "dishes": [
     {
-      "title": "Fish",
-      "description": "",
-      "price": "",
-      "id": 5
-    },
-    {
-      "title": "",
-      "description": "",
-      "price": "",
-      "id": 6
+      "title": "Dog",
+      "description": "Dog",
+      "price": "1",
+      "imageURL": "https://phongspho.s3.amazonaws.com/meal_images/download.jpg",
+      "id": 1
     }
   ]
 }
