@@ -4,10 +4,10 @@ import { Button } from './Button';
 import shortid from 'shortid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { menuItem } from '../types';
+import { navbarItem } from '../types';
 
 interface Props {
-  items: menuItem[];
+  items: navbarItem[];
 }
 
 export const Navbar = (props: Props): JSX.Element => {

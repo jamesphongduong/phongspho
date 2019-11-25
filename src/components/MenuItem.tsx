@@ -13,16 +13,16 @@ interface Props {
   price: number;
   title: string;
   description: string;
-  image: string;
+  imageURL: string;
 }
 
 export const MenuItem = (props: Props): JSX.Element => {
-  const { price, title, description, image } = props;
+  const { price, title, description, imageURL } = props;
   const classes = useStyles();
 
   return (
     <Card className={classes.card} raised>
-      <CardMedia className={classes.media} image={image} />
+      <CardMedia className={classes.media} image={imageURL} />
       <CardContent>
         <div className={classes.titleContainer}>
           <Typography gutterBottom variant="h5" component="h2">

@@ -3,7 +3,7 @@ import { TextField, Button, Typography } from '../';
 import Container from '@material-ui/core/Container';
 import ReactS3 from 'react-s3';
 import { S3Config } from '../../config';
-import { getMeals } from '../../api';
+import { getMeals, postMeal } from '../../api';
 
 interface State {
   titleInput: string;
@@ -29,24 +29,29 @@ export class NewDish extends PureComponent<{}, State> {
   };
 
   componentDidMount() {
-    getMeals();
+    console.log('mounted');
+    // getMeals();
+    // postMeal();
   }
+
+  postDish = () => {
+    const { titleInput, priceInput, descriptionInput, fileInput } = this.state;
+    const data = { titleInput, priceInput, descriptionInput, fileInput };
+
+    postMeal(data);
+  };
 
   upload = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (e && e.target && e.target.files) {
       this.setState({ fileInput: e.target.files[0] });
     }
     // ReactS3.uploadFile(e.target.files[0], S3Config)
-    //   .then((data: any) => {
+    //   .then((data: any) => {2
     //     console.log('data', data);
     //     alert('Upload Successful');
     //     const imageURL = data.location;
     //   })
     //   .catch((err) => console.log('err', err));
-  };
-
-  onPost = () => {
-    const { titleInput, priceInput, descriptionInput, fileInput } = this.state;
   };
 
   render(): JSX.Element {
@@ -75,11 +80,7 @@ export class NewDish extends PureComponent<{}, State> {
         />
         <input type="file" onChange={this.upload} />
         <div style={{ marginTop: 40 }}>
-          <Button
-            onClick={() => alert('clicked')}
-            color="primary"
-            label="create"
-          />
+          <Button onClick={this.postDish} color="primary" label="create" />
         </div>
       </Container>
     );
