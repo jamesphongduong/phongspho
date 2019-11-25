@@ -8,38 +8,42 @@ interface State {
   titleInput: string;
   priceInput: string;
   descriptionInput: string;
-  [key: string]: string;
+  fileInput: File | undefined;
+  [key: string]: string | File | undefined;
 }
 
 export class NewDish extends PureComponent<{}, State> {
   state = {
     titleInput: '',
     priceInput: '',
-    descriptionInput: ''
+    descriptionInput: '',
+    fileInput: undefined
   };
 
-  onInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const {
       target: { id, value }
-    } = event;
+    } = e;
     this.setState({ [id]: value });
   };
 
-  upload = (e: any) => {
-    console.log('upload fn');
-    console.log(e.target.files[0]);
-    ReactS3.uploadFile(e.target.files[0], S3Config)
-      .then((data: any) => {
-        console.log('data', data);
-        alert('Upload Successful');
-      })
-      .catch((err) => console.log('err', err));
+  upload = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (e && e.target && e.target.files) {
+      this.setState({ fileInput: e.target.files[0] });
+    }
+    // ReactS3.uploadFile(e.target.files[0], S3Config)
+    //   .then((data: any) => {
+    //     console.log('data', data);
+    //     alert('Upload Successful');
+    //     const imageURL = data.location;
+    //   })
+    //   .catch((err) => console.log('err', err));
   };
 
   render(): JSX.Element {
     const { titleInput, priceInput, descriptionInput } = this.state;
 
-    console.log('new dish state', this.state);
+    console.log('RENDER', this.state);
     return (
       <Container maxWidth="sm">
         <Typography text="New Menu Item" variant="h4" />
