@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { MenuItem } from '../';
+import { DishCard } from '../';
 import { getMeals } from '../../api';
 import { dish } from '../../types';
 import shortid from 'shortid';
@@ -29,13 +29,15 @@ export class Menu extends PureComponent<{}, State> {
     return dishes.map(
       (dish: dish): JSX.Element => {
         console.log('dish', dish);
+        console.log(typeof dish.id);
         return (
-          <MenuItem
+          <DishCard
             key={shortid.generate()}
             title={dish.title}
             price={dish.price}
             description={dish.description}
             imageURL={dish.imageURL}
+            id={dish.id}
           />
         );
       }

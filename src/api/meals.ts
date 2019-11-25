@@ -18,5 +18,12 @@ export const postMeal = (data): AxiosPromise => {
     imageURL
   };
 
-  return axios.post(`${process.env.REACT_APP_BACKEND_UR}/dishes/`, postData);
+  return axios.post(`${process.env.REACT_APP_BACKEND_URL}/dishes/`, postData);
+};
+
+// PUT REQS
+
+// DELETE REQS
+export const deleteMeal = (id): AxiosPromise => {
+  return axios.delete(`${process.env.REACT_APP_BACKEND_URL}/dishes/${id}`);
 };

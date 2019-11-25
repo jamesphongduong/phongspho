@@ -1,8 +1,8 @@
 {
   "dishes": [
     {
-      "title": "Dog",
-      "description": "Dog",
+      "title": "dog",
+      "description": "dog",
       "price": "1",
       "imageURL": "https://phongspho.s3.amazonaws.com/meal_images/download.jpg",
       "id": 1

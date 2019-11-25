@@ -7,18 +7,28 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
+import { ShoppingCartRounded, Delete } from '@material-ui/icons/';
+import { deleteMeal } from '../api';
 
 interface Props {
   price: number;
   title: string;
   description: string;
   imageURL: string;
+  id: number;
 }
 
-export const MenuItem = (props: Props): JSX.Element => {
-  const { price, title, description, imageURL } = props;
+export const DishCard = (props: Props): JSX.Element => {
+  const { price, title, description, imageURL, id } = props;
   const classes = useStyles();
+
+  const onDeleteClick = () => {
+    const { id } = props;
+
+    deleteMeal(id)
+      .then(() => alert('deleted'))
+      .catch((err) => alert(err));
+  };
 
   return (
     <Card className={classes.card} raised>
@@ -35,12 +45,16 @@ export const MenuItem = (props: Props): JSX.Element => {
         </Typography>
       </CardContent>
       <CardActions>
+        <Button size="small" color="primary" startIcon={<Delete />}>
+          Order
+        </Button>
         <Button
+          onClick={onDeleteClick}
           size="small"
           color="primary"
-          startIcon={<ShoppingCartRoundedIcon />}
+          startIcon={<ShoppingCartRounded />}
         >
-          Order
+          Delete
         </Button>
       </CardActions>
     </Card>
