@@ -17,7 +17,7 @@ export class Menu extends PureComponent<{}, State> {
     };
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     getMeals().then((res) => {
       this.setState({ dishes: res.data });
     });
@@ -28,8 +28,6 @@ export class Menu extends PureComponent<{}, State> {
 
     return dishes.map(
       (dish: dish): JSX.Element => {
-        console.log('dish', dish);
-        console.log(typeof dish.id);
         return (
           <DishCard
             key={shortid.generate()}
@@ -44,7 +42,7 @@ export class Menu extends PureComponent<{}, State> {
     );
   };
 
-  render() {
+  render(): JSX.Element {
     return (
       <div>
         <Typography text="Dishes" variant="h4" /> {this.renderMenu()}

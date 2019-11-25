@@ -9,20 +9,21 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { ShoppingCartRounded, Delete } from '@material-ui/icons/';
 import { deleteMeal } from '../api';
+import { dish } from '../types';
 
-interface Props {
-  price: number;
-  title: string;
-  description: string;
-  imageURL: string;
-  id: number;
-}
+// interface Props {
+//   price: number;
+//   title: string;
+//   description: string;
+//   imageURL: string;
+//   id: number;
+// }
 
-export const DishCard = (props: Props): JSX.Element => {
+export const DishCard = (props: dish): JSX.Element => {
   const { price, title, description, imageURL, id } = props;
   const classes = useStyles();
 
-  const onDeleteClick = () => {
+  const onDeleteClick = (): void => {
     const { id } = props;
 
     deleteMeal(id)
