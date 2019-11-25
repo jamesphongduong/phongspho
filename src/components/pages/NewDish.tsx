@@ -3,6 +3,7 @@ import { TextField, Button, Typography } from '../';
 import Container from '@material-ui/core/Container';
 import ReactS3 from 'react-s3';
 import { S3Config } from '../../config';
+import { getMeals } from '../../api';
 
 interface State {
   titleInput: string;
@@ -27,6 +28,10 @@ export class NewDish extends PureComponent<{}, State> {
     this.setState({ [id]: value });
   };
 
+  componentDidMount() {
+    getMeals();
+  }
+
   upload = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (e && e.target && e.target.files) {
       this.setState({ fileInput: e.target.files[0] });
@@ -38,6 +43,10 @@ export class NewDish extends PureComponent<{}, State> {
     //     const imageURL = data.location;
     //   })
     //   .catch((err) => console.log('err', err));
+  };
+
+  onPost = () => {
+    const { titleInput, priceInput, descriptionInput, fileInput } = this.state;
   };
 
   render(): JSX.Element {
