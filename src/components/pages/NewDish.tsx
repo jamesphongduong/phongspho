@@ -57,11 +57,16 @@ export class NewDish extends PureComponent<{}, State> {
       priceInputValid &&
       descriptionInputValid &&
       fileInputValid;
-    console.log('formValid', formValid);
 
     if (!formValid) {
       this.setState(
-        { titleInputValid: titleInputValid, showValidations: true },
+        {
+          titleInputValid,
+          priceInputValid,
+          descriptionInputValid,
+          fileInputValid,
+          showValidations: true
+        },
         () => {
           setInterval(() => this.setState({ showValidations: false }), 2000);
         }

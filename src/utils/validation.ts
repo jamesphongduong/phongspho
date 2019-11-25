@@ -1,18 +1,21 @@
-const hasNumber = (value): boolean => /\d/.test(value);
+const stringHasNumber = (string): boolean => /\d/.test(string);
 
 const isString = (value): boolean =>
   Object.prototype.toString.call(value) === '[object String]';
 
-const onlyWhiteSpace = (value): boolean => value.trim().length === 0;
+const stringIsNumber = (string) => parseInt(string) !== NaN;
 
-const isPositive = (value): boolean => value >= 0;
+const stringIsOnlyWhiteSpace = (string): boolean => string.trim().length === 0;
+
+const isPositive = (num): boolean => num >= 0;
 
 const isImageFile = (file): boolean =>
   file && file['type'].split('/')[0] === 'image';
 
-export const isValidText = (value): boolean =>
-  isString(value) && !hasNumber(value) && !onlyWhiteSpace(value);
+export const isValidText = (input): boolean =>
+  isString(input) && !stringHasNumber(input) && !stringIsOnlyWhiteSpace(input);
 
-export const isValidPrice = (value): boolean => isPositive(value);
+export const isValidPrice = (input): boolean =>
+  stringIsNumber(input) && isPositive(input);
 
-export const isValidImageFile = (value): boolean => isImageFile(value);
+export const isValidImageFile = (file): boolean => isImageFile(file);

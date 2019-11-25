@@ -19,13 +19,13 @@ describe('isValidText function', () => {
 });
 
 describe('isValidPrice function', () => {
-  test('positive number input', () => {
+  test('strign input of positive number ', () => {
     expect(isValidPrice(1)).toBe(true);
   });
-  test('negative number input', () => {
+  test('string input of negative number', () => {
     expect(isValidPrice(-1)).toBe(false);
   });
-  test('0 number input', () => {
-    expect(isValidPrice(0)).toBe(true);
+  test('string input of number 0', () => {
+    expect(isValidPrice('0')).toBe(true);
   });
 });
