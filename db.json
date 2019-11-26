@@ -9,7 +9,8 @@
     },
     {
       "imageURL": "https://phongspho.s3.amazonaws.com/meal_images/20171220_174444.jpg",
-      "id": 2
+      "id": 2,
+      "caption": "hello"
     }
   ]
 }

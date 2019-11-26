@@ -28,7 +28,7 @@ const theme = createMuiTheme({
 });
 const navbarItems = [
   { label: 'Home', route: '/' },
-  { label: 'Gallery', route: 'Gallery' },
+  { label: 'Gallery', route: 'gallery' },
   { label: 'About', route: 'about' }
   // { label: 'Login / Register', route: 'login' }
 ];

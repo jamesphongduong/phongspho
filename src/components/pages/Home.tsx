@@ -19,9 +19,7 @@ const styles = {
     flexDirection: 'column' as 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    // flex: 1,
     height: '100%'
-    // border: '1px solid black'
   },
   img: {
     width: '50%',

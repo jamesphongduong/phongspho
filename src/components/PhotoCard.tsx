@@ -1,27 +1,26 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import { ShoppingCartRounded, Delete } from '@material-ui/icons/';
 import { deletePhoto } from '../api';
 import { photo } from '../types';
 
-// interface Props {
-//   price: number;
-//   title: string;
-//   description: string;
-//   imageURL: string;
-//   id: number;
-// }
+interface Props extends photo {
+  onPhotoHover(id): void;
+  showCaption: boolean;
+}
 
-export const PhotoCard = (props: photo): JSX.Element => {
-  const { caption, imageURL, id } = props;
+export const PhotoCard = (props: Props): JSX.Element => {
+  const { caption, imageURL, id, onPhotoHover, showCaption } = props;
   const classes = useStyles();
+
+  const onHover = (): void => {
+    onPhotoHover(id);
+  };
+
+  const onHoverOut = (): void => {
+    onPhotoHover(null);
+  };
 
   const onDeleteClick = (): void => {
     const { id } = props;
@@ -33,31 +32,14 @@ export const PhotoCard = (props: photo): JSX.Element => {
 
   return (
     <Card className={classes.card} raised>
-      <CardMedia className={classes.media} image={imageURL} />
-      {/* <CardContent>
-        <div className={classes.titleContainer}>
-          <Typography gutterBottom variant="h5" component="h2">
-            {title}
-          </Typography>
-          <Typography> {price && `$${price}`}</Typography>
-        </div>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {description}
-        </Typography>
-      </CardContent> */}
-      {/* <CardActions>
-        <Button size="small" color="primary" startIcon={<Delete />}>
-          Order
-        </Button>
-        <Button
-          onClick={onDeleteClick}
-          size="small"
-          color="primary"
-          startIcon={<Delete />}
+      <div onMouseOver={onHover} onMouseOut={onHoverOut}>
+        <div
+          className={showCaption ? classes.showCaption : classes.hideCaption}
         >
-          Delete
-        </Button>
-      </CardActions> */}
+          {caption}
+        </div>
+        <CardMedia className={classes.media} image={imageURL} />
+      </div>
     </Card>
   );
 };
@@ -70,6 +52,7 @@ const useStyles = makeStyles({
   },
   card: {
     // maxWidth: 345
+    position: 'relative',
     margin: 16,
     padding: 16
   },
@@ -78,5 +61,15 @@ const useStyles = makeStyles({
     // height:
     minHeight: 300,
     minWidth: 300
+  },
+  hideCaption: {
+    display: 'none'
+  },
+  showCaption: {
+    display: 'block',
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)'
   }
 });

@@ -7,13 +7,15 @@ import { Typography } from '../Typography';
 
 interface State {
   photos: photo[];
+  showCaptionPhotoId: number | undefined;
 }
 
 export class Gallery extends PureComponent<{}, State> {
   constructor(props) {
     super(props);
     this.state = {
-      photos: []
+      photos: [],
+      showCaptionPhotoId: undefined
     };
   }
 
@@ -23,8 +25,13 @@ export class Gallery extends PureComponent<{}, State> {
     });
   }
 
+  onPhotoHover = (id): void => {
+    console.log('parent hovered');
+    this.setState({ showCaptionPhotoId: id });
+  };
+
   renderGallery = (): JSX.Element[] => {
-    const { photos } = this.state;
+    const { photos, showCaptionPhotoId } = this.state;
 
     return photos.map(
       (photo: photo): JSX.Element => {
@@ -34,6 +41,8 @@ export class Gallery extends PureComponent<{}, State> {
             caption={photo.caption}
             imageURL={photo.imageURL}
             id={photo.id}
+            onPhotoHover={this.onPhotoHover}
+            showCaption={showCaptionPhotoId === photo.id}
           />
         );
       }
