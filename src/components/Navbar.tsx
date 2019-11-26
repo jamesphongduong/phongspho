@@ -43,7 +43,13 @@ export const Navbar = (props: Props): JSX.Element => {
   return (
     <MaterialAppBar position="static">
       <MaterialToolBar className={classes.container}>
-        {renderNewDishButton()} {renderItems()}
+        <div>
+          <img src={'/camera.svg'} className={classes.img} />
+        </div>
+        <div>
+          {renderNewDishButton()}
+          {renderItems()}
+        </div>
       </MaterialToolBar>
     </MaterialAppBar>
   );
@@ -51,6 +57,10 @@ export const Navbar = (props: Props): JSX.Element => {
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    justifyContent: 'flex-end'
+    justifyContent: 'space-between'
+  },
+  img: {
+    width: '24px',
+    height: '24px'
   }
 }));
