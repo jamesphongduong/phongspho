@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import { TextField, Button, Typography } from '../';
+import { TextField, Button, Typography } from '..';
 import {
   Input as MaterialInput,
   Container as MaterialContainer
 } from '@material-ui/core';
 import { isValidText, isValidPrice, isValidImageFile } from '../../utils';
-import { INVALID_PRICE_INPUT, INVALID_TEXT_INPUT } from '../../utils/';
+import { INVALID_PRICE_INPUT, INVALID_TEXT_INPUT } from '../../utils';
 import ReactS3 from 'react-s3';
 import { S3Config } from '../../config';
 import { postMeal } from '../../api';
@@ -22,7 +22,7 @@ interface State {
   descriptionInputValid: boolean;
 }
 
-export class NewDish extends PureComponent<{}, State> {
+export class Upload extends PureComponent<{}, State> {
   state = {
     titleInput: '',
     priceInput: '',

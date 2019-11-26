@@ -1,5 +1,6 @@
 export { About } from './About';
 export { Auth } from './Auth';
-export { Menu } from './Menu';
+export { Gallery } from './Gallery';
 export { NoMatch } from './NoMatch';
-export { NewDish } from './NewDish';
+export { Upload } from './Upload';
+export { Home } from './Home';

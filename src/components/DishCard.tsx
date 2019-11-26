@@ -36,24 +36,24 @@ export const DishCard = (props: dish): JSX.Element => {
       <CardMedia className={classes.media} image={imageURL} />
       <CardContent>
         <div className={classes.titleContainer}>
-          <Typography gutterBottom variant="h5" component="h2">
+          {/* <Typography gutterBottom variant="h5" component="h2">
             {title}
           </Typography>
-          <Typography> {price && `$${price}`}</Typography>
+          <Typography> {price && `$${price}`}</Typography> */}
         </div>
         <Typography variant="body2" color="textSecondary" component="p">
           {description}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary" startIcon={<Delete />}>
+        {/* <Button size="small" color="primary" startIcon={<Delete />}>
           Order
-        </Button>
+        </Button> */}
         <Button
           onClick={onDeleteClick}
           size="small"
           color="primary"
-          startIcon={<ShoppingCartRounded />}
+          startIcon={<Delete />}
         >
           Delete
         </Button>
@@ -72,6 +72,8 @@ const useStyles = makeStyles({
     maxWidth: 345
   },
   media: {
-    height: 140
+    // height: 140
+    // height:
+    minHeight: 250
   }
 });

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { DishCard } from '../';
+import { DishCard } from '..';
 import { getMeals } from '../../api';
 import { dish } from '../../types';
 import shortid from 'shortid';
@@ -9,7 +9,7 @@ interface State {
   dishes: dish[];
 }
 
-export class Menu extends PureComponent<{}, State> {
+export class Gallery extends PureComponent<{}, State> {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,7 +45,8 @@ export class Menu extends PureComponent<{}, State> {
   render(): JSX.Element {
     return (
       <div>
-        <Typography text="Dishes" variant="h4" /> {this.renderMenu()}
+        {/* <Typography text="Dishes" variant="h4" /> */}
+        {this.renderMenu()}
       </div>
     );
   }
