@@ -3,10 +3,8 @@ export interface navbarItem {
   route: string;
 }
 
-export interface dish {
-  title: string;
-  description: string;
-  price: number;
+export interface photo {
+  caption: string;
   id: number;
   imageURL: string;
 }

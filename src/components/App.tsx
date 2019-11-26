@@ -3,7 +3,7 @@ import { Navbar } from './Navbar';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { grey, blue } from '@material-ui/core/colors';
 import { Switch, Route } from 'react-router-dom';
-import { Home, About, Auth, Gallery, NoMatch, Upload } from './pages';
+import { Home, About, Auth, Gallery, NotFound, Upload } from './pages';
 import { Box as MaterialBox } from '@material-ui/core';
 
 const theme = createMuiTheme({
@@ -56,7 +56,7 @@ export const App = (): JSX.Element => {
               <Gallery />
             </Route>
             <Route path="*">
-              <NoMatch />
+              <NotFound />
             </Route>
           </Switch>
         </MaterialBox>

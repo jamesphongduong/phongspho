@@ -8,8 +8,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { ShoppingCartRounded, Delete } from '@material-ui/icons/';
-import { deleteMeal } from '../api';
-import { dish } from '../types';
+import { deletePhoto } from '../api';
+import { photo } from '../types';
 
 // interface Props {
 //   price: number;
@@ -19,14 +19,14 @@ import { dish } from '../types';
 //   id: number;
 // }
 
-export const DishCard = (props: dish): JSX.Element => {
-  const { price, title, description, imageURL, id } = props;
+export const PhotoCard = (props: photo): JSX.Element => {
+  const { caption, imageURL, id } = props;
   const classes = useStyles();
 
   const onDeleteClick = (): void => {
     const { id } = props;
 
-    deleteMeal(id)
+    deletePhoto(id)
       .then(() => alert('deleted'))
       .catch((err) => alert(err));
   };
@@ -34,21 +34,21 @@ export const DishCard = (props: dish): JSX.Element => {
   return (
     <Card className={classes.card} raised>
       <CardMedia className={classes.media} image={imageURL} />
-      <CardContent>
+      {/* <CardContent>
         <div className={classes.titleContainer}>
-          {/* <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h5" component="h2">
             {title}
           </Typography>
-          <Typography> {price && `$${price}`}</Typography> */}
+          <Typography> {price && `$${price}`}</Typography>
         </div>
         <Typography variant="body2" color="textSecondary" component="p">
           {description}
         </Typography>
-      </CardContent>
-      <CardActions>
-        {/* <Button size="small" color="primary" startIcon={<Delete />}>
+      </CardContent> */}
+      {/* <CardActions>
+        <Button size="small" color="primary" startIcon={<Delete />}>
           Order
-        </Button> */}
+        </Button>
         <Button
           onClick={onDeleteClick}
           size="small"
@@ -57,7 +57,7 @@ export const DishCard = (props: dish): JSX.Element => {
         >
           Delete
         </Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 };
@@ -69,11 +69,14 @@ const useStyles = makeStyles({
     justifyContent: 'space-between'
   },
   card: {
-    maxWidth: 345
+    // maxWidth: 345
+    margin: 16,
+    padding: 16
   },
   media: {
     // height: 140
     // height:
-    minHeight: 250
+    minHeight: 300,
+    minWidth: 300
   }
 });

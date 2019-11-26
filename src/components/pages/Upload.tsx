@@ -4,34 +4,35 @@ import {
   Input as MaterialInput,
   Container as MaterialContainer
 } from '@material-ui/core';
-import { isValidText, isValidPrice, isValidImageFile } from '../../utils';
+import {
+  isValidText,
+  isValidPrice,
+  isValidImageFile,
+  SUCCESSFUL_UPLOAD
+} from '../../utils';
 import { INVALID_PRICE_INPUT, INVALID_TEXT_INPUT } from '../../utils';
 import ReactS3 from 'react-s3';
 import { S3Config } from '../../config';
-import { postMeal } from '../../api';
+import { postPhoto } from '../../api';
 
 interface State {
-  titleInput: string;
-  priceInput: string;
-  descriptionInput: string;
+  captionInput: string;
+  locationInput: string;
   fileInput: File | undefined;
   [key: string]: string | File | undefined | boolean; // need to refactor
-  titleInputValid: boolean;
-  priceInputValid: boolean;
+  captionInputValid: boolean;
   fileInputValid: boolean;
-  descriptionInputValid: boolean;
+  locationInputValid: boolean;
 }
 
 export class Upload extends PureComponent<{}, State> {
   state = {
-    titleInput: '',
-    priceInput: '',
-    descriptionInput: '',
+    captionInput: '',
+    locationInput: '',
     fileInput: undefined,
-    titleInputValid: false,
-    priceInputValid: false,
+    captionInputValid: false,
     fileInputValid: false,
-    descriptionInputValid: false,
+    locationInputValid: false,
     showValidations: false
   };
 
@@ -42,28 +43,18 @@ export class Upload extends PureComponent<{}, State> {
     this.setState({ [id]: value });
   };
 
-  componentDidMount() {}
-
   validateFormInputs = (): boolean => {
-    const { titleInput, priceInput, descriptionInput, fileInput } = this.state;
-
-    const titleInputValid = isValidText(titleInput);
-    const priceInputValid = isValidPrice(priceInput);
-    const descriptionInputValid = isValidText(descriptionInput);
+    const { captionInput, locationInput, fileInput } = this.state;
+    const captionInputValid = isValidText(captionInput);
+    const locationInputValid = isValidText(locationInput);
     const fileInputValid = isValidImageFile(fileInput);
-
-    const formValid =
-      titleInputValid &&
-      priceInputValid &&
-      descriptionInputValid &&
-      fileInputValid;
+    const formValid = captionInputValid && locationInputValid && fileInputValid;
 
     if (!formValid) {
       this.setState(
         {
-          titleInputValid,
-          priceInputValid,
-          descriptionInputValid,
+          captionInputValid,
+          locationInputValid,
           fileInputValid,
           showValidations: true
         },
@@ -77,7 +68,8 @@ export class Upload extends PureComponent<{}, State> {
   };
 
   postDish = () => {
-    const { titleInput, descriptionInput, priceInput } = this.state;
+    const { captionInput, locationInput } = this.state;
+
     const formDataValid = this.validateFormInputs();
 
     if (formDataValid) {
@@ -88,13 +80,12 @@ export class Upload extends PureComponent<{}, State> {
           const imageURL = data.location;
 
           const postData = {
-            titleInput,
-            descriptionInput,
-            priceInput,
+            captionInput,
+            locationInput,
             imageURL
           };
-          postMeal(postData)
-            .then(() => alert('meal posted'))
+          postPhoto(postData)
+            .then(() => alert(SUCCESSFUL_UPLOAD))
             .catch((err) => alert(err));
         })
         .catch((err) => console.log('err', err));
@@ -115,44 +106,35 @@ export class Upload extends PureComponent<{}, State> {
 
   render(): JSX.Element {
     const {
-      titleInput,
-      priceInput,
-      descriptionInput,
-      titleInputValid,
-      priceInputValid,
-      descriptionInputValid,
+      captionInput,
+      locationInput,
+      captionInputValid,
+      locationInputValid,
       fileInputValid,
       showValidations
     } = this.state;
 
     console.log('RENDER', this.state);
     return (
-      <MaterialContainer maxWidth="sm">
-        <Typography text="New Menu Item" variant="h4" />
+      <MaterialContainer maxWidth="sm" style={styles.container}>
+        <Typography text="New Photo" variant="h4" />
         <TextField
-          label="Title"
+          label="Caption"
           handleInput={this.onInputChange}
-          value={titleInput}
+          value={captionInput}
           helperText={INVALID_TEXT_INPUT}
-          invalid={showValidations && !titleInputValid}
+          invalid={showValidations && !captionInputValid}
         />
         <TextField
-          label="Price"
-          preLabel="$"
-          handleInput={this.onInputChange}
-          value={priceInput}
-          helperText={INVALID_PRICE_INPUT}
-          invalid={showValidations && !priceInputValid}
-        />
-        <TextField
-          label="Description"
+          label="Location"
           multiline
           handleInput={this.onInputChange}
-          value={descriptionInput}
+          value={locationInput}
           helperText={INVALID_TEXT_INPUT}
-          invalid={showValidations && !descriptionInputValid}
+          invalid={showValidations && !locationInputValid}
         />
         <MaterialInput
+          margin="dense"
           type="file"
           required
           error={showValidations && !fileInputValid}
@@ -164,3 +146,13 @@ export class Upload extends PureComponent<{}, State> {
     );
   }
 }
+
+const styles = {
+  container: {
+    // border: '1px solid black',
+    // height: '100%',
+    // display: 'flex',
+    // justifyContent: 'center',
+    // flexDirection: 'column' as 'column'
+  }
+};

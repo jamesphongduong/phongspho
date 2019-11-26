@@ -1,1 +1,1 @@
-export * from './meals';
+export * from './photos';

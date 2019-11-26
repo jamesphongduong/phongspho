@@ -1,11 +1,15 @@
 {
-  "dishes": [
+  "photos": [
     {
       "title": "dog",
       "description": "dog",
       "price": "1",
       "imageURL": "https://phongspho.s3.amazonaws.com/meal_images/download.jpg",
       "id": 1
+    },
+    {
+      "imageURL": "https://phongspho.s3.amazonaws.com/meal_images/20171220_174444.jpg",
+      "id": 2
     }
   ]
 }

@@ -1,41 +1,39 @@
 import React, { PureComponent } from 'react';
-import { DishCard } from '..';
-import { getMeals } from '../../api';
-import { dish } from '../../types';
+import { PhotoCard } from '..';
+import { getPhotos } from '../../api';
+import { photo } from '../../types';
 import shortid from 'shortid';
 import { Typography } from '../Typography';
 
 interface State {
-  dishes: dish[];
+  photos: photo[];
 }
 
 export class Gallery extends PureComponent<{}, State> {
   constructor(props) {
     super(props);
     this.state = {
-      dishes: []
+      photos: []
     };
   }
 
   componentDidMount(): void {
-    getMeals().then((res) => {
-      this.setState({ dishes: res.data });
+    getPhotos().then((res) => {
+      this.setState({ photos: res.data });
     });
   }
 
-  renderMenu = (): JSX.Element[] => {
-    const { dishes } = this.state;
+  renderGallery = (): JSX.Element[] => {
+    const { photos } = this.state;
 
-    return dishes.map(
-      (dish: dish): JSX.Element => {
+    return photos.map(
+      (photo: photo): JSX.Element => {
         return (
-          <DishCard
+          <PhotoCard
             key={shortid.generate()}
-            title={dish.title}
-            price={dish.price}
-            description={dish.description}
-            imageURL={dish.imageURL}
-            id={dish.id}
+            caption={photo.caption}
+            imageURL={photo.imageURL}
+            id={photo.id}
           />
         );
       }
@@ -44,10 +42,20 @@ export class Gallery extends PureComponent<{}, State> {
 
   render(): JSX.Element {
     return (
-      <div>
-        {/* <Typography text="Dishes" variant="h4" /> */}
-        {this.renderMenu()}
+      <div style={styles.container}>
+        {/* <Typography text="photos" variant="h4" /> */}
+        {this.renderGallery()}
       </div>
     );
   }
 }
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'row' as 'row'
+    // width: '100%',
+    // justifyContent: 'space-between'
+    // flex: 1
+  }
+};
