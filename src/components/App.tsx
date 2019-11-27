@@ -1,15 +1,15 @@
 import React from 'react';
 import { Navbar } from './Navbar';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { grey, blue } from '@material-ui/core/colors';
+import { color } from '../config';
 import { Switch, Route } from 'react-router-dom';
-import { Home, About, Auth, Gallery, NotFound, Upload } from './pages';
+import { Home, About, Login, Gallery, NotFound, Upload } from './pages';
 import { Box as MaterialBox } from '@material-ui/core';
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: '#3F3D56' },
-    secondary: { main: '#D0D0D0' }
+    primary: { main: color.main, contrastText: '#f44336' },
+    secondary: { main: color.action }
   },
   typography: {
     fontFamily: [
@@ -30,7 +30,6 @@ const navbarItems = [
   { label: 'Home', route: '/' },
   { label: 'Gallery', route: 'gallery' },
   { label: 'About', route: 'about' }
-  // { label: 'Login / Register', route: 'login' }
 ];
 
 export const App = (): JSX.Element => {
@@ -44,7 +43,7 @@ export const App = (): JSX.Element => {
               <About />
             </Route>
             <Route exact path="/login">
-              <Auth />
+              <Login />
             </Route>
             <Route exact path="/upload">
               <Upload />

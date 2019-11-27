@@ -12,7 +12,7 @@ export const NotFound = (): JSX.Element => {
         align="center"
         variant="h6"
       ></MaterialTypography>
-      <img src={'/notfound.svg'} style={styles.img} />
+      <img src={'/404.svg'} style={styles.img} />
     </div>
   );
 };

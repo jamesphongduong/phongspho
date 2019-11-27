@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Paper } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 export const Home = (): JSX.Element => {
   return (
@@ -8,7 +8,7 @@ export const Home = (): JSX.Element => {
         Phong's Photos
       </Typography>
       <Typography gutterBottom align="center" variant="h6"></Typography>
-      <img src={'/main.svg'} style={styles.img} />
+      <img src={'/home.svg'} style={styles.img} />
     </div>
   );
 };

@@ -1,28 +1,24 @@
 import { Button as MaterialButton, PropTypes } from '@material-ui/core';
 import React from 'react';
+import { buttonVariant } from '../types';
 
 export interface Props {
   color: PropTypes.Color;
   label: string;
-  variant: 'text' | 'contained';
+  variant: buttonVariant;
   onClick?(): void;
 }
 
 export const Button = (props: Props): JSX.Element => {
   const { label, variant, onClick, ...other } = props;
-
   return (
-    <MaterialButton
-      onClick={onClick}
-      variant={variant}
-      color="primary"
-      {...other}
-    >
+    <MaterialButton onClick={onClick} variant={variant} {...other}>
       {label}
     </MaterialButton>
   );
 };
 
 Button.defaultProps = {
-  variant: 'contained'
+  variant: 'contained',
+  color: 'secondary'
 };

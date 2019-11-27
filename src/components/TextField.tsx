@@ -5,8 +5,12 @@ import {
 } from '@material-ui/core';
 
 interface Props {
+  id: string;
+  type?: string;
+  disabled?: boolean;
   label?: string;
-  preLabel?: string;
+  preIcon?: JSX.Element;
+  postIcon?: JSX.Element;
   multiline?: boolean;
   handleInput(event: React.ChangeEvent<HTMLInputElement>): void;
   value: string;
@@ -18,14 +22,34 @@ interface Props {
 
 export const TextField = (props: Props): JSX.Element => {
   const {
-    preLabel,
-    label,
+    preIcon,
+    postIcon,
     handleInput,
     helperText,
     invalid,
     autoFocus,
     ...other
   } = props;
+
+  const startAdornment = preIcon
+    ? {
+        startAdornment: (
+          <MaterialInputAdornment position="start">
+            {preIcon}
+          </MaterialInputAdornment>
+        )
+      }
+    : undefined;
+  const endAdornment = postIcon
+    ? {
+        endAdornment: (
+          <MaterialInputAdornment position="start">
+            {postIcon}
+          </MaterialInputAdornment>
+        )
+      }
+    : undefined;
+  const inputProps = { ...startAdornment, ...endAdornment };
 
   return (
     <MaterialTextField
@@ -39,21 +63,9 @@ export const TextField = (props: Props): JSX.Element => {
       InputLabelProps={{
         shrink: true
       }}
-      id={label && `${label.toLowerCase()}Input`}
-      label={label}
       fullWidth
       helperText={invalid && helperText}
-      InputProps={
-        preLabel
-          ? {
-              startAdornment: (
-                <MaterialInputAdornment position="start">
-                  {preLabel}
-                </MaterialInputAdornment>
-              )
-            }
-          : undefined
-      }
+      InputProps={inputProps}
     />
   );
 };

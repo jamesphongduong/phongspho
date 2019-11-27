@@ -21,9 +21,12 @@ export const Navbar = (props: Props): JSX.Element => {
     return items.map(
       (item): JSX.Element => {
         const { label, route } = item;
-
         return (
-          <Link to={`${route}`} key={shortid.generate()}>
+          <Link
+            className={classes.link}
+            to={`${route}`}
+            key={shortid.generate()}
+          >
             <Button color="secondary" label={label} variant="text" />
           </Link>
         );
@@ -34,7 +37,7 @@ export const Navbar = (props: Props): JSX.Element => {
   // if admin
   const renderNewDishButton = (): JSX.Element => {
     return (
-      <Link to="/upload">
+      <Link className={classes.link} to="/upload">
         <Button color="secondary" label="Upload" />
       </Link>
     );
@@ -62,5 +65,8 @@ const useStyles = makeStyles((theme) => ({
   img: {
     width: '24px',
     height: '24px'
+  },
+  link: {
+    textDecoration: 'none'
   }
 }));
