@@ -35,7 +35,7 @@ export const Navbar = (props: Props): JSX.Element => {
   const renderNewDishButton = (): JSX.Element => {
     return (
       <Link to="/upload">
-        <Button color="secondary" label="Upload Photo" />
+        <Button color="secondary" label="Upload" />
       </Link>
     );
   };

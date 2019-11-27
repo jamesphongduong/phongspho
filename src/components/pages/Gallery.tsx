@@ -8,6 +8,7 @@ import { Typography } from '../Typography';
 interface State {
   photos: photo[];
   showCaptionPhotoId: number | undefined;
+  editCaptionId: number | undefined;
 }
 
 export class Gallery extends PureComponent<{}, State> {
@@ -15,7 +16,8 @@ export class Gallery extends PureComponent<{}, State> {
     super(props);
     this.state = {
       photos: [],
-      showCaptionPhotoId: undefined
+      showCaptionPhotoId: undefined,
+      editCaptionId: undefined
     };
   }
 
@@ -26,15 +28,25 @@ export class Gallery extends PureComponent<{}, State> {
   }
 
   onPhotoHover = (id): void => {
-    console.log('parent hovered');
     this.setState({ showCaptionPhotoId: id });
   };
 
+  onCaptionEdit = (id, input): void => {
+    const { photos } = this.state;
+    const newPhotos = [...photos];
+    const clickedPhoto = newPhotos.find((photo) => photo.id === id);
+
+    if (clickedPhoto) clickedPhoto.caption = input;
+    console.log('oncaptionedit', 'id', id);
+    this.setState({ photos: newPhotos, editCaptionId: id });
+  };
+
   renderGallery = (): JSX.Element[] => {
-    const { photos, showCaptionPhotoId } = this.state;
+    const { photos, showCaptionPhotoId, editCaptionId } = this.state;
 
     return photos.map(
       (photo: photo): JSX.Element => {
+        console.log('render card id', editCaptionId === photo.id);
         return (
           <PhotoCard
             key={shortid.generate()}
@@ -43,6 +55,8 @@ export class Gallery extends PureComponent<{}, State> {
             id={photo.id}
             onPhotoHover={this.onPhotoHover}
             showCaption={showCaptionPhotoId === photo.id}
+            onCaptionEdit={this.onCaptionEdit}
+            autoFocus={editCaptionId === photo.id}
           />
         );
       }
@@ -50,21 +64,15 @@ export class Gallery extends PureComponent<{}, State> {
   };
 
   render(): JSX.Element {
-    return (
-      <div style={styles.container}>
-        {/* <Typography text="photos" variant="h4" /> */}
-        {this.renderGallery()}
-      </div>
-    );
+    console.log('gallery render', this.state);
+    return <div style={styles.container}>{this.renderGallery()}</div>;
   }
 }
 
 const styles = {
   container: {
     display: 'flex',
-    flexDirection: 'row' as 'row'
-    // width: '100%',
-    // justifyContent: 'space-between'
-    // flex: 1
+    flexDirection: 'row' as 'row',
+    flexWrap: 'wrap' as 'wrap'
   }
 };

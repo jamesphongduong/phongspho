@@ -9,12 +9,10 @@ export const getPhotos = (): AxiosPromise => {
 // POST REQS
 
 export const postPhoto = (data): AxiosPromise => {
-  const { titleInput, descriptionInput, priceInput, imageURL } = data;
+  const { captionInput, imageURL } = data;
 
   const postData = {
-    title: titleInput,
-    description: descriptionInput,
-    price: priceInput,
+    caption: captionInput,
     imageURL
   };
 

@@ -71,7 +71,5 @@ const styles = {
     backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'column' as 'column'
-    // alignItems: 'center'
-    // justifyContent: 'center'
   }
 };

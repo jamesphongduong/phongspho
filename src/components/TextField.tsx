@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 
 interface Props {
-  label: string;
+  label?: string;
   preLabel?: string;
   multiline?: boolean;
   handleInput(event: React.ChangeEvent<HTMLInputElement>): void;
@@ -13,10 +13,19 @@ interface Props {
   required?: boolean;
   helperText?: string;
   invalid?: boolean;
+  autoFocus?: boolean;
 }
 
 export const TextField = (props: Props): JSX.Element => {
-  const { preLabel, label, handleInput, helperText, invalid, ...other } = props;
+  const {
+    preLabel,
+    label,
+    handleInput,
+    helperText,
+    invalid,
+    autoFocus,
+    ...other
+  } = props;
 
   return (
     <MaterialTextField
@@ -24,12 +33,13 @@ export const TextField = (props: Props): JSX.Element => {
         handleInput(event)
       }
       error={invalid}
+      autoFocus={autoFocus}
       {...other}
       margin="normal"
       InputLabelProps={{
         shrink: true
       }}
-      id={`${label.toLowerCase()}Input`}
+      id={label && `${label.toLowerCase()}Input`}
       label={label}
       fullWidth
       helperText={invalid && helperText}

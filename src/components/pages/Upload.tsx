@@ -12,27 +12,27 @@ import {
 } from '../../utils';
 import { INVALID_PRICE_INPUT, INVALID_TEXT_INPUT } from '../../utils';
 import ReactS3 from 'react-s3';
+import { withRouter } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
 import { S3Config } from '../../config';
 import { postPhoto } from '../../api';
 
+type Props = RouteComponentProps<{}>; // possibly need to refactor
+
 interface State {
   captionInput: string;
-  locationInput: string;
   fileInput: File | undefined;
   [key: string]: string | File | undefined | boolean; // need to refactor
   captionInputValid: boolean;
   fileInputValid: boolean;
-  locationInputValid: boolean;
 }
 
-export class Upload extends PureComponent<{}, State> {
+class _Upload extends PureComponent<Props, State> {
   state = {
     captionInput: '',
-    locationInput: '',
     fileInput: undefined,
     captionInputValid: false,
     fileInputValid: false,
-    locationInputValid: false,
     showValidations: false
   };
 
@@ -44,17 +44,15 @@ export class Upload extends PureComponent<{}, State> {
   };
 
   validateFormInputs = (): boolean => {
-    const { captionInput, locationInput, fileInput } = this.state;
+    const { captionInput, fileInput } = this.state;
     const captionInputValid = isValidText(captionInput);
-    const locationInputValid = isValidText(locationInput);
     const fileInputValid = isValidImageFile(fileInput);
-    const formValid = captionInputValid && locationInputValid && fileInputValid;
+    const formValid = captionInputValid && fileInputValid;
 
     if (!formValid) {
       this.setState(
         {
           captionInputValid,
-          locationInputValid,
           fileInputValid,
           showValidations: true
         },
@@ -68,7 +66,8 @@ export class Upload extends PureComponent<{}, State> {
   };
 
   postDish = () => {
-    const { captionInput, locationInput } = this.state;
+    const { captionInput } = this.state;
+    const { history } = this.props;
 
     const formDataValid = this.validateFormInputs();
 
@@ -81,11 +80,13 @@ export class Upload extends PureComponent<{}, State> {
 
           const postData = {
             captionInput,
-            locationInput,
             imageURL
           };
           postPhoto(postData)
-            .then(() => alert(SUCCESSFUL_UPLOAD))
+            .then(() => {
+              alert(SUCCESSFUL_UPLOAD);
+              history.push('/gallery');
+            })
             .catch((err) => alert(err));
         })
         .catch((err) => console.log('err', err));
@@ -107,12 +108,12 @@ export class Upload extends PureComponent<{}, State> {
   render(): JSX.Element {
     const {
       captionInput,
-      locationInput,
       captionInputValid,
-      locationInputValid,
       fileInputValid,
       showValidations
     } = this.state;
+    const { history } = this.props;
+    console.log('history', history);
 
     console.log('RENDER', this.state);
     return (
@@ -125,16 +126,7 @@ export class Upload extends PureComponent<{}, State> {
           helperText={INVALID_TEXT_INPUT}
           invalid={showValidations && !captionInputValid}
         />
-        <TextField
-          label="Location"
-          multiline
-          handleInput={this.onInputChange}
-          value={locationInput}
-          helperText={INVALID_TEXT_INPUT}
-          invalid={showValidations && !locationInputValid}
-        />
         <MaterialInput
-          margin="dense"
           type="file"
           required
           error={showValidations && !fileInputValid}
@@ -147,12 +139,8 @@ export class Upload extends PureComponent<{}, State> {
   }
 }
 
+export const Upload = withRouter(_Upload);
+
 const styles = {
-  container: {
-    // border: '1px solid black',
-    // height: '100%',
-    // display: 'flex',
-    // justifyContent: 'center',
-    // flexDirection: 'column' as 'column'
-  }
+  container: {}
 };
