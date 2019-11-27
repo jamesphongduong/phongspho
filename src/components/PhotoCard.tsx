@@ -6,6 +6,7 @@ import { deletePhoto } from '../api';
 import { photo } from '../types';
 import { Button } from './Button';
 import { TextField } from './TextField';
+import { putPhoto } from '../api';
 
 interface Props extends photo {
   onPhotoHover(id): void;
@@ -34,45 +35,43 @@ export const PhotoCard = (props: Props): JSX.Element => {
     onPhotoHover(null);
   };
 
-  const onDeleteClick = (): void => {
+  const onDelete = (): void => {
     deletePhoto(id)
       .then(() => alert('deleted'))
       .catch((err) => alert(err));
   };
 
-  // const renderEditOptions = (): JSX.Element => {
-  //   return (
-  //     <Fragment>
-  //       <Button label="Delete" color="primary" onClick={onDeleteClick} />
-  //       <Button label="Edit" color="primary" onClick={onEditClick} />
-  //     </Fragment>
-  //   );
-  // };
-
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const {
       target: { value }
     } = e;
-    console.log('here', value);
-    console.log('id', id);
     onCaptionEdit(id, value);
-    // this.setState({ [id]: value });
   };
 
-  const handleEditInput = (): void => {};
+  const onSave = () => {
+    const postData = {
+      imageURL,
+      captionInput: caption
+    };
+    putPhoto(id, postData)
+      .then(() => alert('putted'))
+      .catch((err) => alert(err));
+  };
 
   return (
     <Card className={classes.card} raised>
       <div onMouseOver={onHover} onMouseOut={onHoverOut}>
-        {/* <div
+        <div
           className={showCaption ? classes.showCaption : classes.hideCaption}
-        > */}
-        <div className={classes.showCaption}>
+        >
+          {/* <div className={classes.showCaption}> */}
           <TextField
             value={caption}
             handleInput={onInputChange}
             autoFocus={autoFocus}
           />
+          <Button label="Save caption" color="primary" onClick={onSave} />
+          <Button label="Delete photo" color="primary" onClick={onDelete} />
         </div>
         <CardMedia className={classes.media} image={imageURL} />
       </div>

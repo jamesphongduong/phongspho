@@ -6,6 +6,21 @@ export const getPhotos = (): AxiosPromise => {
   return axios.get(`${process.env.REACT_APP_BACKEND_URL}/photos/`);
 };
 
+// PUT / PATCH REQS
+
+export const putPhoto = (id, data): AxiosPromise => {
+  const { captionInput, imageURL } = data;
+  const putData = {
+    caption: captionInput,
+    imageURL
+  };
+
+  return axios.put(
+    `${process.env.REACT_APP_BACKEND_URL}/photos/${id}`,
+    putData
+  );
+};
+
 // POST REQS
 
 export const postPhoto = (data): AxiosPromise => {

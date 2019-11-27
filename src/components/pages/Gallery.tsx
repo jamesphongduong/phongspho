@@ -37,7 +37,6 @@ export class Gallery extends PureComponent<{}, State> {
     const clickedPhoto = newPhotos.find((photo) => photo.id === id);
 
     if (clickedPhoto) clickedPhoto.caption = input;
-    console.log('oncaptionedit', 'id', id);
     this.setState({ photos: newPhotos, editCaptionId: id });
   };
 
@@ -46,7 +45,6 @@ export class Gallery extends PureComponent<{}, State> {
 
     return photos.map(
       (photo: photo): JSX.Element => {
-        console.log('render card id', editCaptionId === photo.id);
         return (
           <PhotoCard
             key={shortid.generate()}
@@ -64,7 +62,6 @@ export class Gallery extends PureComponent<{}, State> {
   };
 
   render(): JSX.Element {
-    console.log('gallery render', this.state);
     return <div style={styles.container}>{this.renderGallery()}</div>;
   }
 }
