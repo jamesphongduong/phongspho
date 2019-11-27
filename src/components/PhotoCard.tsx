@@ -3,14 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Card } from '@material-ui/core';
 import CardMedia from '@material-ui/core/CardMedia';
 import { deletePhoto } from '../api';
-import { photo } from '../types';
+import { photo, numOrNull } from '../types';
 import { Button } from './Button';
 import { TextField } from './TextField';
 import { putPhoto } from '../api';
 
 interface Props extends photo {
-  onPhotoHover(id): void;
-  onCaptionEdit(id, input): void;
+  onPhotoHover(id: numOrNull): void;
+  onCaptionEdit(id: number, input: string): void;
   showCaption: boolean;
   autoFocus: boolean;
 }
@@ -48,7 +48,7 @@ export const PhotoCard = (props: Props): JSX.Element => {
     onCaptionEdit(id, value);
   };
 
-  const onSave = () => {
+  const onSave = (): void => {
     const postData = {
       imageURL,
       captionInput: caption

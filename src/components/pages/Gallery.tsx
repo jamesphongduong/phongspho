@@ -3,12 +3,12 @@ import { PhotoCard } from '..';
 import { getPhotos } from '../../api';
 import { photo } from '../../types';
 import shortid from 'shortid';
-import { Typography } from '../Typography';
+import { numOrUndefined } from '../../types';
 
 interface State {
   photos: photo[];
-  showCaptionPhotoId: number | undefined;
-  editCaptionId: number | undefined;
+  showCaptionPhotoId: numOrUndefined;
+  editCaptionId: numOrUndefined;
 }
 
 export class Gallery extends PureComponent<{}, State> {
@@ -27,11 +27,11 @@ export class Gallery extends PureComponent<{}, State> {
     });
   }
 
-  onPhotoHover = (id): void => {
+  onPhotoHover = (id: number): void => {
     this.setState({ showCaptionPhotoId: id });
   };
 
-  onCaptionEdit = (id, input): void => {
+  onCaptionEdit = (id: number, input: string): void => {
     const { photos } = this.state;
     const newPhotos = [...photos];
     const clickedPhoto = newPhotos.find((photo) => photo.id === id);

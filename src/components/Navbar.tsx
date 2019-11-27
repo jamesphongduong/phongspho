@@ -21,7 +21,6 @@ export const Navbar = (props: Props): JSX.Element => {
     return items.map(
       (item): JSX.Element => {
         const { label, route } = item;
-
         return (
           <Link
             className={classes.link}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Paper } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 export const Home = (): JSX.Element => {
   return (

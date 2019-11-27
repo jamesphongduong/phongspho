@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Typography as MaterialTypography } from '@material-ui/core';
-import { Button } from '../Button';
+import { Button, TextField } from '../';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { TextField } from '../TextField';
 import {
   AccountCircle,
   Lock,
@@ -14,7 +13,7 @@ type Props = RouteComponentProps<{}>; // possibly need to refactor
 
 interface State {
   passwordInput: string;
-  [key: string]: any; // to refactor
+  showPassword: boolean;
 }
 
 class _Login extends PureComponent<Props, State> {
@@ -40,7 +39,7 @@ class _Login extends PureComponent<Props, State> {
     const {
       target: { id, value }
     } = e;
-    this.setState({ [id]: value });
+    this.setState({ [id]: value } as any); // possible refactor
   };
 
   toggleShowPassword = (): void => {

@@ -1,29 +1,26 @@
 import React, { PureComponent } from 'react';
-import { TextField, Button, Typography } from '..';
+import { TextField, Button, Typography } from '../';
 import {
   Input as MaterialInput,
   Container as MaterialContainer
 } from '@material-ui/core';
-import {
-  isValidText,
-  isValidPrice,
-  isValidImageFile,
-  SUCCESSFUL_UPLOAD
-} from '../../utils';
-import { INVALID_PRICE_INPUT, INVALID_TEXT_INPUT } from '../../utils';
+import { isValidText, isValidImageFile, SUCCESSFUL_UPLOAD } from '../../utils';
+import { INVALID_TEXT_INPUT } from '../../utils';
 import ReactS3 from 'react-s3';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { S3Config } from '../../config';
 import { postPhoto } from '../../api';
+import { AxiosPromise } from 'axios';
+import { S3response, fileOrUndefined } from '../../types';
 
-type Props = RouteComponentProps<{}>; // possibly need to refactor
+type Props = RouteComponentProps<{}>; // possible refactor
 
 interface State {
   captionInput: string;
-  fileInput: File | undefined;
-  [key: string]: string | File | undefined | boolean; // need to refactor
+  fileInput: fileOrUndefined;
   captionInputValid: boolean;
   fileInputValid: boolean;
+  showValidations: boolean;
 }
 
 class _Upload extends PureComponent<Props, State> {
@@ -39,7 +36,7 @@ class _Upload extends PureComponent<Props, State> {
     const {
       target: { id, value }
     } = e;
-    this.setState({ [id]: value });
+    this.setState({ [id]: value } as any); // possible refactor
   };
 
   validateFormInputs = (): boolean => {
@@ -64,17 +61,14 @@ class _Upload extends PureComponent<Props, State> {
     return true;
   };
 
-  postDish = () => {
+  postDish = (): void => {
     const { captionInput } = this.state;
     const { history } = this.props;
-
     const formDataValid = this.validateFormInputs();
 
     if (formDataValid) {
-      console.log('uploading to s3');
       this.S3FileUpload()
-        .then((data: any) => {
-          console.log('data', data);
+        .then((data) => {
           const imageURL = data.location;
 
           const postData = {
@@ -98,7 +92,7 @@ class _Upload extends PureComponent<Props, State> {
     }
   };
 
-  S3FileUpload = (): any => {
+  S3FileUpload = (): Promise<S3response> => {
     const { fileInput } = this.state;
 
     return ReactS3.uploadFile(fileInput, S3Config);
@@ -111,10 +105,7 @@ class _Upload extends PureComponent<Props, State> {
       fileInputValid,
       showValidations
     } = this.state;
-    const { history } = this.props;
-    console.log('history', history);
 
-    console.log('RENDER', this.state);
     return (
       <MaterialContainer maxWidth="sm" style={styles.container}>
         <Typography text="New Photo" variant="h4" />

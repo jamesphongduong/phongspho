@@ -8,9 +8,8 @@ import { Box as MaterialBox } from '@material-ui/core';
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: color.main },
+    primary: { main: color.main, contrastText: '#f44336' },
     secondary: { main: color.action }
-    // error: { main: '#f44336' }
   },
   typography: {
     fontFamily: [
@@ -31,7 +30,6 @@ const navbarItems = [
   { label: 'Home', route: '/' },
   { label: 'Gallery', route: 'gallery' },
   { label: 'About', route: 'about' }
-  // { label: 'Login / Register', route: 'login' }
 ];
 
 export const App = (): JSX.Element => {
