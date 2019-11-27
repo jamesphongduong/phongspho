@@ -15,7 +15,10 @@ export const Button = (props: Props): JSX.Element => {
     <MaterialButton
       onClick={onClick}
       variant={variant}
-      color="primary"
+      // color="primary"
+      // color="default"
+      // color="secondary"
+      color="secondary"
       {...other}
     >
       {label}

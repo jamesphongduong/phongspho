@@ -12,8 +12,7 @@ import {
 } from '../../utils';
 import { INVALID_PRICE_INPUT, INVALID_TEXT_INPUT } from '../../utils';
 import ReactS3 from 'react-s3';
-import { withRouter } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { S3Config } from '../../config';
 import { postPhoto } from '../../api';
 
@@ -120,6 +119,7 @@ class _Upload extends PureComponent<Props, State> {
       <MaterialContainer maxWidth="sm" style={styles.container}>
         <Typography text="New Photo" variant="h4" />
         <TextField
+          id="captionInput"
           label="Caption"
           handleInput={this.onInputChange}
           value={captionInput}
@@ -127,6 +127,7 @@ class _Upload extends PureComponent<Props, State> {
           invalid={showValidations && !captionInputValid}
         />
         <MaterialInput
+          id="fileInput"
           type="file"
           required
           error={showValidations && !fileInputValid}

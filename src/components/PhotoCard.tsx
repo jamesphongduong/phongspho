@@ -64,8 +64,8 @@ export const PhotoCard = (props: Props): JSX.Element => {
         <div
           className={showCaption ? classes.showCaption : classes.hideCaption}
         >
-          {/* <div className={classes.showCaption}> */}
           <TextField
+            id="captionInput"
             value={caption}
             handleInput={onInputChange}
             autoFocus={autoFocus}
