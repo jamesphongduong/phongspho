@@ -1,13 +1,16 @@
 import React from 'react';
-import { AppBar, Toolbar } from '@material-ui/core';
+import {
+  AppBar as MaterialAppBar,
+  Toolbar as MaterialToolBar
+} from '@material-ui/core';
 import { Button } from './Button';
 import shortid from 'shortid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { menuItem } from '../types';
+import { navbarItem } from '../types';
 
 interface Props {
-  items: menuItem[];
+  items: navbarItem[];
 }
 
 export const Navbar = (props: Props): JSX.Element => {
@@ -21,22 +24,43 @@ export const Navbar = (props: Props): JSX.Element => {
 
         return (
           <Link to={`${route}`} key={shortid.generate()}>
-            <Button color="secondary" text={label} />
+            <Button color="secondary" label={label} variant="text" />
           </Link>
         );
       }
     );
   };
 
+  // if admin
+  const renderNewDishButton = (): JSX.Element => {
+    return (
+      <Link to="/upload">
+        <Button color="secondary" label="Upload" />
+      </Link>
+    );
+  };
+
   return (
-    <AppBar position="static">
-      <Toolbar className={classes.container}>{renderItems()}</Toolbar>
-    </AppBar>
+    <MaterialAppBar position="static">
+      <MaterialToolBar className={classes.container}>
+        <div>
+          <img src={'/camera.svg'} className={classes.img} />
+        </div>
+        <div>
+          {renderNewDishButton()}
+          {renderItems()}
+        </div>
+      </MaterialToolBar>
+    </MaterialAppBar>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    justifyContent: 'flex-end'
+    justifyContent: 'space-between'
+  },
+  img: {
+    width: '24px',
+    height: '24px'
   }
 }));
