@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography as MaterialTypography } from '@material-ui/core';
+import { Image } from '../';
 
 export const NotFound = (): JSX.Element => {
   return (
@@ -12,7 +13,7 @@ export const NotFound = (): JSX.Element => {
         align="center"
         variant="h6"
       ></MaterialTypography>
-      <img src={'/404.svg'} style={styles.img} />
+      <Image src={'/404.svg'} />
     </div>
   );
 };

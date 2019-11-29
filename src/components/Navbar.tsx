@@ -3,7 +3,7 @@ import {
   AppBar as MaterialAppBar,
   Toolbar as MaterialToolBar
 } from '@material-ui/core';
-import { Button } from './Button';
+import { Button, Image } from './';
 import shortid from 'shortid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
@@ -56,7 +56,7 @@ const _Navbar = (props: Props): JSX.Element => {
     <MaterialAppBar position="static">
       <MaterialToolBar className={classes.container}>
         <div>
-          <img src={'/camera.svg'} className={classes.img} />
+          <Image src={'/camera.svg'} size="icon" />
         </div>
         <div>
           {loggedIn && renderNewDishButton()}
@@ -87,10 +87,6 @@ export const Navbar = connect(mapStateToProps, mapDispatchToProps)(_Navbar);
 const useStyles = makeStyles((theme) => ({
   container: {
     justifyContent: 'space-between'
-  },
-  img: {
-    width: '24px',
-    height: '24px'
   },
   link: {
     textDecoration: 'none'

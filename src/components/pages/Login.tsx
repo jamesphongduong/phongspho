@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Typography as MaterialTypography, Container } from '@material-ui/core';
-import { Button, TextField } from '../';
+import { Button, TextField, Image } from '../';
 import { RouteComponentProps, withRouter } from 'react-router';
 import {
   AccountCircle,
@@ -61,7 +61,7 @@ class _Login extends PureComponent<Props & RouteComponentProps<{}>, State> {
 
     return (
       <div style={styles.container}>
-        <img src={'/login.svg'} style={styles.img} />
+        <Image src={'/login.svg'} />
         <Container maxWidth="xs">
           <TextField
             id="loginInput"
