@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card } from '@material-ui/core';
-import CardMedia from '@material-ui/core/CardMedia';
+import { Edit } from '@material-ui/icons';
+import { Card, CardMedia, Fab } from '@material-ui/core';
 import { deletePhoto } from '../api';
 import { photo, numOrNull } from '../types';
 import { Button } from './Button';
@@ -58,12 +58,25 @@ export const PhotoCard = (props: Props): JSX.Element => {
       .catch((err) => alert(err));
   };
 
+  const renderEditButton = (): JSX.Element => {
+    return (
+      <Fab
+        onClick={() => console.log('cheers')}
+        color="secondary"
+        aria-label="edit"
+      >
+        <Edit />
+      </Fab>
+    );
+  };
+
   return (
     <Card className={classes.card} raised>
       <div onMouseOver={onHover} onMouseOut={onHoverOut}>
         <div
           className={showCaption ? classes.showCaption : classes.hideCaption}
         >
+          {renderEditButton()}
           <TextField
             id="captionInput"
             value={caption}
