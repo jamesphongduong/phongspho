@@ -17,9 +17,7 @@ import { Image } from '../';
 import { S3response, fileOrUndefined, InputValidation } from '../../types';
 
 // type Props = RouteComponentProps<{}>; // possible refactor
-type Props = {
-  isLoading: boolean;
-};
+type Props = {};
 
 interface State {
   captionInput: string;

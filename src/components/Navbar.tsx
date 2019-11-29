@@ -8,14 +8,18 @@ import shortid from 'shortid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { navbarItem } from '../types';
+import { connect } from 'react-redux';
+import { logoutAdmin } from '../redux/actions';
 
 interface Props {
   items: navbarItem[];
+  logoutAdmin(): any;
+  loggedIn: boolean;
 }
 
-export const Navbar = (props: Props): JSX.Element => {
+const _Navbar = (props: Props): JSX.Element => {
   const classes = useStyles();
-  const { items } = props;
+  const { items, loggedIn, logoutAdmin } = props;
 
   const renderItems = (): JSX.Element[] => {
     return items.map(
@@ -34,13 +38,16 @@ export const Navbar = (props: Props): JSX.Element => {
     );
   };
 
-  // if admin
   const renderNewDishButton = (): JSX.Element => {
     return (
       <Link className={classes.link} to="/upload">
         <Button color="secondary" label="Upload" />
       </Link>
     );
+  };
+
+  const onLogOut = (): void => {
+    logoutAdmin();
   };
 
   return (
@@ -50,13 +57,28 @@ export const Navbar = (props: Props): JSX.Element => {
           <img src={'/camera.svg'} className={classes.img} />
         </div>
         <div>
-          {renderNewDishButton()}
+          {loggedIn && renderNewDishButton()}
           {renderItems()}
+          {loggedIn && <Button label="Log out" onClick={onLogOut} />}
         </div>
       </MaterialToolBar>
     </MaterialAppBar>
   );
 };
+
+const mapStateToProps = (state) => {
+  return {
+    loggedIn: state.adminReducer.loggedIn
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutAdmin: () => dispatch(logoutAdmin())
+  };
+};
+
+export const Navbar = connect(mapStateToProps, mapDispatchToProps)(_Navbar);
 
 const useStyles = makeStyles((theme) => ({
   container: {

@@ -8,8 +8,10 @@ import {
   Visibility,
   VisibilityOff
 } from '@material-ui/icons';
+import { loginAdmin } from '../../redux/actions';
+import { connect } from 'react-redux';
 
-type Props = RouteComponentProps<{}>; // possibly need to refactor
+type Props = { loginAdmin(): any } & RouteComponentProps<{}>; // possibly need to refactor
 
 interface State {
   passwordInput: string;
@@ -26,13 +28,15 @@ class _Login extends PureComponent<Props, State> {
   }
 
   onLogin = (): void => {
-    const { history } = this.props;
-    const { passwordInput } = this.state;
+    const { loginAdmin } = this.props;
 
-    if (passwordInput === 'password') {
-      alert('succesful');
-      history.push('/gallery');
-    }
+    loginAdmin();
+    // const { history } = this.props;
+    // const { passwordInput } = this.state;
+    // if (passwordInput === 'password') {
+    //   alert('succesful');
+    //   history.push('/gallery');
+    // }
   };
 
   onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -84,7 +88,13 @@ class _Login extends PureComponent<Props, State> {
   }
 }
 
-export const Login = withRouter(_Login);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginAdmin: () => dispatch(loginAdmin())
+  };
+};
+
+export const Login = connect(null, mapDispatchToProps)(withRouter(_Login));
 
 const styles = {
   container: {

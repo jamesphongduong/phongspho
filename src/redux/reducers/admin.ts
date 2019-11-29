@@ -11,6 +11,11 @@ export const adminReducer = (state = initialState, action) => {
         ...state,
         loggedIn: true
       };
+    case 'ADMIN_LOGOUT':
+      return {
+        ...state,
+        loggedIn: false
+      };
     default:
       return state;
   }
