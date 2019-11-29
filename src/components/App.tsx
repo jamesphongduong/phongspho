@@ -1,15 +1,16 @@
 import React from 'react';
 import { Navbar } from './Navbar';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { color } from '../config';
+import { colors } from '../config';
 import { Switch, Route } from 'react-router-dom';
 import { Home, About, Login, Gallery, NotFound, Upload } from './pages';
 import { Box as MaterialBox } from '@material-ui/core';
+import { WithLoading } from './hocs';
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: color.main, contrastText: '#f44336' },
-    secondary: { main: color.action }
+    primary: { main: colors.main, contrastText: '#f44336' },
+    secondary: { main: colors.action }
   },
   typography: {
     fontFamily: [
@@ -32,6 +33,8 @@ const navbarItems = [
   { label: 'About', route: 'about' }
 ];
 
+const UploadWithLoading = WithLoading(Upload);
+
 export const App = (): JSX.Element => {
   return (
     <div style={styles.container}>
@@ -46,7 +49,7 @@ export const App = (): JSX.Element => {
               <Login />
             </Route>
             <Route exact path="/upload">
-              <Upload />
+              <UploadWithLoading isLoading={false} />
             </Route>
             <Route exact path="/">
               <Home />
