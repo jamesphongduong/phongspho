@@ -3,19 +3,24 @@ import {
   AppBar as MaterialAppBar,
   Toolbar as MaterialToolBar
 } from '@material-ui/core';
-import { Button } from './Button';
+import { Button, Image } from './';
 import shortid from 'shortid';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { navbarItem } from '../types';
+import { NavbarItem } from '../types';
+import { connect } from 'react-redux';
+import { logoutAdmin } from '../redux/actions';
+import { removeLoggedInLocalStorage } from '../utils';
 
 interface Props {
-  items: navbarItem[];
+  items: NavbarItem[];
+  logoutAdmin(): any;
+  loggedIn: boolean;
 }
 
-export const Navbar = (props: Props): JSX.Element => {
+const _Navbar = (props: Props): JSX.Element => {
   const classes = useStyles();
-  const { items } = props;
+  const { items, loggedIn, logoutAdmin } = props;
 
   const renderItems = (): JSX.Element[] => {
     return items.map(
@@ -34,7 +39,6 @@ export const Navbar = (props: Props): JSX.Element => {
     );
   };
 
-  // if admin
   const renderNewDishButton = (): JSX.Element => {
     return (
       <Link className={classes.link} to="/upload">
@@ -43,30 +47,50 @@ export const Navbar = (props: Props): JSX.Element => {
     );
   };
 
+  const onLogOut = (): void => {
+    logoutAdmin();
+    removeLoggedInLocalStorage();
+  };
+
   return (
     <MaterialAppBar position="static">
       <MaterialToolBar className={classes.container}>
         <div>
-          <img src={'/camera.svg'} className={classes.img} />
+          <Image src={'/camera.svg'} size="icon" />
         </div>
         <div>
-          {renderNewDishButton()}
+          {loggedIn && renderNewDishButton()}
           {renderItems()}
+          {loggedIn && (
+            <Button label="Log out" onClick={onLogOut} variant="text" />
+          )}
         </div>
       </MaterialToolBar>
     </MaterialAppBar>
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    justifyContent: 'space-between'
-  },
-  img: {
-    width: '24px',
-    height: '24px'
-  },
-  link: {
-    textDecoration: 'none'
-  }
-}));
+const mapStateToProps = (state) => {
+  return {
+    loggedIn: state.adminReducer.loggedIn
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutAdmin: () => dispatch(logoutAdmin())
+  };
+};
+
+export const Navbar = connect(mapStateToProps, mapDispatchToProps)(_Navbar);
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      justifyContent: 'space-between'
+    },
+    link: {
+      textDecoration: 'none'
+    }
+  })
+);

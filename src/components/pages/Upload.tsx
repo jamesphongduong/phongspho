@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { TextField, Button, Typography } from '../';
+import { TextField, Button } from '../';
 import { Container as MaterialContainer } from '@material-ui/core';
 import {
   stringIsOnlyWhiteSpace,
@@ -17,9 +17,7 @@ import { Image } from '../';
 import { S3response, fileOrUndefined, InputValidation } from '../../types';
 
 // type Props = RouteComponentProps<{}>; // possible refactor
-type Props = {
-  isLoading: boolean;
-};
+type Props = {};
 
 interface State {
   captionInput: string;
@@ -31,14 +29,17 @@ interface State {
 }
 
 class _Upload extends PureComponent<Props & RouteComponentProps<{}>, State> {
-  state = {
-    captionInput: '',
-    fileInput: undefined,
-    captionInputValid: InputValidation.Empty,
-    fileInputValid: InputValidation.Empty,
-    showValidations: false,
-    show: true
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      captionInput: '',
+      fileInput: undefined,
+      captionInputValid: InputValidation.Empty,
+      fileInputValid: InputValidation.Empty,
+      showValidations: false,
+      show: true
+    };
+  }
 
   onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const {
@@ -145,15 +146,19 @@ class _Upload extends PureComponent<Props & RouteComponentProps<{}>, State> {
           required
           handleInput={this.localFileUpload}
         />
-        <Button onClick={this.postPhoto} color="secondary" label="Submit" />
+        <Button
+          onClick={this.postPhoto}
+          color="secondary"
+          label="Submit"
+          fullWidth
+        />
       </div>
     );
   };
 
   render(): JSX.Element {
     return (
-      <MaterialContainer maxWidth="lg" style={styles.container}>
-        <Typography text="New Photo" variant="h4" align="center" />
+      <MaterialContainer maxWidth="xs">
         <div style={styles.contentContainer}>
           <Image src="/upload.svg" />
           {this.renderForm()}
@@ -168,11 +173,7 @@ export const Upload = withRouter(_Upload);
 const styles = {
   contentContainer: {
     display: 'flex',
-    flexDirection: 'row' as 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column' as 'column',
     alignItems: 'center'
-  },
-  container: {
-    height: '100%'
   }
 };

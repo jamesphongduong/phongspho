@@ -7,6 +7,8 @@ export interface Props {
   label: string;
   variant: buttonVariant;
   onClick?(): void;
+  fullWidth?: boolean;
+  size?: any;
 }
 
 export const Button = (props: Props): JSX.Element => {
