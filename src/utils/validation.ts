@@ -1,3 +1,5 @@
+import { InputValidation } from '../types';
+
 const stringHasNumber = (string): boolean => /\d/.test(string);
 
 const isString = (value): boolean =>
@@ -5,7 +7,8 @@ const isString = (value): boolean =>
 
 const stringIsNumber = (string) => parseInt(string) !== NaN;
 
-const stringIsOnlyWhiteSpace = (string): boolean => string.trim().length === 0;
+export const stringIsOnlyWhiteSpace = (string): boolean =>
+  string.trim().length === 0;
 
 const isPositive = (num): boolean => num >= 0;
 
@@ -19,3 +22,9 @@ export const isValidPrice = (input): boolean =>
   stringIsNumber(input) && isPositive(input);
 
 export const isValidImageFile = (file): boolean => isImageFile(file);
+
+export const checkFileType = (file): InputValidation => {
+  if (!file) return InputValidation.Empty;
+
+  return isImageFile(file) ? InputValidation.Valid : InputValidation.Invalid;
+};

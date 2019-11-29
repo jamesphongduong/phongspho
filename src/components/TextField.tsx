@@ -13,7 +13,7 @@ interface Props {
   postIcon?: JSX.Element;
   multiline?: boolean;
   handleInput(event: React.ChangeEvent<HTMLInputElement>): void;
-  value: string;
+  value?: string;
   required?: boolean;
   helperText?: string;
   invalid?: boolean;
@@ -59,13 +59,13 @@ export const TextField = (props: Props): JSX.Element => {
       error={invalid}
       autoFocus={autoFocus}
       {...other}
-      margin="normal"
       InputLabelProps={{
         shrink: true
       }}
       fullWidth
       helperText={invalid && helperText}
       InputProps={inputProps}
+      style={{ marginBottom: '32px' }}
     />
   );
 };
