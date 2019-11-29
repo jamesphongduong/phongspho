@@ -7,13 +7,13 @@ import { Button, Image } from './';
 import shortid from 'shortid';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { navbarItem } from '../types';
+import { NavbarItem } from '../types';
 import { connect } from 'react-redux';
 import { logoutAdmin } from '../redux/actions';
 import { removeLoggedInLocalStorage } from '../utils';
 
 interface Props {
-  items: navbarItem[];
+  items: NavbarItem[];
   logoutAdmin(): any;
   loggedIn: boolean;
 }

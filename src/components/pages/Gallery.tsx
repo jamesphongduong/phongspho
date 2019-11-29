@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import { PhotoCard } from '..';
 import { getPhotos } from '../../api';
-import { photo } from '../../types';
+import { Photo } from '../../types';
 import shortid from 'shortid';
 import { numOrUndefined } from '../../types';
 
 interface State {
-  photos: photo[];
+  photos: Photo[];
   showCaptionPhotoId: numOrUndefined;
   editCaptionId: numOrUndefined;
 }
@@ -36,7 +36,7 @@ export class Gallery extends PureComponent<{}, State> {
     const newPhotos = [...photos];
     const clickedPhoto = newPhotos.find((photo) => photo.id === id);
 
-    if (clickedPhoto) clickedPhoto.caption = input;
+    if (clickedPhoto) clickedPhoto.captionInput = input;
     this.setState({ photos: newPhotos, editCaptionId: id });
   };
 
@@ -44,11 +44,11 @@ export class Gallery extends PureComponent<{}, State> {
     const { photos, showCaptionPhotoId, editCaptionId } = this.state;
 
     return photos.map(
-      (photo: photo): JSX.Element => {
+      (photo: Photo): JSX.Element => {
         return (
           <PhotoCard
             key={shortid.generate()}
-            caption={photo.caption}
+            captionInput={photo.captionInput}
             imageURL={photo.imageURL}
             id={photo.id}
             onPhotoHover={this.onPhotoHover}

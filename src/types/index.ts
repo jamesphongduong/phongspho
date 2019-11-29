@@ -1,11 +1,11 @@
-export interface navbarItem {
+export interface NavbarItem {
   label: string;
   route: string;
 }
 
-export interface photo {
-  caption: string;
-  id: number;
+export interface Photo {
+  captionInput: string;
+  id?: number;
   imageURL: string;
 }
 

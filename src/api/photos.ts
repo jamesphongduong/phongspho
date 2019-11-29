@@ -1,5 +1,5 @@
 import axios, { AxiosPromise } from 'axios';
-
+import { Photo } from '../types';
 //  GET REQS
 
 export const getPhotos = (): AxiosPromise => {
@@ -8,7 +8,7 @@ export const getPhotos = (): AxiosPromise => {
 
 // PUT / PATCH REQS
 
-export const putPhoto = (id, data): AxiosPromise => {
+export const putPhoto = (id: number, data: Photo): AxiosPromise => {
   const { captionInput, imageURL } = data;
   const putData = {
     caption: captionInput,
@@ -23,7 +23,7 @@ export const putPhoto = (id, data): AxiosPromise => {
 
 // POST REQS
 
-export const postPhoto = (data): AxiosPromise => {
+export const postPhoto = (data: Photo): AxiosPromise => {
   const { captionInput, imageURL } = data;
 
   const postData = {

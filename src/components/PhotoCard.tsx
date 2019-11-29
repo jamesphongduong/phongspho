@@ -3,12 +3,12 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Edit } from '@material-ui/icons';
 import { Card, CardMedia, Fab } from '@material-ui/core';
 import { deletePhoto } from '../api';
-import { photo, numOrNull } from '../types';
+import { Photo, numOrNull } from '../types';
 import { Button } from './Button';
 import { TextField } from './TextField';
 import { putPhoto } from '../api';
 
-interface Props extends photo {
+interface Props extends Photo {
   onPhotoHover(id: numOrNull): void;
   onCaptionEdit(id: number, input: string): void;
   showCaption: boolean;
@@ -17,7 +17,7 @@ interface Props extends photo {
 
 export const PhotoCard = (props: Props): JSX.Element => {
   const {
-    caption,
+    captionInput,
     imageURL,
     id,
     onPhotoHover,
@@ -28,7 +28,7 @@ export const PhotoCard = (props: Props): JSX.Element => {
   const classes = useStyles();
 
   const onHover = (): void => {
-    onPhotoHover(id);
+    if (id) onPhotoHover(id);
   };
 
   const onHoverOut = (): void => {
@@ -45,17 +45,19 @@ export const PhotoCard = (props: Props): JSX.Element => {
     const {
       target: { value }
     } = e;
-    onCaptionEdit(id, value);
+    if (id) onCaptionEdit(id, value);
   };
 
   const onSave = (): void => {
     const postData = {
       imageURL,
-      captionInput: caption
+      captionInput
     };
-    putPhoto(id, postData)
-      .then(() => alert('putted'))
-      .catch((err) => alert(err));
+    if (id) {
+      putPhoto(id, postData)
+        .then(() => alert('putted'))
+        .catch((err) => alert(err));
+    }
   };
 
   const renderEditButton = (): JSX.Element => {
@@ -79,7 +81,7 @@ export const PhotoCard = (props: Props): JSX.Element => {
           {renderEditButton()}
           <TextField
             id="captionInput"
-            value={caption}
+            value={captionInput}
             handleInput={onInputChange}
             autoFocus={autoFocus}
           />
