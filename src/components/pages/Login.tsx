@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Typography as MaterialTypography } from '@material-ui/core';
+import { Typography as MaterialTypography, Container } from '@material-ui/core';
 import { Button, TextField } from '../';
 import { RouteComponentProps, withRouter } from 'react-router';
 import {
@@ -10,15 +10,18 @@ import {
 } from '@material-ui/icons';
 import { loginAdmin } from '../../redux/actions';
 import { connect } from 'react-redux';
+import { setLoggedInLocalStorage } from '../../utils';
 
-type Props = { loginAdmin(): any } & RouteComponentProps<{}>; // possibly need to refactor
+type Props = {
+  loginAdmin(): void;
+};
 
 interface State {
   passwordInput: string;
   showPassword: boolean;
 }
 
-class _Login extends PureComponent<Props, State> {
+class _Login extends PureComponent<Props & RouteComponentProps<{}>, State> {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,6 +34,7 @@ class _Login extends PureComponent<Props, State> {
     const { loginAdmin } = this.props;
 
     loginAdmin();
+    setLoggedInLocalStorage();
     // const { history } = this.props;
     // const { passwordInput } = this.state;
     // if (passwordInput === 'password') {
@@ -57,55 +61,59 @@ class _Login extends PureComponent<Props, State> {
 
     return (
       <div style={styles.container}>
-        <MaterialTypography gutterBottom align="center" variant="h2">
-          Root user login
-        </MaterialTypography>
-        <TextField
-          id="loginInput"
-          preIcon={<AccountCircle />}
-          value="Phong"
-          handleInput={this.onInputChange}
-          disabled
-        />
-        <TextField
-          type={showPassword ? 'text' : 'password'}
-          id="passwordInput"
-          preIcon={<Lock />}
-          postIcon={
-            showPassword ? (
-              <Visibility onClick={this.toggleShowPassword} />
-            ) : (
-              <VisibilityOff onClick={this.toggleShowPassword} />
-            )
-          }
-          value={passwordInput}
-          handleInput={this.onInputChange}
-        />
-        <Button label="Log in" color="primary" onClick={this.onLogin} />
         <img src={'/login.svg'} style={styles.img} />
+        <Container maxWidth="xs">
+          <TextField
+            id="loginInput"
+            preIcon={<AccountCircle />}
+            value="Phong"
+            handleInput={this.onInputChange}
+            disabled
+          />
+          <TextField
+            type={showPassword ? 'text' : 'password'}
+            id="passwordInput"
+            preIcon={<Lock />}
+            postIcon={
+              showPassword ? (
+                <Visibility onClick={this.toggleShowPassword} />
+              ) : (
+                <VisibilityOff onClick={this.toggleShowPassword} />
+              )
+            }
+            value={passwordInput}
+            handleInput={this.onInputChange}
+          />
+          <Button
+            fullWidth
+            label="Log in"
+            color="primary"
+            onClick={this.onLogin}
+            size="large"
+          />
+        </Container>
       </div>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loginAdmin: () => dispatch(loginAdmin())
-  };
+const actionCreators = {
+  loginAdmin
 };
 
-export const Login = connect(null, mapDispatchToProps)(withRouter(_Login));
+export const Login = connect(null, actionCreators)(withRouter(_Login));
 
 const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column' as 'column',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     height: '100%'
   },
   img: {
-    width: '50%',
-    height: '50%'
+    width: '25%',
+    height: '25%',
+    marginBottom: '80px'
   }
 };

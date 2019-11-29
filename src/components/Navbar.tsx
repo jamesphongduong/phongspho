@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { navbarItem } from '../types';
 import { connect } from 'react-redux';
 import { logoutAdmin } from '../redux/actions';
+import { removeLoggedInLocalStorage } from '../utils';
 
 interface Props {
   items: navbarItem[];
@@ -48,6 +49,7 @@ const _Navbar = (props: Props): JSX.Element => {
 
   const onLogOut = (): void => {
     logoutAdmin();
+    removeLoggedInLocalStorage();
   };
 
   return (
@@ -59,7 +61,9 @@ const _Navbar = (props: Props): JSX.Element => {
         <div>
           {loggedIn && renderNewDishButton()}
           {renderItems()}
-          {loggedIn && <Button label="Log out" onClick={onLogOut} />}
+          {loggedIn && (
+            <Button label="Log out" onClick={onLogOut} variant="text" />
+          )}
         </div>
       </MaterialToolBar>
     </MaterialAppBar>

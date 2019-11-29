@@ -1,5 +1,7 @@
+import { checkLoggedInLocalStorage } from '../../utils';
+
 const initialState = {
-  loggedIn: false
+  loggedIn: checkLoggedInLocalStorage() || false
 };
 
 export const adminReducer = (state = initialState, action) => {
