@@ -143,11 +143,10 @@ class _Upload extends PureComponent<Props, State> {
   };
 
   render(): JSX.Element {
-    console.log('state', this.state);
     return (
-      <MaterialContainer maxWidth="lg" style={{ height: '100%' }}>
+      <MaterialContainer maxWidth="lg" style={styles.container}>
         <Typography text="New Photo" variant="h4" align="center" />
-        <div style={styles.container}>
+        <div style={styles.contentContainer}>
           <Image src="/upload.svg" />
           {this.renderForm()}
         </div>
@@ -159,10 +158,13 @@ class _Upload extends PureComponent<Props, State> {
 export const Upload = withRouter(_Upload);
 
 const styles = {
-  container: {
+  contentContainer: {
     display: 'flex',
     flexDirection: 'row' as 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  container: {
+    height: '100%'
   }
 };
