@@ -1,9 +1,10 @@
 import React from 'react';
-import { Typography as MaterialTypography } from '@material-ui/core';
+import { Typography as MaterialTypography, PropTypes } from '@material-ui/core';
 
 interface Props {
   text: string;
   variant: 'h4';
+  align?: PropTypes.Alignment;
 }
 
 export const Typography = (props: Props): JSX.Element => {

@@ -1,25 +1,26 @@
 import React, { PureComponent } from 'react';
 import { TextField, Button, Typography } from '../';
+import { Container as MaterialContainer } from '@material-ui/core';
 import {
-  Input as MaterialInput,
-  Container as MaterialContainer
-} from '@material-ui/core';
-import { isValidText, isValidImageFile, SUCCESSFUL_UPLOAD } from '../../utils';
-import { INVALID_TEXT_INPUT } from '../../utils';
+  stringIsOnlyWhiteSpace,
+  checkFileType,
+  SUCCESSFUL_UPLOAD
+} from '../../utils';
+import { FILE_UPLOAD_VALIDATION_TEXT, REQUIRED_FIELD_TEXT } from '../../utils';
 import ReactS3 from 'react-s3';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { S3Config } from '../../config';
 import { postPhoto } from '../../api';
-import { AxiosPromise } from 'axios';
-import { S3response, fileOrUndefined } from '../../types';
+import { Image } from '../';
+import { S3response, fileOrUndefined, InputValidation } from '../../types';
 
 type Props = RouteComponentProps<{}>; // possible refactor
 
 interface State {
   captionInput: string;
   fileInput: fileOrUndefined;
-  captionInputValid: boolean;
-  fileInputValid: boolean;
+  captionInputValid: InputValidation;
+  fileInputValid: InputValidation;
   showValidations: boolean;
 }
 
@@ -27,8 +28,8 @@ class _Upload extends PureComponent<Props, State> {
   state = {
     captionInput: '',
     fileInput: undefined,
-    captionInputValid: false,
-    fileInputValid: false,
+    captionInputValid: InputValidation.Empty,
+    fileInputValid: InputValidation.Empty,
     showValidations: false
   };
 
@@ -41,9 +42,14 @@ class _Upload extends PureComponent<Props, State> {
 
   validateFormInputs = (): boolean => {
     const { captionInput, fileInput } = this.state;
-    const captionInputValid = isValidText(captionInput);
-    const fileInputValid = isValidImageFile(fileInput);
-    const formValid = captionInputValid && fileInputValid;
+    const captionInputValid =
+      stringIsOnlyWhiteSpace(captionInput) === true
+        ? InputValidation.Empty
+        : InputValidation.Valid;
+    const fileInputValid = checkFileType(fileInput);
+    const formValid =
+      captionInputValid === InputValidation.Valid &&
+      fileInputValid === InputValidation.Valid;
 
     if (!formValid) {
       this.setState(
@@ -61,7 +67,7 @@ class _Upload extends PureComponent<Props, State> {
     return true;
   };
 
-  postDish = (): void => {
+  postPhoto = (): void => {
     const { captionInput } = this.state;
     const { history } = this.props;
     const formDataValid = this.validateFormInputs();
@@ -98,7 +104,7 @@ class _Upload extends PureComponent<Props, State> {
     return ReactS3.uploadFile(fileInput, S3Config);
   };
 
-  render(): JSX.Element {
+  renderForm = (): JSX.Element => {
     const {
       captionInput,
       captionInputValid,
@@ -107,25 +113,44 @@ class _Upload extends PureComponent<Props, State> {
     } = this.state;
 
     return (
-      <MaterialContainer maxWidth="sm" style={styles.container}>
-        <Typography text="New Photo" variant="h4" />
+      <div>
         <TextField
           id="captionInput"
           label="Caption"
           handleInput={this.onInputChange}
           value={captionInput}
-          helperText={INVALID_TEXT_INPUT}
-          invalid={showValidations && !captionInputValid}
+          helperText={REQUIRED_FIELD_TEXT}
+          invalid={
+            showValidations && captionInputValid !== InputValidation.Valid
+          }
         />
-        <MaterialInput
+        <TextField
+          label="File"
           id="fileInput"
           type="file"
+          helperText={
+            fileInputValid === InputValidation.Empty
+              ? REQUIRED_FIELD_TEXT
+              : FILE_UPLOAD_VALIDATION_TEXT
+          }
+          invalid={showValidations && fileInputValid !== InputValidation.Valid}
           required
-          error={showValidations && !fileInputValid}
-          fullWidth
-          onChange={this.localFileUpload}
+          handleInput={this.localFileUpload}
         />
-        <Button onClick={this.postDish} color="secondary" label="Submit" />
+        <Button onClick={this.postPhoto} color="secondary" label="Submit" />
+      </div>
+    );
+  };
+
+  render(): JSX.Element {
+    console.log('state', this.state);
+    return (
+      <MaterialContainer maxWidth="lg" style={{ height: '100%' }}>
+        <Typography text="New Photo" variant="h4" align="center" />
+        <div style={styles.container}>
+          <Image src="/upload.svg" />
+          {this.renderForm()}
+        </div>
       </MaterialContainer>
     );
   }
@@ -134,5 +159,10 @@ class _Upload extends PureComponent<Props, State> {
 export const Upload = withRouter(_Upload);
 
 const styles = {
-  container: {}
+  container: {
+    display: 'flex',
+    flexDirection: 'row' as 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  }
 };
