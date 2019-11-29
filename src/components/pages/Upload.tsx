@@ -4,7 +4,9 @@ import { Container as MaterialContainer } from '@material-ui/core';
 import {
   stringIsOnlyWhiteSpace,
   checkFileType,
-  SUCCESSFUL_UPLOAD
+  SUCCESSFUL_UPLOAD,
+  alertSuccessful,
+  showLoading
 } from '../../utils';
 import { FILE_UPLOAD_VALIDATION_TEXT, REQUIRED_FIELD_TEXT } from '../../utils';
 import ReactS3 from 'react-s3';
@@ -14,7 +16,10 @@ import { postPhoto } from '../../api';
 import { Image } from '../';
 import { S3response, fileOrUndefined, InputValidation } from '../../types';
 
-type Props = RouteComponentProps<{}>; // possible refactor
+// type Props = RouteComponentProps<{}>; // possible refactor
+type Props = {
+  isLoading: boolean;
+};
 
 interface State {
   captionInput: string;
@@ -22,15 +27,17 @@ interface State {
   captionInputValid: InputValidation;
   fileInputValid: InputValidation;
   showValidations: boolean;
+  show: boolean;
 }
 
-class _Upload extends PureComponent<Props, State> {
+class _Upload extends PureComponent<Props & RouteComponentProps<{}>, State> {
   state = {
     captionInput: '',
     fileInput: undefined,
     captionInputValid: InputValidation.Empty,
     fileInputValid: InputValidation.Empty,
-    showValidations: false
+    showValidations: false,
+    show: true
   };
 
   onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -73,6 +80,7 @@ class _Upload extends PureComponent<Props, State> {
     const formDataValid = this.validateFormInputs();
 
     if (formDataValid) {
+      showLoading();
       this.S3FileUpload()
         .then((data) => {
           const imageURL = data.location;
@@ -83,7 +91,7 @@ class _Upload extends PureComponent<Props, State> {
           };
           postPhoto(postData)
             .then(() => {
-              alert(SUCCESSFUL_UPLOAD);
+              alertSuccessful();
               history.push('/gallery');
             })
             .catch((err) => alert(err));

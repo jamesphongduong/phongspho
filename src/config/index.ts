@@ -1,2 +1,2 @@
 export { S3Config } from './s3';
-export { color } from './color';
+export { colors } from './colors';
