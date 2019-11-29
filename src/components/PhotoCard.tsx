@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Edit } from '@material-ui/icons';
 import { Card, CardMedia, Fab } from '@material-ui/core';
 import { deletePhoto } from '../api';
@@ -92,33 +92,35 @@ export const PhotoCard = (props: Props): JSX.Element => {
   );
 };
 
-const useStyles = makeStyles({
-  titleContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  card: {
-    // maxWidth: 345
-    position: 'relative',
-    margin: 16,
-    padding: 16,
-    overflow: 'visible'
-  },
-  media: {
-    height: 500,
-    width: 500
-  },
-  hideCaption: {
-    display: 'none'
-  },
-  showCaption: {
-    display: 'flex',
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    //
-    flexDirection: 'column'
-  }
-});
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    titleContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    },
+    card: {
+      // maxWidth: 345
+      position: 'relative',
+      margin: 16,
+      padding: 16,
+      overflow: 'visible'
+    },
+    media: {
+      height: 500,
+      width: 500
+    },
+    hideCaption: {
+      display: 'none'
+    },
+    showCaption: {
+      display: 'flex',
+      position: 'absolute',
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+      //
+      flexDirection: 'column'
+    }
+  })
+);

@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 import { Button, Image } from './';
 import shortid from 'shortid';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { navbarItem } from '../types';
 import { connect } from 'react-redux';
@@ -84,11 +84,13 @@ const mapDispatchToProps = (dispatch) => {
 
 export const Navbar = connect(mapStateToProps, mapDispatchToProps)(_Navbar);
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    justifyContent: 'space-between'
-  },
-  link: {
-    textDecoration: 'none'
-  }
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      justifyContent: 'space-between'
+    },
+    link: {
+      textDecoration: 'none'
+    }
+  })
+);

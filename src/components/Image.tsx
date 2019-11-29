@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { imageSize } from '../types';
 
 interface Props {
@@ -19,16 +19,18 @@ export const Image = (props: Props): JSX.Element => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    height: '25px',
-    width: '25px'
-  },
-  banner: {
-    height: '25vw',
-    width: '25vw'
-  }
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    icon: {
+      height: '25px',
+      width: '25px'
+    },
+    banner: {
+      height: '25vw',
+      width: '25vw'
+    }
+  })
+);
 
 Image.defaultProps = {
   size: 'banner'
