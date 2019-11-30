@@ -1,17 +1,12 @@
 {
   "photos": [
     {
-      "captionInput": "hello",
-      "imageURL": "https://phongspho.s3.amazonaws.com/meal_images/20170913_060115.jpg",
-      "id": 7
-    },
-    {
-      "captionInput": "Hanoi Sunset",
+      "captionInput": "3",
       "imageURL": "https://phongspho.s3.amazonaws.com/meal_images/20171220_174444.jpg",
       "id": 8
     },
     {
-      "captionInput": "Hanoi Morning",
+      "captionInput": "4",
       "imageURL": "https://phongspho.s3.amazonaws.com/meal_images/20170913_060115.jpg",
       "id": 9
     }

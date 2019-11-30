@@ -11,7 +11,7 @@ export const getPhotos = (): AxiosPromise => {
 export const putPhoto = (id: number, data: Photo): AxiosPromise => {
   const { captionInput, imageURL } = data;
   const putData = {
-    caption: captionInput,
+    captionInput: captionInput,
     imageURL
   };
 

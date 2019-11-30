@@ -17,15 +17,10 @@ import { alertConfirm, alertSuccessful } from '../utils';
 
 interface Props extends Photo {
   editMode: boolean;
-  onPhotoHover(id: numOrNull): void;
   onCaptionEdit(id: number, input: string): void;
-  showCaption: boolean;
   autoFocus: boolean;
-  updateHoveredPhotoId(id: number): void;
-  removeHoveredPhotoId(): void;
-  photoIdHovered: numOrNull;
   toggleEdit(): any;
-  onEditMade(value: boolean): void;
+  onEditMade(value: boolean, id: number): void;
 }
 
 const _PhotoCard = (props: Props): JSX.Element => {
@@ -33,26 +28,12 @@ const _PhotoCard = (props: Props): JSX.Element => {
     captionInput,
     imageURL,
     id,
-    onPhotoHover,
-    showCaption,
     onCaptionEdit,
     autoFocus,
-    updateHoveredPhotoId,
-    removeHoveredPhotoId,
-    photoIdHovered,
-    toggleEdit,
     editMode,
     onEditMade
   } = props;
   const classes = useStyles();
-
-  const onHover = (): void => {
-    if (id) updateHoveredPhotoId(id);
-  };
-
-  const onHoverOut = (): void => {
-    removeHoveredPhotoId();
-  };
 
   const onDelete = (): void => {
     alertConfirm().then((result) => {
@@ -72,7 +53,7 @@ const _PhotoCard = (props: Props): JSX.Element => {
     } = e;
     if (id) {
       onCaptionEdit(id, value);
-      onEditMade(true);
+      onEditMade(true, id);
     }
   };
 
@@ -85,7 +66,7 @@ const _PhotoCard = (props: Props): JSX.Element => {
       putPhoto(id, postData)
         .then(() => {
           alert('putted');
-          onEditMade(false);
+          onEditMade(false, id);
         })
         .catch((err) => alert(err));
     }
@@ -106,14 +87,8 @@ const _PhotoCard = (props: Props): JSX.Element => {
 
   return (
     <Card className={classes.card} raised>
-      <div onMouseOver={onHover} onMouseOut={onHoverOut}>
-        <div
-          className={
-            photoIdHovered === id && editMode
-              ? classes.editButtonContainer
-              : classes.hide
-          }
-        >
+      <div>
+        <div className={editMode ? classes.editButtonContainer : classes.hide}>
           {renderDeleteButton()}
         </div>
         <CardMedia className={classes.media} image={imageURL} />

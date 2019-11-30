@@ -1,6 +1,6 @@
 import React, { Fragment, PureComponent } from 'react';
 import { PhotoCard } from '..';
-import { getPhotos } from '../../api';
+import { getPhotos, putPhoto } from '../../api';
 import { Photo } from '../../types';
 import shortid from 'shortid';
 import { numOrUndefined } from '../../types';
@@ -9,10 +9,10 @@ import { Edit, Delete, Save } from '@material-ui/icons';
 
 interface State {
   photos: Photo[];
-  showCaptionPhotoId: numOrUndefined;
   editCaptionId: numOrUndefined;
   editMode: boolean;
   editMade: boolean;
+  idsEdited: any;
 }
 
 export class Gallery extends PureComponent<{}, State> {
@@ -20,10 +20,10 @@ export class Gallery extends PureComponent<{}, State> {
     super(props);
     this.state = {
       photos: [],
-      showCaptionPhotoId: undefined,
       editCaptionId: undefined,
       editMode: false,
-      editMade: false
+      editMade: false,
+      idsEdited: []
     };
   }
 
@@ -32,10 +32,6 @@ export class Gallery extends PureComponent<{}, State> {
       this.setState({ photos: res.data });
     });
   }
-
-  onPhotoHover = (id: number): void => {
-    this.setState({ showCaptionPhotoId: id });
-  };
 
   onCaptionEdit = (id: number, input: string): void => {
     const { photos } = this.state;
@@ -52,7 +48,21 @@ export class Gallery extends PureComponent<{}, State> {
     }));
   };
 
-  onSave = () => {};
+  onSave = () => {
+    const { idsEdited, photos } = this.state;
+    console.log('here', idsEdited, photos);
+    idsEdited.map((id) => {
+      const photo = photos.find((photo) => photo.id === id);
+      if (photo) {
+        const { captionInput, imageURL } = photo;
+        putPhoto(id, { captionInput, imageURL }).then(() => {
+          console.log('done');
+          this.setState({ idsEdited: [] });
+        });
+      }
+      // putPhoto(id, newData);
+    });
+  };
 
   renderEditOptions = (): JSX.Element => {
     const { editMode, editMade } = this.state;
@@ -81,18 +91,15 @@ export class Gallery extends PureComponent<{}, State> {
     );
   };
 
-  onEditMade = (value: boolean): void => {
-    this.setState({ editMade: value });
+  onEditMade = (value: boolean, id: number): void => {
+    this.setState((prevState) => ({
+      idsEdited: [...prevState.idsEdited, id],
+      editMade: value
+    }));
   };
 
   renderGallery = (): JSX.Element[] => {
-    const {
-      photos,
-      showCaptionPhotoId,
-      editCaptionId,
-      editMode,
-      editMade
-    } = this.state;
+    const { photos, editCaptionId, editMode, editMade, idsEdited } = this.state;
     return photos.map(
       (photo: Photo): JSX.Element => {
         return (
@@ -103,8 +110,6 @@ export class Gallery extends PureComponent<{}, State> {
             captionInput={photo.captionInput}
             imageURL={photo.imageURL}
             id={photo.id}
-            onPhotoHover={this.onPhotoHover}
-            showCaption={showCaptionPhotoId === photo.id}
             onCaptionEdit={this.onCaptionEdit}
             autoFocus={editCaptionId === photo.id}
           />
@@ -114,7 +119,7 @@ export class Gallery extends PureComponent<{}, State> {
   };
 
   render(): JSX.Element {
-    console.log('this state', this.state);
+    console.log('state', this.state);
     return (
       <div style={styles.container}>
         {this.renderEditOptions()}
