@@ -25,6 +25,7 @@ interface Props extends Photo {
   removeHoveredPhotoId(): void;
   photoIdHovered: numOrNull;
   toggleEdit(): any;
+  onEditMade(value: boolean): void;
 }
 
 const _PhotoCard = (props: Props): JSX.Element => {
@@ -40,7 +41,8 @@ const _PhotoCard = (props: Props): JSX.Element => {
     removeHoveredPhotoId,
     photoIdHovered,
     toggleEdit,
-    editMode
+    editMode,
+    onEditMade
   } = props;
   const classes = useStyles();
 
@@ -54,7 +56,6 @@ const _PhotoCard = (props: Props): JSX.Element => {
 
   const onDelete = (): void => {
     alertConfirm().then((result) => {
-      console.log('result', result);
       if (result.value) {
         if (id) {
           deletePhoto(id)
@@ -69,7 +70,10 @@ const _PhotoCard = (props: Props): JSX.Element => {
     const {
       target: { value }
     } = e;
-    if (id) onCaptionEdit(id, value);
+    if (id) {
+      onCaptionEdit(id, value);
+      onEditMade(true);
+    }
   };
 
   const onSave = (): void => {
@@ -79,44 +83,12 @@ const _PhotoCard = (props: Props): JSX.Element => {
     };
     if (id) {
       putPhoto(id, postData)
-        .then(() => alert('putted'))
+        .then(() => {
+          alert('putted');
+          onEditMade(false);
+        })
         .catch((err) => alert(err));
     }
-  };
-
-  const renderEditOptions = (): JSX.Element => {
-    return (
-      <Fragment>
-        {editMode && (
-          <Fab
-            onClick={onSave}
-            color="secondary"
-            aria-label="save"
-            size="medium"
-          >
-            <Save />
-          </Fab>
-        )}
-        {editMode && (
-          <Fab
-            onClick={onDelete}
-            color="secondary"
-            aria-label="delete"
-            size="medium"
-          >
-            <Delete />
-          </Fab>
-        )}
-        <Fab
-          onClick={toggleEdit}
-          color="secondary"
-          aria-label="edit"
-          size="medium"
-        >
-          <Edit />
-        </Fab>
-      </Fragment>
-    );
   };
 
   const renderDeleteButton = (): JSX.Element => {
@@ -135,31 +107,32 @@ const _PhotoCard = (props: Props): JSX.Element => {
   return (
     <Card className={classes.card} raised>
       <div onMouseOver={onHover} onMouseOut={onHoverOut}>
-        <TextField
-          id="captionInput"
-          value={captionInput}
-          // handleInput={onInputChange}
-          onChange={onInputChange}
-          autoFocus={autoFocus}
-          className={classes.floatMiddle}
-          InputProps={
-            !editMode
-              ? {
-                  readOnly: true,
-                  disableUnderline: true
-                }
-              : {}
-          }
-        />
         <div
           className={
-            photoIdHovered === id ? classes.editButtonContainer : classes.hide
+            photoIdHovered === id && editMode
+              ? classes.editButtonContainer
+              : classes.hide
           }
         >
           {renderDeleteButton()}
         </div>
         <CardMedia className={classes.media} image={imageURL} />
       </div>
+      <TextField
+        id="captionInput"
+        value={captionInput}
+        // handleInput={onInputChange}
+        onChange={onInputChange}
+        autoFocus={autoFocus}
+        InputProps={
+          !editMode
+            ? {
+                readOnly: true,
+                disableUnderline: true
+              }
+            : {}
+        }
+      />
     </Card>
   );
 };
@@ -190,8 +163,7 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'relative',
       margin: 16,
       padding: 16,
-      overflow: 'visible',
-      border: '1px solid black'
+      overflow: 'visible'
     },
     media: {
       height: 500,
@@ -214,12 +186,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     hide: {
       display: 'none'
-    },
-    floatMiddle: {
-      position: 'absolute',
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)'
     }
   })
 );

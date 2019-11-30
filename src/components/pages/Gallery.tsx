@@ -12,6 +12,7 @@ interface State {
   showCaptionPhotoId: numOrUndefined;
   editCaptionId: numOrUndefined;
   editMode: boolean;
+  editMade: boolean;
 }
 
 export class Gallery extends PureComponent<{}, State> {
@@ -21,7 +22,8 @@ export class Gallery extends PureComponent<{}, State> {
       photos: [],
       showCaptionPhotoId: undefined,
       editCaptionId: undefined,
-      editMode: false
+      editMode: false,
+      editMade: false
     };
   }
 
@@ -53,11 +55,11 @@ export class Gallery extends PureComponent<{}, State> {
   onSave = () => {};
 
   renderEditOptions = (): JSX.Element => {
-    const { editMode } = this.state;
+    const { editMode, editMade } = this.state;
 
     return (
       <Fragment>
-        {editMode && (
+        {editMode && editMade && (
           <Fab
             onClick={this.onSave}
             color="secondary"
@@ -79,12 +81,23 @@ export class Gallery extends PureComponent<{}, State> {
     );
   };
 
+  onEditMade = (value: boolean): void => {
+    this.setState({ editMade: value });
+  };
+
   renderGallery = (): JSX.Element[] => {
-    const { photos, showCaptionPhotoId, editCaptionId, editMode } = this.state;
+    const {
+      photos,
+      showCaptionPhotoId,
+      editCaptionId,
+      editMode,
+      editMade
+    } = this.state;
     return photos.map(
       (photo: Photo): JSX.Element => {
         return (
           <PhotoCard
+            onEditMade={this.onEditMade}
             editMode={editMode}
             key={shortid.generate()}
             captionInput={photo.captionInput}
@@ -101,6 +114,7 @@ export class Gallery extends PureComponent<{}, State> {
   };
 
   render(): JSX.Element {
+    console.log('this state', this.state);
     return (
       <div style={styles.container}>
         {this.renderEditOptions()}

@@ -27,7 +27,7 @@ export const postPhoto = (data: Photo): AxiosPromise => {
   const { captionInput, imageURL } = data;
 
   const postData = {
-    caption: captionInput,
+    captionInput,
     imageURL
   };
 
