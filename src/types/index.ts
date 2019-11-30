@@ -1,3 +1,10 @@
+import {
+  ADMIN_LOGIN,
+  ADMIN_LOGOUT,
+  PHOTO_HOVERED,
+  PHOTO_UNHOVERED
+} from '../redux/actions/actionTypes';
+
 export interface NavbarItem {
   label: string;
   route: string;
@@ -29,3 +36,44 @@ export enum InputValidation {
   Invalid,
   Empty
 }
+
+// REDUX
+//
+export interface PhotoId {
+  id: number;
+}
+
+export interface Admin {
+  loggedIn: boolean;
+}
+
+export interface SystemState {
+  loggedIn: boolean;
+}
+
+export interface PhotoState {
+  hovered;
+}
+
+// redux actions
+// admin
+export interface LoginAction {
+  type: typeof ADMIN_LOGIN;
+}
+
+export interface LogoutAction {
+  type: typeof ADMIN_LOGOUT;
+}
+
+export type AdminActionTypes = LoginAction | LogoutAction;
+
+export interface PhotoHoveredAction {
+  type: typeof PHOTO_HOVERED;
+  payload: PhotoId;
+}
+
+export interface PhotoUnhoveredAction {
+  type: typeof PHOTO_UNHOVERED;
+}
+
+export type PhotoActionTypes = PhotoHoveredAction | PhotoUnhoveredAction;

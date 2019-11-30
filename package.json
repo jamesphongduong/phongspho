@@ -58,6 +58,8 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.1.2",
-    "redux-devtools-extension": "^2.13.8"
+    "@types/redux-logger": "^3.0.7",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-logger": "^3.0.6"
   }
 }

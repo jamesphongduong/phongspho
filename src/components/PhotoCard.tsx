@@ -7,15 +7,20 @@ import { Photo, numOrNull } from '../types';
 import { Button } from './Button';
 import { TextField } from './TextField';
 import { putPhoto } from '../api';
+import { updateHoveredPhotoId, removeHoveredPhotoId } from '../redux/actions';
+import { connect } from 'react-redux';
 
 interface Props extends Photo {
   onPhotoHover(id: numOrNull): void;
   onCaptionEdit(id: number, input: string): void;
   showCaption: boolean;
   autoFocus: boolean;
+  updateHoveredPhotoId(id: number): void;
+  removeHoveredPhotoId(): void;
+  photoIdHovered: numOrNull;
 }
 
-export const PhotoCard = (props: Props): JSX.Element => {
+const _PhotoCard = (props: Props): JSX.Element => {
   const {
     captionInput,
     imageURL,
@@ -23,22 +28,27 @@ export const PhotoCard = (props: Props): JSX.Element => {
     onPhotoHover,
     showCaption,
     onCaptionEdit,
-    autoFocus
+    autoFocus,
+    updateHoveredPhotoId,
+    removeHoveredPhotoId,
+    photoIdHovered
   } = props;
   const classes = useStyles();
 
   const onHover = (): void => {
-    if (id) onPhotoHover(id);
+    if (id) updateHoveredPhotoId(id);
   };
 
   const onHoverOut = (): void => {
-    onPhotoHover(null);
+    removeHoveredPhotoId();
   };
 
   const onDelete = (): void => {
-    deletePhoto(id)
-      .then(() => alert('deleted'))
-      .catch((err) => alert(err));
+    if (id) {
+      deletePhoto(id)
+        .then(() => alert('deleted'))
+        .catch((err) => alert(err));
+    }
   };
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -76,23 +86,38 @@ export const PhotoCard = (props: Props): JSX.Element => {
     <Card className={classes.card} raised>
       <div onMouseOver={onHover} onMouseOut={onHoverOut}>
         <div
-          className={showCaption ? classes.showCaption : classes.hideCaption}
+          className={
+            photoIdHovered === id ? classes.showCaption : classes.hideCaption
+          }
         >
           {renderEditButton()}
-          <TextField
+          {/* <TextField
             id="captionInput"
             value={captionInput}
             handleInput={onInputChange}
             autoFocus={autoFocus}
           />
           <Button label="Save caption" color="primary" onClick={onSave} />
-          <Button label="Delete photo" color="primary" onClick={onDelete} />
+          <Button label="Delete photo" color="primary" onClick={onDelete} /> */}
         </div>
         <CardMedia className={classes.media} image={imageURL} />
       </div>
     </Card>
   );
 };
+
+const actionCreators = {
+  updateHoveredPhotoId,
+  removeHoveredPhotoId
+};
+
+const mapStateToProps = (state) => {
+  return {
+    photoIdHovered: state.galleryReducer.photoIdHovered
+  };
+};
+
+export const PhotoCard = connect(mapStateToProps, actionCreators)(_PhotoCard);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
