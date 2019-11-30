@@ -2,7 +2,8 @@ import {
   ADMIN_LOGIN,
   ADMIN_LOGOUT,
   PHOTO_HOVERED,
-  PHOTO_UNHOVERED
+  PHOTO_UNHOVERED,
+  TOGGLE_EDIT
 } from '../redux/actions/actionTypes';
 
 export interface NavbarItem {
@@ -77,3 +78,7 @@ export interface PhotoUnhoveredAction {
 }
 
 export type PhotoActionTypes = PhotoHoveredAction | PhotoUnhoveredAction;
+
+export interface ToggleEditAction {
+  type: typeof TOGGLE_EDIT;
+}

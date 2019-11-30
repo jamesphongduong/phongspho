@@ -1,16 +1,22 @@
 import React, { Fragment } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Edit } from '@material-ui/icons';
-import { Card, CardMedia, Fab } from '@material-ui/core';
+import { Edit, Delete, Save } from '@material-ui/icons';
+import { Card, CardMedia, Fab, TextField } from '@material-ui/core';
 import { deletePhoto } from '../api';
 import { Photo, numOrNull } from '../types';
 import { Button } from './Button';
-import { TextField } from './TextField';
+// import { TextField } from './TextField';
 import { putPhoto } from '../api';
-import { updateHoveredPhotoId, removeHoveredPhotoId } from '../redux/actions';
+import {
+  updateHoveredPhotoId,
+  removeHoveredPhotoId,
+  toggleEdit
+} from '../redux/actions';
 import { connect } from 'react-redux';
+import { alertConfirm, alertSuccessful } from '../utils';
 
 interface Props extends Photo {
+  editMode: boolean;
   onPhotoHover(id: numOrNull): void;
   onCaptionEdit(id: number, input: string): void;
   showCaption: boolean;
@@ -18,6 +24,7 @@ interface Props extends Photo {
   updateHoveredPhotoId(id: number): void;
   removeHoveredPhotoId(): void;
   photoIdHovered: numOrNull;
+  toggleEdit(): any;
 }
 
 const _PhotoCard = (props: Props): JSX.Element => {
@@ -31,7 +38,9 @@ const _PhotoCard = (props: Props): JSX.Element => {
     autoFocus,
     updateHoveredPhotoId,
     removeHoveredPhotoId,
-    photoIdHovered
+    photoIdHovered,
+    toggleEdit,
+    editMode
   } = props;
   const classes = useStyles();
 
@@ -44,11 +53,16 @@ const _PhotoCard = (props: Props): JSX.Element => {
   };
 
   const onDelete = (): void => {
-    if (id) {
-      deletePhoto(id)
-        .then(() => alert('deleted'))
-        .catch((err) => alert(err));
-    }
+    alertConfirm().then((result) => {
+      console.log('result', result);
+      if (result.value) {
+        if (id) {
+          deletePhoto(id)
+            .then(() => alertSuccessful())
+            .catch((err) => alert(err));
+        }
+      }
+    });
   };
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -70,14 +84,50 @@ const _PhotoCard = (props: Props): JSX.Element => {
     }
   };
 
-  const renderEditButton = (): JSX.Element => {
+  const renderEditOptions = (): JSX.Element => {
+    return (
+      <Fragment>
+        {editMode && (
+          <Fab
+            onClick={onSave}
+            color="secondary"
+            aria-label="save"
+            size="medium"
+          >
+            <Save />
+          </Fab>
+        )}
+        {editMode && (
+          <Fab
+            onClick={onDelete}
+            color="secondary"
+            aria-label="delete"
+            size="medium"
+          >
+            <Delete />
+          </Fab>
+        )}
+        <Fab
+          onClick={toggleEdit}
+          color="secondary"
+          aria-label="edit"
+          size="medium"
+        >
+          <Edit />
+        </Fab>
+      </Fragment>
+    );
+  };
+
+  const renderDeleteButton = (): JSX.Element => {
     return (
       <Fab
-        onClick={() => console.log('cheers')}
+        onClick={onDelete}
         color="secondary"
-        aria-label="edit"
+        aria-label="delete"
+        size="medium"
       >
-        <Edit />
+        <Delete />
       </Fab>
     );
   };
@@ -85,20 +135,28 @@ const _PhotoCard = (props: Props): JSX.Element => {
   return (
     <Card className={classes.card} raised>
       <div onMouseOver={onHover} onMouseOut={onHoverOut}>
+        <TextField
+          id="captionInput"
+          value={captionInput}
+          // handleInput={onInputChange}
+          onChange={onInputChange}
+          autoFocus={autoFocus}
+          className={classes.floatMiddle}
+          InputProps={
+            !editMode
+              ? {
+                  readOnly: true,
+                  disableUnderline: true
+                }
+              : {}
+          }
+        />
         <div
           className={
-            photoIdHovered === id ? classes.showCaption : classes.hideCaption
+            photoIdHovered === id ? classes.editButtonContainer : classes.hide
           }
         >
-          {renderEditButton()}
-          {/* <TextField
-            id="captionInput"
-            value={captionInput}
-            handleInput={onInputChange}
-            autoFocus={autoFocus}
-          />
-          <Button label="Save caption" color="primary" onClick={onSave} />
-          <Button label="Delete photo" color="primary" onClick={onDelete} /> */}
+          {renderDeleteButton()}
         </div>
         <CardMedia className={classes.media} image={imageURL} />
       </div>
@@ -108,7 +166,8 @@ const _PhotoCard = (props: Props): JSX.Element => {
 
 const actionCreators = {
   updateHoveredPhotoId,
-  removeHoveredPhotoId
+  removeHoveredPhotoId,
+  toggleEdit
 };
 
 const mapStateToProps = (state) => {
@@ -131,7 +190,8 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'relative',
       margin: 16,
       padding: 16,
-      overflow: 'visible'
+      overflow: 'visible',
+      border: '1px solid black'
     },
     media: {
       height: 500,
@@ -140,14 +200,26 @@ const useStyles = makeStyles((theme: Theme) =>
     hideCaption: {
       display: 'none'
     },
-    showCaption: {
-      display: 'flex',
+    editButtonContainer: {
+      position: 'absolute',
+      right: '25px',
+      top: '25px'
+      // display: 'flex',
+      // position: 'absolute',
+      // left: '50%',
+      // top: '50%',
+      // transform: 'translate(-50%, -50%)',
+      //
+      // flexDirection: 'column'
+    },
+    hide: {
+      display: 'none'
+    },
+    floatMiddle: {
       position: 'absolute',
       left: '50%',
       top: '50%',
-      transform: 'translate(-50%, -50%)',
-      //
-      flexDirection: 'column'
+      transform: 'translate(-50%, -50%)'
     }
   })
 );

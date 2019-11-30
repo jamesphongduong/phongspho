@@ -1,5 +1,9 @@
-import { PHOTO_HOVERED, PHOTO_UNHOVERED } from './actionTypes';
-import { PhotoHoveredAction, PhotoUnhoveredAction } from '../../types';
+import { PHOTO_HOVERED, PHOTO_UNHOVERED, TOGGLE_EDIT } from './actionTypes';
+import {
+  PhotoHoveredAction,
+  PhotoUnhoveredAction,
+  ToggleEditAction
+} from '../../types';
 
 export const updateHoveredPhotoId = (id: number): PhotoHoveredAction => {
   return {
@@ -13,5 +17,11 @@ export const updateHoveredPhotoId = (id: number): PhotoHoveredAction => {
 export const removeHoveredPhotoId = (): PhotoUnhoveredAction => {
   return {
     type: PHOTO_UNHOVERED
+  };
+};
+
+export const toggleEdit = (): ToggleEditAction => {
+  return {
+    type: TOGGLE_EDIT
   };
 };

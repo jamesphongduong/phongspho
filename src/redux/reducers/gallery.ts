@@ -1,7 +1,12 @@
-import { PHOTO_HOVERED, PHOTO_UNHOVERED } from '../actions/actionTypes';
+import {
+  PHOTO_HOVERED,
+  PHOTO_UNHOVERED,
+  TOGGLE_EDIT
+} from '../actions/actionTypes';
 
 const initialState = {
-  photoIdHovered: null
+  photoIdHovered: null,
+  editMode: false
 };
 
 export const galleryReducer = (state = initialState, action) => {
@@ -16,6 +21,11 @@ export const galleryReducer = (state = initialState, action) => {
       return {
         ...state,
         photoIdHovered: null
+      };
+    case TOGGLE_EDIT:
+      return {
+        ...state,
+        editMode: !state.editMode
       };
     default:
       return state;

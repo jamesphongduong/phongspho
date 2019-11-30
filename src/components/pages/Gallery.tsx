@@ -1,14 +1,17 @@
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import { PhotoCard } from '..';
 import { getPhotos } from '../../api';
 import { Photo } from '../../types';
 import shortid from 'shortid';
 import { numOrUndefined } from '../../types';
+import { Fab } from '@material-ui/core';
+import { Edit, Delete, Save } from '@material-ui/icons';
 
 interface State {
   photos: Photo[];
   showCaptionPhotoId: numOrUndefined;
   editCaptionId: numOrUndefined;
+  editMode: boolean;
 }
 
 export class Gallery extends PureComponent<{}, State> {
@@ -17,7 +20,8 @@ export class Gallery extends PureComponent<{}, State> {
     this.state = {
       photos: [],
       showCaptionPhotoId: undefined,
-      editCaptionId: undefined
+      editCaptionId: undefined,
+      editMode: false
     };
   }
 
@@ -40,13 +44,48 @@ export class Gallery extends PureComponent<{}, State> {
     this.setState({ photos: newPhotos, editCaptionId: id });
   };
 
-  renderGallery = (): JSX.Element[] => {
-    const { photos, showCaptionPhotoId, editCaptionId } = this.state;
+  toggleEdit = () => {
+    this.setState((prevState) => ({
+      editMode: !prevState.editMode
+    }));
+  };
 
+  onSave = () => {};
+
+  renderEditOptions = (): JSX.Element => {
+    const { editMode } = this.state;
+
+    return (
+      <Fragment>
+        {editMode && (
+          <Fab
+            onClick={this.onSave}
+            color="secondary"
+            aria-label="save"
+            size="medium"
+          >
+            <Save />
+          </Fab>
+        )}
+        <Fab
+          onClick={this.toggleEdit}
+          color="secondary"
+          aria-label="edit"
+          size="medium"
+        >
+          <Edit />
+        </Fab>
+      </Fragment>
+    );
+  };
+
+  renderGallery = (): JSX.Element[] => {
+    const { photos, showCaptionPhotoId, editCaptionId, editMode } = this.state;
     return photos.map(
       (photo: Photo): JSX.Element => {
         return (
           <PhotoCard
+            editMode={editMode}
             key={shortid.generate()}
             captionInput={photo.captionInput}
             imageURL={photo.imageURL}
@@ -62,7 +101,12 @@ export class Gallery extends PureComponent<{}, State> {
   };
 
   render(): JSX.Element {
-    return <div style={styles.container}>{this.renderGallery()}</div>;
+    return (
+      <div style={styles.container}>
+        {this.renderEditOptions()}
+        {this.renderGallery()}
+      </div>
+    );
   }
 }
 
