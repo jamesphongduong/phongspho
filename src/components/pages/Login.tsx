@@ -16,12 +16,12 @@ import { LoginAction } from '../../types';
 
 interface _LoginProps {}
 
-type Props = _LoginProps & RouteComponentProps & linkDispatchProps; // possible refactor on routecomponentprops
-
 interface _LoginState {
   passwordInput: string;
   showPassword: boolean;
 }
+
+type Props = _LoginProps & RouteComponentProps & linkDispatchProps; // possible refactor on routecomponentprops
 
 class _Login extends PureComponent<Props, _LoginState> {
   constructor(props: Props) {

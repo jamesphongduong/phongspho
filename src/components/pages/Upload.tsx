@@ -18,8 +18,6 @@ import { S3response, fileOrUndefined, InputValidation } from '../../types';
 
 interface _UploadProps {}
 
-type Props = _UploadProps & RouteComponentProps<{}>;
-
 interface _UploadState {
   captionInput: string;
   fileInput: fileOrUndefined;
@@ -28,6 +26,8 @@ interface _UploadState {
   showValidations: boolean;
   show: boolean;
 }
+
+type Props = _UploadProps & RouteComponentProps<{}>;
 
 class _Upload extends PureComponent<Props, _UploadState> {
   constructor(props: Props) {
