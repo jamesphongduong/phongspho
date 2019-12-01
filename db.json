@@ -1,14 +1,9 @@
 {
   "photos": [
     {
-      "captionInput": "3",
+      "captionInput": "aadadada",
       "imageURL": "https://phongspho.s3.amazonaws.com/meal_images/20171220_174444.jpg",
       "id": 8
-    },
-    {
-      "captionInput": "4",
-      "imageURL": "https://phongspho.s3.amazonaws.com/meal_images/20170913_060115.jpg",
-      "id": 9
     }
   ]
 }

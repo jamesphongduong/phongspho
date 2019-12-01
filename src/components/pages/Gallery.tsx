@@ -1,11 +1,12 @@
 import React, { Fragment, PureComponent } from 'react';
 import { PhotoCard } from '..';
-import { getPhotos, putPhoto } from '../../api';
+import { getPhotos, putPhoto, deletePhoto } from '../../api';
 import { Photo } from '../../types';
 import shortid from 'shortid';
 import { numOrUndefined } from '../../types';
 import { Fab } from '@material-ui/core';
 import { Edit, Delete, Save } from '@material-ui/icons';
+import { filterData } from '../../utils';
 
 interface State {
   photos: Photo[];
@@ -68,22 +69,33 @@ export class Gallery extends PureComponent<{}, State> {
     }));
   };
 
-  onSave = () => {
+  onSave = async () => {
     const { idsEdited, idsDeleted, photos } = this.state;
-    const idsEditedFiltered = [...idsEdited].filter(
-      (id) => !idsDeleted.includes(id)
-    );
+    const idsEditedFiltered = filterData(idsEdited, idsDeleted);
 
-    idsEdited.map((id) => {
+    const editPromises = idsEditedFiltered.map((id) => {
       const photo = photos.find((photo) => photo.id === id);
       if (photo) {
         const { captionInput, imageURL } = photo;
-        putPhoto(id, { captionInput, imageURL }).then(() => {
-          console.log('done');
-          this.setState({ idsEdited: [], idsDeleted: [], editMade: false });
-        });
+        putPhoto(id, { captionInput, imageURL });
       }
     });
+
+    const deletePromises = idsDeleted.map((id) => {
+      deletePhoto(id);
+    });
+
+    await Promise.all([editPromises, deletePromises])
+      .then((res) => {
+        console.log('all promises completed');
+        this.setState({
+          idsEdited: [],
+          idsDeleted: [],
+          editMode: false,
+          editMade: false
+        });
+      })
+      .catch((err) => console.log('promise err', err));
   };
 
   renderEditOptions = (): JSX.Element => {
