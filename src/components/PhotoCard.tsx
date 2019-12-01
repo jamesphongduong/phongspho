@@ -1,11 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Edit, Delete, Save } from '@material-ui/icons';
+import { Delete } from '@material-ui/icons';
 import { Card, CardMedia, Fab, TextField } from '@material-ui/core';
-import { deletePhoto } from '../api';
+import { CustomTextField } from './';
 import { Photo, numOrNull, RootState } from '../types';
-import { Button } from './Button';
-// import { TextField } from './TextField';
 import { putPhoto } from '../api';
 import {
   updateHoveredPhotoId,
@@ -89,11 +87,12 @@ const _PhotoCard = (props: Props): JSX.Element => {
         </div>
         <CardMedia className={classes.media} image={imageURL} />
       </div>
-      <TextField
+      <CustomTextField
         id="captionInput"
+        fullWidth
+        multiline
         value={captionInput}
-        // handleInput={onInputChange}
-        onChange={onInputChange}
+        handleInput={onInputChange}
         autoFocus={autoFocus}
         InputProps={
           !editMode
@@ -115,7 +114,7 @@ const actionCreators = {
 };
 
 interface linkStateProps {
-  photoIdHovered: boolean;
+  photoIdHovered: numOrNull;
 }
 
 const mapStateToProps = (state: RootState): linkStateProps => {

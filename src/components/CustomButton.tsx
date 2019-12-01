@@ -2,7 +2,7 @@ import { Button as MaterialButton, PropTypes } from '@material-ui/core';
 import React from 'react';
 import { buttonVariant } from '../types';
 
-export interface ButtonProps {
+export interface CustomButtonProps {
   color: PropTypes.Color;
   label: string;
   variant: buttonVariant;
@@ -11,7 +11,7 @@ export interface ButtonProps {
   size?: any;
 }
 
-export const Button = (props: ButtonProps): JSX.Element => {
+export const CustomButton = (props: CustomButtonProps): JSX.Element => {
   const { label, variant, onClick, ...other } = props;
   return (
     <MaterialButton onClick={onClick} variant={variant} {...other}>
@@ -20,7 +20,7 @@ export const Button = (props: ButtonProps): JSX.Element => {
   );
 };
 
-Button.defaultProps = {
+CustomButton.defaultProps = {
   variant: 'contained',
   color: 'secondary'
 };

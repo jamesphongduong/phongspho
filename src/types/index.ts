@@ -25,6 +25,10 @@ export interface S3response {
   result: Response;
 }
 
+export interface PhotoId {
+  id: number;
+}
+
 // union types
 export type numOrUndefined = number | undefined;
 export type numOrNull = number | null;
@@ -32,33 +36,10 @@ export type fileOrUndefined = File | undefined;
 export type buttonVariant = 'text' | 'contained';
 export type strOrNull = string | null;
 export type imageSize = 'icon' | 'banner';
-
-export enum InputValidation {
-  Valid,
-  Invalid,
-  Empty
-}
+export type InputValidation = 'Valid' | 'Invalid' | 'Empty';
 
 // REDUX
-//
-export interface PhotoId {
-  id: number;
-}
-
-export interface Admin {
-  loggedIn: boolean;
-}
-
-export interface SystemState {
-  loggedIn: boolean;
-}
-
-export interface PhotoState {
-  hovered;
-}
-
-// redux actions
-// admin
+// actions
 export interface LoginAction {
   type: typeof ADMIN_LOGIN;
 }
@@ -67,7 +48,7 @@ export interface LogoutAction {
   type: typeof ADMIN_LOGOUT;
 }
 
-export type AdminActionTypes = LoginAction & LogoutAction; // possible refactor
+export type AdminAction = LoginAction | LogoutAction;
 
 export interface PhotoHoveredAction {
   type: typeof PHOTO_HOVERED;
@@ -78,10 +59,23 @@ export interface PhotoUnhoveredAction {
   type: typeof PHOTO_UNHOVERED;
 }
 
-export type GalleryActionTypes = PhotoHoveredAction & PhotoUnhoveredAction; // possible refactor
+export type GalleryAction =
+  | PhotoHoveredAction
+  | PhotoUnhoveredAction
+  | ToggleEditAction;
 
 export interface ToggleEditAction {
   type: typeof TOGGLE_EDIT;
 }
 
+// states
 export type RootState = ReturnType<typeof rootReducer>;
+
+export interface GalleryState {
+  photoIdHovered: numOrNull;
+  editMode: boolean;
+}
+
+export interface AdminState {
+  loggedIn: boolean;
+}

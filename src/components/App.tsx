@@ -4,7 +4,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { colors } from '../config';
 import { Switch, Route } from 'react-router-dom';
 import { Home, About, Login, Gallery, NotFound, Upload } from './pages';
-import { Box as MaterialBox } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
 
@@ -23,7 +23,7 @@ const App = (props: Props): JSX.Element => {
     <div style={styles.container}>
       <MuiThemeProvider theme={theme}>
         <Navbar items={navbarItems} />
-        <MaterialBox p={4} style={{ height: '100%' }}>
+        <Box p={4} style={{ height: '100%' }}>
           <Switch>
             <Route exact path="/about">
               <About />
@@ -44,7 +44,7 @@ const App = (props: Props): JSX.Element => {
               <NotFound />
             </Route>
           </Switch>
-        </MaterialBox>
+        </Box>
       </MuiThemeProvider>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Typography as MaterialTypography, Container } from '@material-ui/core';
-import { Button, TextField, Image } from '../';
+import { Container, InputAdornment } from '@material-ui/core';
+import { CustomButton, CustomTextField, Image } from '../';
 import { RouteComponentProps, withRouter } from 'react-router';
 import {
   AccountCircle,
@@ -65,28 +65,42 @@ class _Login extends PureComponent<Props, _LoginState> {
       <div style={styles.container}>
         <Image src={'/login.svg'} />
         <Container maxWidth="xs">
-          <TextField
+          <CustomTextField
             id="loginInput"
-            preIcon={<AccountCircle />}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircle />
+                </InputAdornment>
+              )
+            }}
             value="Phong"
             handleInput={this.onInputChange}
             disabled
           />
-          <TextField
+          <CustomTextField
             type={showPassword ? 'text' : 'password'}
             id="passwordInput"
-            preIcon={<Lock />}
-            postIcon={
-              showPassword ? (
-                <Visibility onClick={this.toggleShowPassword} />
-              ) : (
-                <VisibilityOff onClick={this.toggleShowPassword} />
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="start">
+                  {showPassword ? (
+                    <Visibility onClick={this.toggleShowPassword} />
+                  ) : (
+                    <VisibilityOff onClick={this.toggleShowPassword} />
+                  )}
+                </InputAdornment>
               )
-            }
+            }}
             value={passwordInput}
             handleInput={this.onInputChange}
           />
-          <Button
+          <CustomButton
             fullWidth
             label="Log in"
             color="primary"

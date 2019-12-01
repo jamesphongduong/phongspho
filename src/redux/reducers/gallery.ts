@@ -4,22 +4,21 @@ import {
   TOGGLE_EDIT
 } from '../actions/actionTypes';
 
-import { GalleryActionTypes } from '../../types';
-const initialState = {
+import { GalleryAction, GalleryState } from '../../types';
+const initialState: GalleryState = {
   photoIdHovered: null,
   editMode: false
 };
 
 export const galleryReducer = (
   state = initialState,
-  action: GalleryActionTypes
-) => {
-  const { type, payload } = action;
-  switch (type) {
+  action: GalleryAction
+): GalleryState => {
+  switch (action.type) {
     case PHOTO_HOVERED:
       return {
         ...state,
-        photoIdHovered: payload.id
+        photoIdHovered: action.payload.id
       };
     case PHOTO_UNHOVERED:
       return {

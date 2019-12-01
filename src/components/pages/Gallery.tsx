@@ -2,7 +2,7 @@ import React, { Fragment, PureComponent } from 'react';
 import { PhotoCard } from '..';
 import { getPhotos, putPhoto, deletePhoto } from '../../api';
 import shortid from 'shortid';
-import { numOrUndefined, Photo, SystemState, RootState } from '../../types';
+import { numOrUndefined, Photo, RootState } from '../../types';
 import { Fab } from '@material-ui/core';
 import { Edit, Save } from '@material-ui/icons';
 import { filterData } from '../../utils';
@@ -69,13 +69,13 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
     }));
   };
 
-  toggleEdit = () => {
+  toggleEdit = (): void => {
     this.setState((prevState) => ({
       editMode: !prevState.editMode
     }));
   };
 
-  onSave = async () => {
+  onSave = async (): Promise<void> => {
     const { idsEdited, idsDeleted, photos } = this.state;
     const idsEditedFiltered = filterData(idsEdited, idsDeleted);
 

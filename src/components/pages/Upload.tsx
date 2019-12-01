@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { TextField, Button } from '../';
-import { Container as MaterialContainer } from '@material-ui/core';
+import { CustomTextField, CustomButton } from '../';
+import { Container } from '@material-ui/core';
 import {
   stringIsOnlyWhiteSpace,
   checkFileType,
@@ -35,8 +35,8 @@ class _Upload extends PureComponent<Props, _UploadState> {
     this.state = {
       captionInput: '',
       fileInput: undefined,
-      captionInputValid: InputValidation.Empty,
-      fileInputValid: InputValidation.Empty,
+      captionInputValid: 'Empty',
+      fileInputValid: 'Empty',
       showValidations: false,
       show: true
     };
@@ -51,14 +51,12 @@ class _Upload extends PureComponent<Props, _UploadState> {
 
   validateFormInputs = (): boolean => {
     const { captionInput, fileInput } = this.state;
+    if (!fileInput) return false;
     const captionInputValid =
-      stringIsOnlyWhiteSpace(captionInput) === true
-        ? InputValidation.Empty
-        : InputValidation.Valid;
+      stringIsOnlyWhiteSpace(captionInput) === true ? 'Empty' : 'Valid';
     const fileInputValid = checkFileType(fileInput);
     const formValid =
-      captionInputValid === InputValidation.Valid &&
-      fileInputValid === InputValidation.Valid;
+      captionInputValid === 'Valid' && fileInputValid === 'Valid';
 
     if (!formValid) {
       this.setState(
@@ -124,30 +122,28 @@ class _Upload extends PureComponent<Props, _UploadState> {
 
     return (
       <div>
-        <TextField
+        <CustomTextField
           id="captionInput"
           label="Caption"
           handleInput={this.onInputChange}
           value={captionInput}
           helperText={REQUIRED_FIELD_TEXT}
-          invalid={
-            showValidations && captionInputValid !== InputValidation.Valid
-          }
+          invalid={showValidations && captionInputValid !== 'Valid'}
         />
-        <TextField
+        <CustomTextField
           label="File"
           id="fileInput"
           type="file"
           helperText={
-            fileInputValid === InputValidation.Empty
+            fileInputValid === 'Empty'
               ? REQUIRED_FIELD_TEXT
               : FILE_UPLOAD_VALIDATION_TEXT
           }
-          invalid={showValidations && fileInputValid !== InputValidation.Valid}
+          invalid={showValidations && fileInputValid !== 'Valid'}
           required
           handleInput={this.localFileUpload}
         />
-        <Button
+        <CustomButton
           onClick={this.postPhoto}
           color="secondary"
           label="Submit"
@@ -159,12 +155,12 @@ class _Upload extends PureComponent<Props, _UploadState> {
 
   render(): JSX.Element {
     return (
-      <MaterialContainer maxWidth="xs">
+      <Container maxWidth="xs">
         <div style={styles.contentContainer}>
           <Image src="/upload.svg" />
           {this.renderForm()}
         </div>
-      </MaterialContainer>
+      </Container>
     );
   }
 }
