@@ -67,7 +67,7 @@ export interface LogoutAction {
   type: typeof ADMIN_LOGOUT;
 }
 
-export type AdminActionTypes = LoginAction | LogoutAction;
+export type AdminActionTypes = LoginAction & LogoutAction; // possible refactor
 
 export interface PhotoHoveredAction {
   type: typeof PHOTO_HOVERED;
@@ -78,7 +78,7 @@ export interface PhotoUnhoveredAction {
   type: typeof PHOTO_UNHOVERED;
 }
 
-export type PhotoActionTypes = PhotoHoveredAction | PhotoUnhoveredAction;
+export type GalleryActionTypes = PhotoHoveredAction & PhotoUnhoveredAction; // possible refactor
 
 export interface ToggleEditAction {
   type: typeof TOGGLE_EDIT;
