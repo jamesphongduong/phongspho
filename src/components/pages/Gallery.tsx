@@ -7,6 +7,11 @@ import { numOrUndefined } from '../../types';
 import { Fab } from '@material-ui/core';
 import { Edit, Delete, Save } from '@material-ui/icons';
 import { filterData } from '../../utils';
+import { connect } from 'react-redux';
+
+interface Props {
+  loggedIn: boolean;
+}
 
 interface State {
   photos: Photo[];
@@ -17,7 +22,7 @@ interface State {
   idsDeleted: number[];
 }
 
-export class Gallery extends PureComponent<{}, State> {
+class _Gallery extends PureComponent<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
@@ -103,6 +108,14 @@ export class Gallery extends PureComponent<{}, State> {
 
     return (
       <Fragment>
+        <Fab
+          onClick={this.toggleEdit}
+          color="secondary"
+          aria-label="edit"
+          size="medium"
+        >
+          <Edit />
+        </Fab>
         {editMode && editMade && (
           <Fab
             onClick={this.onSave}
@@ -113,14 +126,6 @@ export class Gallery extends PureComponent<{}, State> {
             <Save />
           </Fab>
         )}
-        <Fab
-          onClick={this.toggleEdit}
-          color="secondary"
-          aria-label="edit"
-          size="medium"
-        >
-          <Edit />
-        </Fab>
       </Fragment>
     );
   };
@@ -147,20 +152,30 @@ export class Gallery extends PureComponent<{}, State> {
   };
 
   render(): JSX.Element {
-    console.log('state', this.state);
+    const { loggedIn } = this.props;
+
     return (
-      <div style={styles.container}>
-        {this.renderEditOptions()}
-        {this.renderGallery()}
+      <div>
+        {loggedIn && this.renderEditOptions()}
+        <div style={styles.container}>{this.renderGallery()}</div>
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    loggedIn: state.adminReducer.loggedIn
+  };
+};
+
+export const Gallery = connect(mapStateToProps)(_Gallery);
 
 const styles = {
   container: {
     display: 'flex',
     flexDirection: 'row' as 'row',
     flexWrap: 'wrap' as 'wrap'
-  }
+  },
+  editContainer: {}
 };
