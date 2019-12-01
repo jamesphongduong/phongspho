@@ -6,8 +6,13 @@ import { Switch, Route } from 'react-router-dom';
 import { Home, About, Login, Gallery, NotFound, Upload } from './pages';
 import { Box as MaterialBox } from '@material-ui/core';
 import { connect } from 'react-redux';
+import { RootState } from '../types';
 
-const App = (): JSX.Element => {
+interface AppProps {}
+
+type Props = AppProps & linkStateProps;
+
+const App = (props: Props): JSX.Element => {
   const navbarItems = [
     { label: 'Home', route: '/' },
     { label: 'Gallery', route: 'gallery' },
@@ -45,7 +50,11 @@ const App = (): JSX.Element => {
   );
 };
 
-const mapStateToProps = (state) => {
+interface linkStateProps {
+  loggedIn: boolean;
+}
+
+const mapStateToProps = (state: RootState): linkStateProps => {
   return {
     loggedIn: state.adminReducer.loggedIn
   };

@@ -2,7 +2,7 @@ import { checkLoggedInLocalStorage } from '../../utils';
 import { ADMIN_LOGIN, ADMIN_LOGOUT } from '../actions/actionTypes';
 
 const initialState = {
-  loggedIn: checkLoggedInLocalStorage() || false
+  loggedIn: checkLoggedInLocalStorage() ? true : false
 };
 
 export const adminReducer = (state = initialState, action) => {

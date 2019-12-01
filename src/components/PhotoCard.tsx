@@ -3,7 +3,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Edit, Delete, Save } from '@material-ui/icons';
 import { Card, CardMedia, Fab, TextField } from '@material-ui/core';
 import { deletePhoto } from '../api';
-import { Photo, numOrNull } from '../types';
+import { Photo, numOrNull, RootState } from '../types';
 import { Button } from './Button';
 // import { TextField } from './TextField';
 import { putPhoto } from '../api';
@@ -15,14 +15,16 @@ import {
 import { connect } from 'react-redux';
 import { alertConfirm, alertSuccessful } from '../utils';
 
-interface Props extends Photo {
+interface PhotoProps extends Photo {
   editMode: boolean;
-  onCaptionEdit(id: number, input: string): void;
+  onCaptionEdit: (id: number, input: string) => void;
   autoFocus: boolean;
-  toggleEdit(): any;
-  onEditMade(id: number): void;
-  onDeleteMade(id: number): void;
+  toggleEdit: () => void;
+  onEditMade: (id: number) => void;
+  onDeleteMade: (id: number) => void;
 }
+
+type Props = PhotoProps & linkStateProps;
 
 const _PhotoCard = (props: Props): JSX.Element => {
   const {
@@ -112,7 +114,11 @@ const actionCreators = {
   toggleEdit
 };
 
-const mapStateToProps = (state) => {
+interface linkStateProps {
+  photoIdHovered: boolean;
+}
+
+const mapStateToProps = (state: RootState): linkStateProps => {
   return {
     photoIdHovered: state.galleryReducer.photoIdHovered
   };

@@ -10,19 +10,21 @@ import {
 } from '@material-ui/icons';
 import { loginAdmin } from '../../redux/actions';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { setLoggedInLocalStorage } from '../../utils';
+import { LoginAction } from '../../types';
 
-type Props = {
-  loginAdmin(): void;
-};
+interface _LoginProps {}
 
-interface State {
+type Props = _LoginProps & RouteComponentProps & linkDispatchProps; // possible refactor on routecomponentprops
+
+interface _LoginState {
   passwordInput: string;
   showPassword: boolean;
 }
 
-class _Login extends PureComponent<Props & RouteComponentProps<{}>, State> {
-  constructor(props) {
+class _Login extends PureComponent<Props, _LoginState> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       passwordInput: '',
@@ -97,11 +99,17 @@ class _Login extends PureComponent<Props & RouteComponentProps<{}>, State> {
   }
 }
 
-const actionCreators = {
-  loginAdmin
+interface linkDispatchProps {
+  loginAdmin: () => LoginAction;
+}
+
+const mapDispatchToProps = (dispatch: Dispatch): linkDispatchProps => {
+  return {
+    loginAdmin: () => dispatch(loginAdmin())
+  };
 };
 
-export const Login = connect(null, actionCreators)(withRouter(_Login));
+export const Login = connect(null, mapDispatchToProps)(withRouter(_Login));
 
 const styles = {
   container: {

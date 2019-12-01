@@ -7,16 +7,20 @@ import { Button, Image } from './';
 import shortid from 'shortid';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { NavbarItem } from '../types';
+import { NavbarItem, LogoutAction } from '../types';
 import { connect } from 'react-redux';
 import { logoutAdmin } from '../redux/actions';
 import { removeLoggedInLocalStorage } from '../utils';
+import { RootState } from '../types';
+import { Dispatch } from 'redux';
 
-interface Props {
+interface _NavbarProps {
   items: NavbarItem[];
-  logoutAdmin(): any;
+  logoutAdmin: () => void;
   loggedIn: boolean;
 }
+
+type Props = _NavbarProps & LinkStateProps & LinkDispatchProps;
 
 const _Navbar = (props: Props): JSX.Element => {
   const classes = useStyles();
@@ -70,13 +74,21 @@ const _Navbar = (props: Props): JSX.Element => {
   );
 };
 
-const mapStateToProps = (state) => {
+interface LinkStateProps {
+  loggedIn: boolean;
+}
+
+const mapStateToProps = (state: RootState): LinkStateProps => {
   return {
     loggedIn: state.adminReducer.loggedIn
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+interface LinkDispatchProps {
+  logoutAdmin: () => LogoutAction;
+}
+
+const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchProps => {
   return {
     logoutAdmin: () => dispatch(logoutAdmin())
   };

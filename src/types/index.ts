@@ -5,6 +5,7 @@ import {
   PHOTO_UNHOVERED,
   TOGGLE_EDIT
 } from '../redux/actions/actionTypes';
+import { rootReducer } from '../redux/reducers';
 
 export interface NavbarItem {
   label: string;
@@ -82,3 +83,5 @@ export type PhotoActionTypes = PhotoHoveredAction | PhotoUnhoveredAction;
 export interface ToggleEditAction {
   type: typeof TOGGLE_EDIT;
 }
+
+export type RootState = ReturnType<typeof rootReducer>;

@@ -16,10 +16,11 @@ import { postPhoto } from '../../api';
 import { Image } from '../';
 import { S3response, fileOrUndefined, InputValidation } from '../../types';
 
-// type Props = RouteComponentProps<{}>; // possible refactor
-type Props = {};
+interface _UploadProps {}
 
-interface State {
+type Props = _UploadProps & RouteComponentProps<{}>;
+
+interface _UploadState {
   captionInput: string;
   fileInput: fileOrUndefined;
   captionInputValid: InputValidation;
@@ -28,8 +29,8 @@ interface State {
   show: boolean;
 }
 
-class _Upload extends PureComponent<Props & RouteComponentProps<{}>, State> {
-  constructor(props) {
+class _Upload extends PureComponent<Props, _UploadState> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       captionInput: '',

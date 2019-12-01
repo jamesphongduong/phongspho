@@ -2,12 +2,12 @@ import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { imageSize } from '../types';
 
-interface Props {
+interface ImageProps {
   src: string;
   size: imageSize;
 }
 
-export const Image = (props: Props): JSX.Element => {
+export const Image = (props: ImageProps): JSX.Element => {
   const classes = useStyles();
   const { src, size } = props;
 

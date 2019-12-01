@@ -1,19 +1,18 @@
 import React, { Fragment, PureComponent } from 'react';
 import { PhotoCard } from '..';
 import { getPhotos, putPhoto, deletePhoto } from '../../api';
-import { Photo } from '../../types';
 import shortid from 'shortid';
-import { numOrUndefined } from '../../types';
+import { numOrUndefined, Photo, SystemState, RootState } from '../../types';
 import { Fab } from '@material-ui/core';
-import { Edit, Delete, Save } from '@material-ui/icons';
+import { Edit, Save } from '@material-ui/icons';
 import { filterData } from '../../utils';
 import { connect } from 'react-redux';
 
-interface Props {
+interface _GalleryProps {
   loggedIn: boolean;
 }
 
-interface State {
+interface _GalleryState {
   photos: Photo[];
   editCaptionId: numOrUndefined;
   editMode: boolean;
@@ -22,8 +21,10 @@ interface State {
   idsDeleted: number[];
 }
 
-class _Gallery extends PureComponent<Props, State> {
-  constructor(props) {
+type Props = _GalleryProps & LinkStateProps;
+
+class _Gallery extends PureComponent<Props, _GalleryState> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       photos: [],
@@ -163,7 +164,11 @@ class _Gallery extends PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state) => {
+interface LinkStateProps {
+  loggedIn: boolean;
+}
+
+const mapStateToProps = (state: RootState): LinkStateProps => {
   return {
     loggedIn: state.adminReducer.loggedIn
   };

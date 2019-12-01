@@ -4,7 +4,7 @@ import {
   InputAdornment as MaterialInputAdornment
 } from '@material-ui/core';
 
-interface Props {
+interface TextFieldProps {
   id: string;
   type?: string;
   disabled?: boolean;
@@ -20,7 +20,7 @@ interface Props {
   autoFocus?: boolean;
 }
 
-export const TextField = (props: Props): JSX.Element => {
+export const TextField = (props: TextFieldProps): JSX.Element => {
   const {
     preIcon,
     postIcon,
