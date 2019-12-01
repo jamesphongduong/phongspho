@@ -12,7 +12,8 @@ interface State {
   editCaptionId: numOrUndefined;
   editMode: boolean;
   editMade: boolean;
-  idsEdited: any;
+  idsEdited: number[];
+  idsDeleted: number[];
 }
 
 export class Gallery extends PureComponent<{}, State> {
@@ -23,7 +24,8 @@ export class Gallery extends PureComponent<{}, State> {
       editCaptionId: undefined,
       editMode: false,
       editMade: false,
-      idsEdited: []
+      idsEdited: [],
+      idsDeleted: []
     };
   }
 
@@ -33,13 +35,31 @@ export class Gallery extends PureComponent<{}, State> {
     });
   }
 
-  onCaptionEdit = (id: number, input: string): void => {
+  onPhotoCaptionEdit = (id: number, input: string): void => {
     const { photos } = this.state;
     const newPhotos = [...photos];
     const clickedPhoto = newPhotos.find((photo) => photo.id === id);
 
     if (clickedPhoto) clickedPhoto.captionInput = input;
     this.setState({ photos: newPhotos, editCaptionId: id });
+  };
+
+  onPhotoDelete = (id: number): void => {
+    const { photos } = this.state;
+    const newPhotos = [...photos].filter((photo) => photo.id !== id);
+
+    this.setState((prevState) => ({
+      photos: newPhotos,
+      idsDeleted: [...prevState.idsDeleted, id],
+      editMade: true
+    }));
+  };
+
+  onEditMade = (id: number): void => {
+    this.setState((prevState) => ({
+      idsEdited: [...prevState.idsEdited, id],
+      editMade: true
+    }));
   };
 
   toggleEdit = () => {
@@ -49,18 +69,20 @@ export class Gallery extends PureComponent<{}, State> {
   };
 
   onSave = () => {
-    const { idsEdited, photos } = this.state;
-    console.log('here', idsEdited, photos);
+    const { idsEdited, idsDeleted, photos } = this.state;
+    const idsEditedFiltered = [...idsEdited].filter(
+      (id) => !idsDeleted.includes(id)
+    );
+
     idsEdited.map((id) => {
       const photo = photos.find((photo) => photo.id === id);
       if (photo) {
         const { captionInput, imageURL } = photo;
         putPhoto(id, { captionInput, imageURL }).then(() => {
           console.log('done');
-          this.setState({ idsEdited: [] });
+          this.setState({ idsEdited: [], idsDeleted: [], editMade: false });
         });
       }
-      // putPhoto(id, newData);
     });
   };
 
@@ -91,13 +113,6 @@ export class Gallery extends PureComponent<{}, State> {
     );
   };
 
-  onEditMade = (value: boolean, id: number): void => {
-    this.setState((prevState) => ({
-      idsEdited: [...prevState.idsEdited, id],
-      editMade: value
-    }));
-  };
-
   renderGallery = (): JSX.Element[] => {
     const { photos, editCaptionId, editMode, editMade, idsEdited } = this.state;
     return photos.map(
@@ -105,12 +120,13 @@ export class Gallery extends PureComponent<{}, State> {
         return (
           <PhotoCard
             onEditMade={this.onEditMade}
+            onCaptionEdit={this.onPhotoCaptionEdit}
+            onDeleteMade={this.onPhotoDelete}
             editMode={editMode}
             key={shortid.generate()}
             captionInput={photo.captionInput}
             imageURL={photo.imageURL}
             id={photo.id}
-            onCaptionEdit={this.onCaptionEdit}
             autoFocus={editCaptionId === photo.id}
           />
         );

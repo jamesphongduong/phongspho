@@ -20,7 +20,8 @@ interface Props extends Photo {
   onCaptionEdit(id: number, input: string): void;
   autoFocus: boolean;
   toggleEdit(): any;
-  onEditMade(value: boolean, id: number): void;
+  onEditMade(id: number): void;
+  onDeleteMade(id: number): void;
 }
 
 const _PhotoCard = (props: Props): JSX.Element => {
@@ -31,21 +32,10 @@ const _PhotoCard = (props: Props): JSX.Element => {
     onCaptionEdit,
     autoFocus,
     editMode,
-    onEditMade
+    onEditMade,
+    onDeleteMade
   } = props;
   const classes = useStyles();
-
-  const onDelete = (): void => {
-    alertConfirm().then((result) => {
-      if (result.value) {
-        if (id) {
-          deletePhoto(id)
-            .then(() => alertSuccessful())
-            .catch((err) => alert(err));
-        }
-      }
-    });
-  };
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const {
@@ -53,8 +43,12 @@ const _PhotoCard = (props: Props): JSX.Element => {
     } = e;
     if (id) {
       onCaptionEdit(id, value);
-      onEditMade(true, id);
+      onEditMade(id);
     }
+  };
+
+  const onDelete = (): void => {
+    if (id) onDeleteMade(id);
   };
 
   const onSave = (): void => {
@@ -66,7 +60,7 @@ const _PhotoCard = (props: Props): JSX.Element => {
       putPhoto(id, postData)
         .then(() => {
           alert('putted');
-          onEditMade(false, id);
+          // onEditMade(false, id);
         })
         .catch((err) => alert(err));
     }
