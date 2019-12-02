@@ -1,9 +1,19 @@
 {
   "photos": [
     {
-      "captionInput": "Sunset at Homestay",
+      "captionInput": "Sunset at a Vietnam Homestay",
       "imageURL": "https://phongspho.s3.amazonaws.com/meal_images/20171220_174444.jpg",
       "id": 9
+    },
+    {
+      "captionInput": "Remote village in Nepal",
+      "imageURL": "https://phongspho.s3.amazonaws.com/images/GOPR1989.JPG",
+      "id": 10
+    },
+    {
+      "captionInput": "Nepal Himalayas ",
+      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170428_181937.jpg",
+      "id": 11
     }
   ]
 }

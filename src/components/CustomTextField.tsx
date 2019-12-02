@@ -34,6 +34,11 @@ export const CustomTextField = (props: CustomTextFieldProps): JSX.Element => {
       fullWidth
       helperText={invalid && helperText}
       style={{ marginBottom: '32px' }}
+      onFocus={(e) => {
+        const val = e.target.value;
+        e.target.value = '';
+        e.target.value = val;
+      }}
     />
   );
 };

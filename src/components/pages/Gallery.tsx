@@ -43,6 +43,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
   }
 
   onPhotoCaptionEdit = (id: number, input: string): void => {
+    console.log(45, input);
     const { photos } = this.state;
     const newPhotos = [...photos];
     const clickedPhoto = newPhotos.find((photo) => photo.id === id);
