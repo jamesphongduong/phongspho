@@ -8,8 +8,12 @@ export const Home = (): JSX.Element => {
       <Typography gutterBottom align="center" variant="h2">
         Phong's Photos
       </Typography>
-      <Typography gutterBottom align="center" variant="h6"></Typography>
-      <Image src={'/home.svg'} />
+      <Typography gutterBottom align="center" variant="h6">
+        Some of my travel photos...
+      </Typography>
+      <div style={styles.halfContainer}>
+        <Image src={'/home.svg'} />
+      </div>
     </div>
   );
 };
@@ -22,8 +26,8 @@ const styles = {
     alignItems: 'center',
     height: '100%'
   },
-  img: {
-    width: '50%',
-    height: '50%'
+  halfContainer: {
+    height: '50%',
+    width: '50%'
   }
 };

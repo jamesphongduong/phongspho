@@ -5,14 +5,16 @@ import { imageSize } from '../types';
 interface ImageProps {
   src: string;
   size: imageSize;
+  style?: object;
 }
 
 export const Image = (props: ImageProps): JSX.Element => {
   const classes = useStyles();
-  const { src, size } = props;
+  const { src, size, ...other } = props;
 
   return (
     <img
+      {...other}
       src={src}
       className={size === 'icon' ? classes.icon : classes.banner}
     />
@@ -26,8 +28,8 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '25px'
     },
     banner: {
-      height: '25vw',
-      width: '25vw'
+      height: '100%',
+      width: '100%'
     }
   })
 );

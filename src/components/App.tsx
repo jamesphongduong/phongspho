@@ -86,6 +86,7 @@ const theme = createMuiTheme({
 const styles = {
   container: {
     height: '100vh',
+    boxSizing: 'border-box' as 'border-box',
     backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'column' as 'column'

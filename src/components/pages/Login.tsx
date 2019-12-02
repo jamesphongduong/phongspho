@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Container, InputAdornment } from '@material-ui/core';
+import { Box, InputAdornment, Container } from '@material-ui/core';
 import { CustomButton, CustomTextField, Image } from '../';
 import { RouteComponentProps, withRouter } from 'react-router';
 import {
@@ -63,8 +63,10 @@ class _Login extends PureComponent<Props, _LoginState> {
 
     return (
       <div style={styles.container}>
-        <Image src={'/login.svg'} />
-        <Container maxWidth="xs">
+        <div style={styles.halfContainer}>
+          <Image src={'/login.svg'} />
+        </div>
+        <Container maxWidth="xs" style={styles.halfContainer}>
           <CustomTextField
             id="loginInput"
             InputProps={{
@@ -130,12 +132,14 @@ const styles = {
     display: 'flex',
     flexDirection: 'column' as 'column',
     alignItems: 'center',
-    justifyContent: 'center',
     height: '100%'
   },
-  img: {
-    width: '25%',
-    height: '25%',
-    marginBottom: '80px'
+  halfContainer: {
+    width: '50%',
+    height: '50%',
+    display: 'flex',
+    flexDirection: 'column' as 'column',
+    justifyContent: 'center',
+    border: '1px solid black'
   }
 };
