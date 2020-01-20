@@ -88,6 +88,7 @@ const _PhotoCard = (props: Props): JSX.Element => {
         <CardMedia className={classes.media} image={imageURL} />
       </div>
       <CustomTextField
+        style={{ marginBottom: '0px' }}
         id="captionInput"
         fullWidth
         multiline

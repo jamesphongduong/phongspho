@@ -3,6 +3,7 @@ import { TextField } from '@material-ui/core';
 
 interface CustomTextFieldProps {
   id: string;
+  style?: object;
   type?: string;
   disabled?: boolean;
   label?: string;
@@ -27,7 +28,6 @@ export const CustomTextField = (props: CustomTextFieldProps): JSX.Element => {
       }
       error={invalid}
       autoFocus={autoFocus}
-      {...other}
       InputLabelProps={{
         shrink: true
       }}
@@ -39,6 +39,7 @@ export const CustomTextField = (props: CustomTextFieldProps): JSX.Element => {
         e.target.value = '';
         e.target.value = val;
       }}
+      {...other}
     />
   );
 };
