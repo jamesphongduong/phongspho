@@ -133,15 +133,14 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'space-between'
     },
     card: {
-      // maxWidth: 345
       position: 'relative',
       margin: 16,
       padding: 16,
       overflow: 'visible'
     },
     media: {
-      height: 500,
-      width: 500
+      minHeight: 350,
+      minWidth: 350
     },
     hideCaption: {
       display: 'none'

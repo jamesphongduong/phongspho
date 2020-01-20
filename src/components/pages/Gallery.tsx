@@ -79,6 +79,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
   onSave = async (): Promise<void> => {
     const { idsEdited, idsDeleted, photos } = this.state;
     const idsEditedFiltered = filterData(idsEdited, idsDeleted);
+    console.log('idsEditedFiltered', idsEditedFiltered);
 
     const editPromises = idsEditedFiltered.map((id) => {
       const photo = photos.find((photo) => photo.id === id);
@@ -159,7 +160,9 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
     return (
       <div>
         {loggedIn && this.renderEditOptions()}
-        <div style={styles.container}>{this.renderGallery()}</div>
+        <div style={styles.center}>
+          <div style={styles.container}>{this.renderGallery()}</div>
+        </div>
       </div>
     );
   }
@@ -183,5 +186,8 @@ const styles = {
     flexDirection: 'row' as 'row',
     flexWrap: 'wrap' as 'wrap'
   },
-  editContainer: {}
+  center: {
+    justifyContent: 'center',
+    display: 'flex'
+  }
 };

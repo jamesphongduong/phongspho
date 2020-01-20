@@ -14,6 +14,11 @@
       "captionInput": "Nepal Himalayas ",
       "imageURL": "https://phongspho.s3.amazonaws.com/images/20170428_181937.jpg",
       "id": 11
+    },
+    {
+      "captionInput": "Hanoi Bridge",
+      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170913_060115.jpg",
+      "id": 12
     }
   ]
 }
