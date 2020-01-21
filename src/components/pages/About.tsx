@@ -9,29 +9,22 @@ export const About = (): JSX.Element => {
         <Image style={styles.halfContainer} src={'./about.svg'} />
         <div style={styles.halfContainer}>
           <Typography variant="h4" gutterBottom>
-            About this project
+            About
           </Typography>
           <Typography gutterBottom variant="body1">
-            I wanted to build a web application that I could personally use,
-            hence decided to opt for a 'photo platform' idea, using some of my
-            personal travel photos.
+            This website was built to showcase photos I have taken whilst
+            travelling abroad in South-East Asia.
           </Typography>
-          <Box mt={8}>
-            <Typography variant="h4" gutterBottom>
-              Tech Stack
-            </Typography>
-            <Typography gutterBottom variant="body1">
-              Technology used to build this app are: React / Redux / JavaScript
-              / Typescript / Jest
-            </Typography>
-            <Typography gutterBottom variant="body1">
-              {
-                <a href="https://github.com/jamesphongduong/phongsphotos">
-                  Link to Github Repository
-                </a>
-              }
-            </Typography>
-          </Box>
+          <br />
+          <Typography gutterBottom variant="body1">
+            Technology used to build this website are: <br /> React / Redux /
+            JavaScript / Typescript / Jest
+          </Typography>
+          <Typography gutterBottom variant="body1">
+            <a href="https://github.com/jamesphongduong/phongsphotos">
+              Link to Github Repository
+            </a>
+          </Typography>
         </div>
       </div>
     </Box>
@@ -41,7 +34,8 @@ export const About = (): JSX.Element => {
 const styles = {
   container: {
     height: '100%',
-    boxSizing: 'border-box' as 'border-box'
+    boxSizing: 'border-box' as 'border-box',
+    paddingTop: 80
   },
   halfContainer: {
     height: '50%',
@@ -51,7 +45,6 @@ const styles = {
     height: '100%',
     display: 'flex',
     flexDirection: 'row' as 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
+    justifyContent: 'space-around'
   }
 };

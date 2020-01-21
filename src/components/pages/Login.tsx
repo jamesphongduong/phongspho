@@ -9,6 +9,7 @@ import {
   VisibilityOff
 } from '@material-ui/icons';
 import { loginAdmin } from '../../redux/actions';
+import { alertUnsuccessful } from '../../utils/';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setLoggedInLocalStorage } from '../../utils';
@@ -32,17 +33,15 @@ class _Login extends PureComponent<Props, _LoginState> {
     };
   }
 
-  onLogin = (): void => {
-    const { loginAdmin } = this.props;
+  onLogin = (): any => {
+    const { loginAdmin, history } = this.props;
+    const { passwordInput } = this.state;
+
+    if (passwordInput !== 'password') alertUnsuccessful();
 
     loginAdmin();
     setLoggedInLocalStorage();
-    // const { history } = this.props;
-    // const { passwordInput } = this.state;
-    // if (passwordInput === 'password') {
-    //   alert('succesful');
-    //   history.push('/gallery');
-    // }
+    history.push('/');
   };
 
   onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -63,10 +62,10 @@ class _Login extends PureComponent<Props, _LoginState> {
 
     return (
       <div style={styles.container}>
-        <div style={styles.halfContainer}>
+        <div>
           <Image src={'/login.svg'} />
         </div>
-        <Container maxWidth="xs" style={styles.halfContainer}>
+        <Container maxWidth="xs" style={styles.formContainer}>
           <CustomTextField
             id="loginInput"
             InputProps={{
@@ -76,7 +75,7 @@ class _Login extends PureComponent<Props, _LoginState> {
                 </InputAdornment>
               )
             }}
-            value="Phong"
+            value="admin"
             handleInput={this.onInputChange}
             disabled
           />
@@ -132,7 +131,8 @@ const styles = {
     display: 'flex',
     flexDirection: 'column' as 'column',
     alignItems: 'center',
-    height: '100%'
+    // height: '100%'
+    paddingTop: 40
   },
   halfContainer: {
     width: '50%',
@@ -141,5 +141,8 @@ const styles = {
     flexDirection: 'column' as 'column',
     justifyContent: 'center',
     border: '1px solid black'
+  },
+  formContainer: {
+    marginTop: 40
   }
 };

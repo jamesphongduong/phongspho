@@ -3,7 +3,7 @@ import { Navbar } from './Navbar';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { colors } from '../config';
 import { Switch, Route } from 'react-router-dom';
-import { Home, About, Login, Gallery, NotFound, Upload } from './pages';
+import { About, Login, Gallery, NotFound, Upload } from './pages';
 import { Box } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
@@ -14,8 +14,7 @@ type Props = AppProps & linkStateProps;
 
 const App = (props: Props): JSX.Element => {
   const navbarItems = [
-    { label: 'Home', route: '/' },
-    { label: 'Gallery', route: 'gallery' },
+    { label: 'Gallery', route: '/' },
     { label: 'About', route: 'about' }
   ];
 
@@ -35,9 +34,6 @@ const App = (props: Props): JSX.Element => {
               <Upload />
             </Route>
             <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/gallery">
               <Gallery />
             </Route>
             <Route path="*">

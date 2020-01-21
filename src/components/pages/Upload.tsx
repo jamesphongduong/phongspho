@@ -121,7 +121,7 @@ class _Upload extends PureComponent<Props, _UploadState> {
     } = this.state;
 
     return (
-      <Container maxWidth="xs" style={styles.halfContainer}>
+      <Container maxWidth="xs">
         <CustomTextField
           id="captionInput"
           label="Caption"
@@ -156,9 +156,7 @@ class _Upload extends PureComponent<Props, _UploadState> {
   render(): JSX.Element {
     return (
       <div style={styles.contentContainer}>
-        <div style={styles.halfContainer}>
-          <Image src="/upload.svg" />
-        </div>
+        <Image src="/upload.svg" />
         {this.renderForm()}
       </div>
     );
@@ -172,15 +170,6 @@ const styles = {
     display: 'flex',
     flexDirection: 'column' as 'column',
     alignItems: 'center',
-    justifyContent: 'center',
     height: '100%'
-  },
-  halfContainer: {
-    width: '50%',
-    height: '50%',
-    display: 'flex',
-    flexDirection: 'column' as 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 };
