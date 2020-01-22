@@ -43,7 +43,6 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
   }
 
   onPhotoCaptionEdit = (id: number, input: string): void => {
-    console.log(45, input);
     const { photos } = this.state;
     const newPhotos = [...photos];
     const clickedPhoto = newPhotos.find((photo) => photo.id === id);
@@ -79,8 +78,6 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
   onSave = async (): Promise<void> => {
     const { idsEdited, idsDeleted, photos } = this.state;
     const idsEditedFiltered = filterData(idsEdited, idsDeleted);
-    console.log('idsEditedFiltered', idsEditedFiltered);
-
     const editPromises = idsEditedFiltered.map((id) => {
       const photo = photos.find((photo) => photo.id === id);
       if (photo) {

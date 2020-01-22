@@ -37,7 +37,7 @@ class _Login extends PureComponent<Props, _LoginState> {
     const { loginAdmin, history } = this.props;
     const { passwordInput } = this.state;
 
-    if (passwordInput !== 'password') alertUnsuccessful();
+    if (passwordInput !== 'password') return alertUnsuccessful();
 
     loginAdmin();
     setLoggedInLocalStorage();
@@ -62,10 +62,8 @@ class _Login extends PureComponent<Props, _LoginState> {
 
     return (
       <div style={styles.container}>
-        <div>
-          <Image src={'/login.svg'} alt="login" />
-        </div>
-        <Container maxWidth="xs" style={styles.formContainer}>
+        <Image src={'/login.svg'} alt="login" style={styles.imageContainer} />
+        <Container maxWidth="xs">
           <CustomTextField
             id="loginInput"
             InputProps={{
@@ -131,18 +129,10 @@ const styles = {
     display: 'flex',
     flexDirection: 'column' as 'column',
     alignItems: 'center',
-    // height: '100%'
-    paddingTop: 40
+    height: '100%',
+    justifyContent: 'center'
   },
-  halfContainer: {
-    width: '50%',
-    height: '50%',
-    display: 'flex',
-    flexDirection: 'column' as 'column',
-    justifyContent: 'center',
-    border: '1px solid black'
-  },
-  formContainer: {
-    marginTop: 40
+  imageContainer: {
+    marginBottom: 40
   }
 };
