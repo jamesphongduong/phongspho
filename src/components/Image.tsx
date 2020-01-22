@@ -6,6 +6,7 @@ interface ImageProps {
   src: string;
   size: imageSize;
   style?: object;
+  alt: string;
 }
 
 export const Image = (props: ImageProps): JSX.Element => {

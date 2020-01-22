@@ -92,7 +92,7 @@ class _Upload extends PureComponent<Props, _UploadState> {
           postPhoto(postData)
             .then(() => {
               alertSuccessful();
-              history.push('/gallery');
+              history.push('/');
             })
             .catch((err) => alert(err));
         })
@@ -156,7 +156,7 @@ class _Upload extends PureComponent<Props, _UploadState> {
   render(): JSX.Element {
     return (
       <div style={styles.contentContainer}>
-        <Image src="/upload.svg" />
+        <Image src="/upload.svg" alt="upload" />
         {this.renderForm()}
       </div>
     );

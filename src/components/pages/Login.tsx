@@ -63,7 +63,7 @@ class _Login extends PureComponent<Props, _LoginState> {
     return (
       <div style={styles.container}>
         <div>
-          <Image src={'/login.svg'} />
+          <Image src={'/login.svg'} alt="login" />
         </div>
         <Container maxWidth="xs" style={styles.formContainer}>
           <CustomTextField

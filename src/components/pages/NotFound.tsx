@@ -9,7 +9,7 @@ export const NotFound = (): JSX.Element => {
         Page not found
       </Typography>
       <Typography gutterBottom align="center" variant="h6"></Typography>
-      <Image src={'/404.svg'} />
+      <Image src={'/404.svg'} alt="not found" />
     </div>
   );
 };

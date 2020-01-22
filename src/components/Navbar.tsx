@@ -57,7 +57,7 @@ const _Navbar = (props: Props): JSX.Element => {
     <AppBar position="static">
       <Toolbar className={classes.container}>
         <div>
-          <Image src={'/camera.svg'} size="icon" />
+          <Image src={'/camera.svg'} size="icon" alt="camera" />
         </div>
         <div>
           {loggedIn && renderNewDishButton()}
