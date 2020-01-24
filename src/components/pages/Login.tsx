@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Box, InputAdornment, Container } from '@material-ui/core';
+import { InputAdornment, Container } from '@material-ui/core';
 import { CustomButton, CustomTextField, Image } from '../';
 import { RouteComponentProps, withRouter } from 'react-router';
 import {
@@ -37,7 +37,8 @@ class _Login extends PureComponent<Props, _LoginState> {
     const { loginAdmin, history } = this.props;
     const { passwordInput } = this.state;
 
-    if (passwordInput !== 'password') return alertUnsuccessful();
+    if (passwordInput !== 'password')
+      return alertUnsuccessful('Incorrect credentials.');
 
     loginAdmin();
     setLoggedInLocalStorage();

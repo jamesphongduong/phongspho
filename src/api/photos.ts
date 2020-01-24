@@ -30,6 +30,7 @@ export const putPhoto = (id: number, data: Photo): AxiosPromise => {
     putData
   );
 };
+
 // DELETE REQS
 export const deletePhoto = (id: number): AxiosPromise => {
   return axios.delete(`${process.env.REACT_APP_BACKEND_URL}/photos/${id}`);

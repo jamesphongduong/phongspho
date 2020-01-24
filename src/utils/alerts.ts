@@ -8,11 +8,12 @@ const successfulOptions = {
   confirmButtonColor: colors.action
 } as SweetAlertOptions;
 
-const unsuccessfulOptions = {
-  title: 'Unsuccessful',
-  timer: 2000,
-  icon: 'error'
-} as SweetAlertOptions;
+const unsuccessfulOptions = (title: string) =>
+  ({
+    title,
+    timer: 2000,
+    icon: 'error'
+  } as SweetAlertOptions);
 
 const confirmOptions = {
   title: 'Are you sure?',
@@ -27,8 +28,8 @@ const confirmOptions = {
 export const alertSuccessful = (): Promise<SweetAlertResult> =>
   SweetAlert.fire(successfulOptions);
 
-export const alertUnsuccessful = (): Promise<SweetAlertResult> =>
-  SweetAlert.fire(unsuccessfulOptions);
+export const alertUnsuccessful = (title: string): Promise<SweetAlertResult> =>
+  SweetAlert.fire(unsuccessfulOptions(title));
 
 export const showLoading = (): void => SweetAlert.showLoading();
 
