@@ -1,5 +1,5 @@
 export { PhotoCard } from './PhotoCard';
-export { Button } from './Button';
-export { TextField } from './TextField';
+export { CustomButton } from './CustomButton';
+export { CustomTextField } from './CustomTextField';
 export { Typography } from './Typography';
 export { Image } from './Image';

@@ -14,6 +14,16 @@ const unsuccessfulOptions = {
   icon: 'error'
 } as SweetAlertOptions;
 
+const confirmOptions = {
+  title: 'Are you sure?',
+  text: "You won't be able to revert this.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonText: 'Confirm',
+  cancelButtonText: 'Cancel',
+  reverseButtons: true
+} as SweetAlertOptions;
+
 export const alertSuccessful = (): Promise<SweetAlertResult> =>
   SweetAlert.fire(successfulOptions);
 
@@ -21,3 +31,7 @@ export const alertUnsuccessful = (): Promise<SweetAlertResult> =>
   SweetAlert.fire(unsuccessfulOptions);
 
 export const showLoading = (): void => SweetAlert.showLoading();
+
+export const alertConfirm = (): Promise<SweetAlertResult> => {
+  return SweetAlert.fire(confirmOptions);
+};

@@ -1,0 +1,5 @@
+export const ADMIN_LOGIN = 'ADMIN_LOGIN';
+export const ADMIN_LOGOUT = 'ADMIN_LOGOUT';
+export const PHOTO_HOVERED = 'PHOTO_HOVERED';
+export const PHOTO_UNHOVERED = 'PHOTO_UNHOVERED';
+export const TOGGLE_EDIT = 'TOGGLE_EDIT';

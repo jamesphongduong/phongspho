@@ -3,14 +3,18 @@ import { Navbar } from './Navbar';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { colors } from '../config';
 import { Switch, Route } from 'react-router-dom';
-import { Home, About, Login, Gallery, NotFound, Upload } from './pages';
-import { Box as MaterialBox } from '@material-ui/core';
+import { About, Login, Gallery, NotFound, Upload } from './pages';
+import { Box } from '@material-ui/core';
 import { connect } from 'react-redux';
+import { RootState } from '../types';
 
-const App = (): JSX.Element => {
+interface AppProps {}
+
+type Props = AppProps & linkStateProps;
+
+const App = (props: Props): JSX.Element => {
   const navbarItems = [
-    { label: 'Home', route: '/' },
-    { label: 'Gallery', route: 'gallery' },
+    { label: 'Gallery', route: '/' },
     { label: 'About', route: 'about' }
   ];
 
@@ -18,7 +22,7 @@ const App = (): JSX.Element => {
     <div style={styles.container}>
       <MuiThemeProvider theme={theme}>
         <Navbar items={navbarItems} />
-        <MaterialBox p={4} style={{ height: '100%' }}>
+        <Box p={4} style={{ height: '100%' }}>
           <Switch>
             <Route exact path="/about">
               <About />
@@ -30,22 +34,23 @@ const App = (): JSX.Element => {
               <Upload />
             </Route>
             <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/gallery">
               <Gallery />
             </Route>
             <Route path="*">
               <NotFound />
             </Route>
           </Switch>
-        </MaterialBox>
+        </Box>
       </MuiThemeProvider>
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
+interface linkStateProps {
+  loggedIn: boolean;
+}
+
+const mapStateToProps = (state: RootState): linkStateProps => {
   return {
     loggedIn: state.adminReducer.loggedIn
   };
@@ -77,6 +82,7 @@ const theme = createMuiTheme({
 const styles = {
   container: {
     height: '100vh',
+    boxSizing: 'border-box' as 'border-box',
     backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'column' as 'column'

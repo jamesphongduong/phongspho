@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { TextField, Button } from '../';
-import { Container as MaterialContainer } from '@material-ui/core';
+import { CustomTextField, CustomButton } from '../';
+import { Container } from '@material-ui/core';
 import {
   stringIsOnlyWhiteSpace,
   checkFileType,
@@ -16,10 +16,9 @@ import { postPhoto } from '../../api';
 import { Image } from '../';
 import { S3response, fileOrUndefined, InputValidation } from '../../types';
 
-// type Props = RouteComponentProps<{}>; // possible refactor
-type Props = {};
+interface _UploadProps {}
 
-interface State {
+interface _UploadState {
   captionInput: string;
   fileInput: fileOrUndefined;
   captionInputValid: InputValidation;
@@ -28,14 +27,16 @@ interface State {
   show: boolean;
 }
 
-class _Upload extends PureComponent<Props & RouteComponentProps<{}>, State> {
-  constructor(props) {
+type Props = _UploadProps & RouteComponentProps<{}>;
+
+class _Upload extends PureComponent<Props, _UploadState> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       captionInput: '',
       fileInput: undefined,
-      captionInputValid: InputValidation.Empty,
-      fileInputValid: InputValidation.Empty,
+      captionInputValid: 'Empty',
+      fileInputValid: 'Empty',
       showValidations: false,
       show: true
     };
@@ -50,14 +51,12 @@ class _Upload extends PureComponent<Props & RouteComponentProps<{}>, State> {
 
   validateFormInputs = (): boolean => {
     const { captionInput, fileInput } = this.state;
+    if (!fileInput) return false;
     const captionInputValid =
-      stringIsOnlyWhiteSpace(captionInput) === true
-        ? InputValidation.Empty
-        : InputValidation.Valid;
+      stringIsOnlyWhiteSpace(captionInput) === true ? 'Empty' : 'Valid';
     const fileInputValid = checkFileType(fileInput);
     const formValid =
-      captionInputValid === InputValidation.Valid &&
-      fileInputValid === InputValidation.Valid;
+      captionInputValid === 'Valid' && fileInputValid === 'Valid';
 
     if (!formValid) {
       this.setState(
@@ -93,7 +92,7 @@ class _Upload extends PureComponent<Props & RouteComponentProps<{}>, State> {
           postPhoto(postData)
             .then(() => {
               alertSuccessful();
-              history.push('/gallery');
+              history.push('/');
             })
             .catch((err) => alert(err));
         })
@@ -122,48 +121,44 @@ class _Upload extends PureComponent<Props & RouteComponentProps<{}>, State> {
     } = this.state;
 
     return (
-      <div>
-        <TextField
+      <Container maxWidth="xs">
+        <CustomTextField
           id="captionInput"
           label="Caption"
           handleInput={this.onInputChange}
           value={captionInput}
           helperText={REQUIRED_FIELD_TEXT}
-          invalid={
-            showValidations && captionInputValid !== InputValidation.Valid
-          }
+          invalid={showValidations && captionInputValid !== 'Valid'}
         />
-        <TextField
+        <CustomTextField
           label="File"
           id="fileInput"
           type="file"
           helperText={
-            fileInputValid === InputValidation.Empty
+            fileInputValid === 'Empty'
               ? REQUIRED_FIELD_TEXT
               : FILE_UPLOAD_VALIDATION_TEXT
           }
-          invalid={showValidations && fileInputValid !== InputValidation.Valid}
+          invalid={showValidations && fileInputValid !== 'Valid'}
           required
           handleInput={this.localFileUpload}
         />
-        <Button
+        <CustomButton
           onClick={this.postPhoto}
           color="secondary"
           label="Submit"
           fullWidth
         />
-      </div>
+      </Container>
     );
   };
 
   render(): JSX.Element {
     return (
-      <MaterialContainer maxWidth="xs">
-        <div style={styles.contentContainer}>
-          <Image src="/upload.svg" />
-          {this.renderForm()}
-        </div>
-      </MaterialContainer>
+      <div style={styles.contentContainer}>
+        <Image src="/upload.svg" alt="upload" />
+        {this.renderForm()}
+      </div>
     );
   }
 }
@@ -174,6 +169,7 @@ const styles = {
   contentContainer: {
     display: 'flex',
     flexDirection: 'column' as 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: '100%'
   }
 };

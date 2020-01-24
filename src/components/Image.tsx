@@ -2,17 +2,20 @@ import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { imageSize } from '../types';
 
-interface Props {
+interface ImageProps {
   src: string;
   size: imageSize;
+  style?: object;
+  alt: string;
 }
 
-export const Image = (props: Props): JSX.Element => {
+export const Image = (props: ImageProps): JSX.Element => {
   const classes = useStyles();
-  const { src, size } = props;
+  const { src, size, ...other } = props;
 
   return (
     <img
+      {...other}
       src={src}
       className={size === 'icon' ? classes.icon : classes.banner}
     />
@@ -26,8 +29,8 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '25px'
     },
     banner: {
-      height: '25vw',
-      width: '25vw'
+      height: 350,
+      width: 350
     }
   })
 );

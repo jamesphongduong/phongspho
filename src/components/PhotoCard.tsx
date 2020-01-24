@@ -1,51 +1,54 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Edit } from '@material-ui/icons';
-import { Card, CardMedia, Fab } from '@material-ui/core';
-import { deletePhoto } from '../api';
-import { Photo, numOrNull } from '../types';
-import { Button } from './Button';
-import { TextField } from './TextField';
+import { Delete } from '@material-ui/icons';
+import { Card, CardMedia, Fab, TextField } from '@material-ui/core';
+import { CustomTextField } from './';
+import { Photo, numOrNull, RootState } from '../types';
 import { putPhoto } from '../api';
+import {
+  updateHoveredPhotoId,
+  removeHoveredPhotoId,
+  toggleEdit
+} from '../redux/actions';
+import { connect } from 'react-redux';
+import { alertConfirm, alertSuccessful } from '../utils';
 
-interface Props extends Photo {
-  onPhotoHover(id: numOrNull): void;
-  onCaptionEdit(id: number, input: string): void;
-  showCaption: boolean;
+interface PhotoProps extends Photo {
+  editMode: boolean;
+  onCaptionEdit: (id: number, input: string) => void;
   autoFocus: boolean;
+  toggleEdit: () => void;
+  onEditMade: (id: number) => void;
+  onDeleteMade: (id: number) => void;
 }
 
-export const PhotoCard = (props: Props): JSX.Element => {
+type Props = PhotoProps & linkStateProps;
+
+const _PhotoCard = (props: Props): JSX.Element => {
   const {
     captionInput,
     imageURL,
     id,
-    onPhotoHover,
-    showCaption,
     onCaptionEdit,
-    autoFocus
+    autoFocus,
+    editMode,
+    onEditMade,
+    onDeleteMade
   } = props;
   const classes = useStyles();
-
-  const onHover = (): void => {
-    if (id) onPhotoHover(id);
-  };
-
-  const onHoverOut = (): void => {
-    onPhotoHover(null);
-  };
-
-  const onDelete = (): void => {
-    deletePhoto(id)
-      .then(() => alert('deleted'))
-      .catch((err) => alert(err));
-  };
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const {
       target: { value }
     } = e;
-    if (id) onCaptionEdit(id, value);
+    if (id) {
+      onCaptionEdit(id, value);
+      onEditMade(id);
+    }
+  };
+
+  const onDelete = (): void => {
+    if (id) onDeleteMade(id);
   };
 
   const onSave = (): void => {
@@ -55,44 +58,73 @@ export const PhotoCard = (props: Props): JSX.Element => {
     };
     if (id) {
       putPhoto(id, postData)
-        .then(() => alert('putted'))
+        .then(() => {
+          alert('putted');
+          // onEditMade(false, id);
+        })
         .catch((err) => alert(err));
     }
   };
 
-  const renderEditButton = (): JSX.Element => {
+  const renderDeleteButton = (): JSX.Element => {
     return (
       <Fab
-        onClick={() => console.log('cheers')}
+        onClick={onDelete}
         color="secondary"
-        aria-label="edit"
+        aria-label="delete"
+        size="medium"
       >
-        <Edit />
+        <Delete />
       </Fab>
     );
   };
 
   return (
     <Card className={classes.card} raised>
-      <div onMouseOver={onHover} onMouseOut={onHoverOut}>
-        <div
-          className={showCaption ? classes.showCaption : classes.hideCaption}
-        >
-          {renderEditButton()}
-          <TextField
-            id="captionInput"
-            value={captionInput}
-            handleInput={onInputChange}
-            autoFocus={autoFocus}
-          />
-          <Button label="Save caption" color="primary" onClick={onSave} />
-          <Button label="Delete photo" color="primary" onClick={onDelete} />
+      <div>
+        <div className={editMode ? classes.editButtonContainer : classes.hide}>
+          {renderDeleteButton()}
         </div>
         <CardMedia className={classes.media} image={imageURL} />
       </div>
+      <CustomTextField
+        style={{ marginBottom: '0px' }}
+        id="captionInput"
+        fullWidth
+        multiline
+        value={captionInput}
+        handleInput={onInputChange}
+        autoFocus={autoFocus}
+        InputProps={
+          !editMode
+            ? {
+                readOnly: true,
+                disableUnderline: true
+              }
+            : {}
+        }
+      />
     </Card>
   );
 };
+
+const actionCreators = {
+  updateHoveredPhotoId,
+  removeHoveredPhotoId,
+  toggleEdit
+};
+
+interface linkStateProps {
+  photoIdHovered: numOrNull;
+}
+
+const mapStateToProps = (state: RootState): linkStateProps => {
+  return {
+    photoIdHovered: state.galleryReducer.photoIdHovered
+  };
+};
+
+export const PhotoCard = connect(mapStateToProps, actionCreators)(_PhotoCard);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -102,27 +134,32 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'space-between'
     },
     card: {
-      // maxWidth: 345
       position: 'relative',
       margin: 16,
       padding: 16,
       overflow: 'visible'
     },
     media: {
-      height: 500,
-      width: 500
+      minHeight: 350,
+      minWidth: 350
     },
     hideCaption: {
       display: 'none'
     },
-    showCaption: {
-      display: 'flex',
+    editButtonContainer: {
       position: 'absolute',
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
+      right: '25px',
+      top: '25px'
+      // display: 'flex',
+      // position: 'absolute',
+      // left: '50%',
+      // top: '50%',
+      // transform: 'translate(-50%, -50%)',
       //
-      flexDirection: 'column'
+      // flexDirection: 'column'
+    },
+    hide: {
+      display: 'none'
     }
   })
 );

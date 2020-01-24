@@ -1,22 +1,23 @@
 import React from 'react';
-import {
-  AppBar as MaterialAppBar,
-  Toolbar as MaterialToolBar
-} from '@material-ui/core';
-import { Button, Image } from './';
+import { AppBar, Toolbar } from '@material-ui/core';
+import { CustomButton, Image } from './';
 import shortid from 'shortid';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { NavbarItem } from '../types';
+import { NavbarItem, LogoutAction } from '../types';
 import { connect } from 'react-redux';
 import { logoutAdmin } from '../redux/actions';
 import { removeLoggedInLocalStorage } from '../utils';
+import { RootState } from '../types';
+import { Dispatch } from 'redux';
 
-interface Props {
+interface _NavbarProps {
   items: NavbarItem[];
-  logoutAdmin(): any;
+  logoutAdmin: () => void;
   loggedIn: boolean;
 }
+
+type Props = _NavbarProps & LinkStateProps & LinkDispatchProps;
 
 const _Navbar = (props: Props): JSX.Element => {
   const classes = useStyles();
@@ -32,7 +33,7 @@ const _Navbar = (props: Props): JSX.Element => {
             to={`${route}`}
             key={shortid.generate()}
           >
-            <Button color="secondary" label={label} variant="text" />
+            <CustomButton color="secondary" label={label} variant="text" />
           </Link>
         );
       }
@@ -42,7 +43,7 @@ const _Navbar = (props: Props): JSX.Element => {
   const renderNewDishButton = (): JSX.Element => {
     return (
       <Link className={classes.link} to="/upload">
-        <Button color="secondary" label="Upload" />
+        <CustomButton color="secondary" label="Upload" />
       </Link>
     );
   };
@@ -53,30 +54,38 @@ const _Navbar = (props: Props): JSX.Element => {
   };
 
   return (
-    <MaterialAppBar position="static">
-      <MaterialToolBar className={classes.container}>
+    <AppBar position="static">
+      <Toolbar className={classes.container}>
         <div>
-          <Image src={'/camera.svg'} size="icon" />
+          <Image src={'/camera.svg'} size="icon" alt="camera" />
         </div>
         <div>
           {loggedIn && renderNewDishButton()}
           {renderItems()}
           {loggedIn && (
-            <Button label="Log out" onClick={onLogOut} variant="text" />
+            <CustomButton label="Log out" onClick={onLogOut} variant="text" />
           )}
         </div>
-      </MaterialToolBar>
-    </MaterialAppBar>
+      </Toolbar>
+    </AppBar>
   );
 };
 
-const mapStateToProps = (state) => {
+interface LinkStateProps {
+  loggedIn: boolean;
+}
+
+const mapStateToProps = (state: RootState): LinkStateProps => {
   return {
     loggedIn: state.adminReducer.loggedIn
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+interface LinkDispatchProps {
+  logoutAdmin: () => LogoutAction;
+}
+
+const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchProps => {
   return {
     logoutAdmin: () => dispatch(logoutAdmin())
   };

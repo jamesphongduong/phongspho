@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Typography as MaterialTypography, Container } from '@material-ui/core';
-import { Button, TextField, Image } from '../';
+import { Box, InputAdornment, Container } from '@material-ui/core';
+import { CustomButton, CustomTextField, Image } from '../';
 import { RouteComponentProps, withRouter } from 'react-router';
 import {
   AccountCircle,
@@ -9,20 +9,23 @@ import {
   VisibilityOff
 } from '@material-ui/icons';
 import { loginAdmin } from '../../redux/actions';
+import { alertUnsuccessful } from '../../utils/';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { setLoggedInLocalStorage } from '../../utils';
+import { LoginAction } from '../../types';
 
-type Props = {
-  loginAdmin(): void;
-};
+interface _LoginProps {}
 
-interface State {
+interface _LoginState {
   passwordInput: string;
   showPassword: boolean;
 }
 
-class _Login extends PureComponent<Props & RouteComponentProps<{}>, State> {
-  constructor(props) {
+type Props = _LoginProps & RouteComponentProps & linkDispatchProps; // possible refactor on routecomponentprops
+
+class _Login extends PureComponent<Props, _LoginState> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       passwordInput: '',
@@ -30,17 +33,15 @@ class _Login extends PureComponent<Props & RouteComponentProps<{}>, State> {
     };
   }
 
-  onLogin = (): void => {
-    const { loginAdmin } = this.props;
+  onLogin = (): any => {
+    const { loginAdmin, history } = this.props;
+    const { passwordInput } = this.state;
+
+    if (passwordInput !== 'password') return alertUnsuccessful();
 
     loginAdmin();
     setLoggedInLocalStorage();
-    // const { history } = this.props;
-    // const { passwordInput } = this.state;
-    // if (passwordInput === 'password') {
-    //   alert('succesful');
-    //   history.push('/gallery');
-    // }
+    history.push('/');
   };
 
   onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -61,30 +62,44 @@ class _Login extends PureComponent<Props & RouteComponentProps<{}>, State> {
 
     return (
       <div style={styles.container}>
-        <Image src={'/login.svg'} />
+        <Image src={'/login.svg'} alt="login" style={styles.imageContainer} />
         <Container maxWidth="xs">
-          <TextField
+          <CustomTextField
             id="loginInput"
-            preIcon={<AccountCircle />}
-            value="Phong"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircle />
+                </InputAdornment>
+              )
+            }}
+            value="admin"
             handleInput={this.onInputChange}
             disabled
           />
-          <TextField
+          <CustomTextField
             type={showPassword ? 'text' : 'password'}
             id="passwordInput"
-            preIcon={<Lock />}
-            postIcon={
-              showPassword ? (
-                <Visibility onClick={this.toggleShowPassword} />
-              ) : (
-                <VisibilityOff onClick={this.toggleShowPassword} />
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="start">
+                  {showPassword ? (
+                    <Visibility onClick={this.toggleShowPassword} />
+                  ) : (
+                    <VisibilityOff onClick={this.toggleShowPassword} />
+                  )}
+                </InputAdornment>
               )
-            }
+            }}
             value={passwordInput}
             handleInput={this.onInputChange}
           />
-          <Button
+          <CustomButton
             fullWidth
             label="Log in"
             color="primary"
@@ -97,23 +112,27 @@ class _Login extends PureComponent<Props & RouteComponentProps<{}>, State> {
   }
 }
 
-const actionCreators = {
-  loginAdmin
+interface linkDispatchProps {
+  loginAdmin: () => LoginAction;
+}
+
+const mapDispatchToProps = (dispatch: Dispatch): linkDispatchProps => {
+  return {
+    loginAdmin: () => dispatch(loginAdmin())
+  };
 };
 
-export const Login = connect(null, actionCreators)(withRouter(_Login));
+export const Login = connect(null, mapDispatchToProps)(withRouter(_Login));
 
 const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column' as 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    height: '100%'
+    height: '100%',
+    justifyContent: 'center'
   },
-  img: {
-    width: '25%',
-    height: '25%',
-    marginBottom: '80px'
+  imageContainer: {
+    marginBottom: 40
   }
 };
