@@ -143,8 +143,8 @@ const useStyles = makeStyles((theme: Theme) =>
       alignSelf: 'flex-start'
     },
     media: {
-      minHeight: 350,
-      minWidth: 350
+      minHeight: 300,
+      minWidth: 300
     },
     hideCaption: {
       display: 'none'

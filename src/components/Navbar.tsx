@@ -10,6 +10,8 @@ import { logoutAdmin } from '../redux/actions';
 import { removeLoggedInLocalStorage } from '../utils';
 import { RootState } from '../types';
 import { Dispatch } from 'redux';
+import { alertSuccessful } from '../utils';
+import { SweetAlertResult } from 'sweetalert2';
 
 interface _NavbarProps {
   items: NavbarItem[];
@@ -48,9 +50,10 @@ const _Navbar = (props: Props): JSX.Element => {
     );
   };
 
-  const onLogOut = (): void => {
+  const onLogOut = (): Promise<SweetAlertResult> => {
     logoutAdmin();
     removeLoggedInLocalStorage();
+    return alertSuccessful('Successfully logged out.');
   };
 
   return (

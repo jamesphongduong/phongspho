@@ -60,8 +60,8 @@ export default connect(mapStateToProps)(App);
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: colors.main, contrastText: '#f44336' },
-    secondary: { main: colors.action }
+    primary: { main: colors.main },
+    secondary: { main: colors.secondary }
   },
   typography: {
     fontFamily: [

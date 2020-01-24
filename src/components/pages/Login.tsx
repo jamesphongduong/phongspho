@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { InputAdornment, Container } from '@material-ui/core';
+import { InputAdornment, Container, Typography, Box } from '@material-ui/core';
 import { SweetAlertResult } from 'sweetalert2';
 import { CustomButton, CustomTextField, Image } from '../';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setLoggedInLocalStorage } from '../../utils';
 import { LoginAction } from '../../types';
+import { app } from '../../styles';
 
 interface _LoginProps {}
 
@@ -64,9 +65,12 @@ class _Login extends PureComponent<Props, _LoginState> {
     const { passwordInput, showPassword } = this.state;
 
     return (
-      <div style={styles.container}>
-        <Image src={'/login.svg'} alt="login" style={styles.imageContainer} />
-        <Container maxWidth="xs">
+      <Box px={16} style={app.splitContainer}>
+        <Image src={'/login.svg'} alt="login" />
+        <div>
+          <Typography variant="h2" gutterBottom style={app.headingStyle}>
+            Login
+          </Typography>
           <CustomTextField
             id="loginInput"
             InputProps={{
@@ -104,13 +108,13 @@ class _Login extends PureComponent<Props, _LoginState> {
           />
           <CustomButton
             fullWidth
-            label="Log in"
-            color="primary"
+            label="Login"
+            color="secondary"
             onClick={this.onLogin}
             size="large"
           />
-        </Container>
-      </div>
+        </div>
+      </Box>
     );
   }
 }
@@ -127,15 +131,15 @@ const mapDispatchToProps = (dispatch: Dispatch): linkDispatchProps => {
 
 export const Login = connect(null, mapDispatchToProps)(withRouter(_Login));
 
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column' as 'column',
-    alignItems: 'center',
-    height: '100%',
-    justifyContent: 'center'
-  },
-  imageContainer: {
-    marginBottom: 40
-  }
-};
+// const styles = {
+//   container: {
+//     display: 'flex',
+//     flexDirection: 'column' as 'column',
+//     alignItems: 'center',
+//     height: '100%',
+//     justifyContent: 'center'
+//   },
+//   imageContainer: {
+//     marginBottom: 40
+//   }
+// };
