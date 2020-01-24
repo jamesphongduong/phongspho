@@ -5,7 +5,7 @@ import { app } from '../../styles';
 
 export const About = (): JSX.Element => {
   return (
-    <Box px={16} style={styles.container}>
+    <Box px={16} style={app.splitContainer}>
       <Image src={'./about.svg'} alt="about" />
       <div>
         <Typography variant="h2" gutterBottom style={app.headingStyle}>
@@ -29,13 +29,4 @@ export const About = (): JSX.Element => {
       </div>
     </Box>
   );
-};
-
-const styles = {
-  container: {
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center'
-  }
 };

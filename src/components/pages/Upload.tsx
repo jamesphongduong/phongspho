@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
+import { Typography } from '@material-ui/core';
 import { CustomTextField, CustomButton } from '../';
-import { Container } from '@material-ui/core';
+import { Container, Box } from '@material-ui/core';
 import {
   stringIsOnlyWhiteSpace,
   checkFileType,
@@ -10,6 +11,7 @@ import {
 } from '../../utils';
 import { FILE_UPLOAD_VALIDATION_TEXT, REQUIRED_FIELD_TEXT } from '../../utils';
 import ReactS3 from 'react-s3';
+import { app } from '../../styles';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { S3Config } from '../../config';
 import { postPhoto } from '../../api';
@@ -63,46 +65,15 @@ class _Upload extends PureComponent<Props, _UploadState> {
         : 'Valid'
     });
     if (fileInput)
-      this.setState(
-        {
-          fileInputValid: checkFileType(fileInput)
-        },
-        () => console.log('this.state', this.state)
-      );
+      this.setState({
+        fileInputValid: checkFileType(fileInput)
+      });
     if (captionInputValid !== 'Valid' && fileInputValid !== 'Valid') {
       this.setState({ showValidations: true });
       return false;
     }
-    console.log('good to upload');
     return true;
   };
-
-  // validateFormInputs = (): boolean => {
-  //   console.log('validateFormInputs');
-  //   const { captionInput, fileInput } = this.state;
-  //   if (!fileInput) return false;
-  //   const captionInputValid =
-  //     stringIsOnlyWhiteSpace(captionInput) === true ? 'Empty' : 'Valid';
-  //   const fileInputValid = checkFileType(fileInput);
-  //   const formValid =
-  //     captionInputValid === 'Valid' && fileInputValid === 'Valid';
-
-  //   if (!formValid) {
-  //     console.log('cmon');
-  //     this.setState(
-  //       {
-  //         captionInputValid,
-  //         fileInputValid,
-  //         showValidations: true
-  //       },
-  //       () => {
-  //         setInterval(() => this.setState({ showValidations: false }), 2000);
-  //       }
-  //     );
-  //     return false;
-  //   }
-  //   return true;
-  // };
 
   postPhoto = (): void => {
     const { captionInput } = this.state;
@@ -152,7 +123,7 @@ class _Upload extends PureComponent<Props, _UploadState> {
     } = this.state;
 
     return (
-      <Container maxWidth="xs">
+      <Container maxWidth="xs" style={{ padding: 0 }}>
         <CustomTextField
           id="captionInput"
           label="Caption"
@@ -186,21 +157,17 @@ class _Upload extends PureComponent<Props, _UploadState> {
 
   render(): JSX.Element {
     return (
-      <div style={styles.contentContainer}>
+      <Box px={16} style={app.splitContainer}>
         <Image src="/upload.svg" alt="upload" />
-        {this.renderForm()}
-      </div>
+        <div>
+          <Typography variant="h2" gutterBottom style={app.headingStyle}>
+            Upload
+          </Typography>
+          {this.renderForm()}
+        </div>
+      </Box>
     );
   }
 }
 
 export const Upload = withRouter(_Upload);
-
-const styles = {
-  contentContainer: {
-    display: 'flex',
-    flexDirection: 'column' as 'column',
-    alignItems: 'center',
-    height: '100%'
-  }
-};
