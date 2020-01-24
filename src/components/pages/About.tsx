@@ -27,8 +27,8 @@ export const About = (): JSX.Element => {
         </Typography>
         <br />
         <Typography gutterBottom variant="body1">
-          Illustrations are sourced thanks to
-          <a href="https://undraw.co/"> unDraw</a>
+          Illustrations are sourced thanks to&nbsp;
+          <a href="https://undraw.co/">unDraw</a>
         </Typography>
       </div>
     </Box>

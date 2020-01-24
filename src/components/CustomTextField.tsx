@@ -16,6 +16,8 @@ interface CustomTextFieldProps {
   autoFocus?: boolean;
   fullWidth?: boolean;
   InputProps?: object;
+  maxLength?: any;
+  // maxLength?: string;
 }
 
 export const CustomTextField = (props: CustomTextFieldProps): JSX.Element => {
@@ -40,6 +42,9 @@ export const CustomTextField = (props: CustomTextFieldProps): JSX.Element => {
         e.target.value = val;
       }}
       {...other}
+      inputProps={{
+        maxLength: 2
+      }}
     />
   );
 };
