@@ -5,7 +5,7 @@ import shortid from 'shortid';
 import { numOrUndefined, Photo, RootState } from '../../types';
 import { Fab } from '@material-ui/core';
 import { Edit, Save } from '@material-ui/icons';
-import { filterData, alertSuccessful, alertUnsuccessful } from '../../utils';
+import { filterArray, alertSuccessful, alertUnsuccessful } from '../../utils';
 import { connect } from 'react-redux';
 
 interface _GalleryProps {
@@ -77,7 +77,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
 
   onSave = async (): Promise<void> => {
     const { idsEdited, idsDeleted, photos } = this.state;
-    const idsEditedFiltered = filterData(idsEdited, idsDeleted);
+    const idsEditedFiltered = filterArray(idsEdited, idsDeleted);
     const editPromises = idsEditedFiltered.map((id) => {
       const photo = photos.find((photo) => photo.id === id);
       if (photo) {
