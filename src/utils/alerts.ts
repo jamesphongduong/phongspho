@@ -9,7 +9,7 @@ const successfulOptions = {
 } as SweetAlertOptions;
 
 const unsuccessfulOptions = {
-  title: 'Unsuccesful',
+  title: 'Unsuccessful',
   timer: 2000,
   icon: 'error'
 } as SweetAlertOptions;

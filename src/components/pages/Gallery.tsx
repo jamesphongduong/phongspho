@@ -157,9 +157,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
     return (
       <div>
         {loggedIn && this.renderEditOptions()}
-        <div style={styles.center}>
-          <div style={styles.container}>{this.renderGallery()}</div>
-        </div>
+        <div style={styles.container}>{this.renderGallery()}</div>
       </div>
     );
   }
@@ -181,10 +179,8 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'row' as 'row',
-    flexWrap: 'wrap' as 'wrap'
-  },
-  center: {
+    flexWrap: 'wrap' as 'wrap',
     justifyContent: 'center',
-    display: 'flex'
+    alignItems: 'center'
   }
 };

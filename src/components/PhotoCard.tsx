@@ -103,6 +103,7 @@ const _PhotoCard = (props: Props): JSX.Element => {
               }
             : {}
         }
+        maxLength="2"
       />
     </Card>
   );
@@ -137,7 +138,8 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'relative',
       margin: 16,
       padding: 16,
-      overflow: 'visible'
+      overflow: 'visible',
+      alignSelf: 'flex-start'
     },
     media: {
       minHeight: 350,
