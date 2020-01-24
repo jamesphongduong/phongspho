@@ -11,12 +11,12 @@ interface ImageProps {
 
 export const Image = (props: ImageProps): JSX.Element => {
   const classes = useStyles();
-  const { src, size, ...other } = props;
+  const { size, alt, ...other } = props;
 
   return (
     <img
       {...other}
-      src={src}
+      alt={alt}
       className={size === 'icon' ? classes.icon : classes.banner}
     />
   );

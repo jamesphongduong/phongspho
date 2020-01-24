@@ -11,7 +11,6 @@ import {
   toggleEdit
 } from '../redux/actions';
 import { connect } from 'react-redux';
-import { alertConfirm, alertSuccessful } from '../utils';
 
 interface PhotoProps extends Photo {
   editMode: boolean;
@@ -51,20 +50,20 @@ const _PhotoCard = (props: Props): JSX.Element => {
     if (id) onDeleteMade(id);
   };
 
-  const onSave = (): void => {
-    const postData = {
-      imageURL,
-      captionInput
-    };
-    if (id) {
-      putPhoto(id, postData)
-        .then(() => {
-          alert('putted');
-          // onEditMade(false, id);
-        })
-        .catch((err) => alert(err));
-    }
-  };
+  // const onSave = (): void => {
+  //   const postData = {
+  //     imageURL,
+  //     captionInput
+  //   };
+  //   if (id) {
+  //     putPhoto(id, postData)
+  //       .then(() => {
+  //         alert('putted');
+  //         // onEditMade(false, id);
+  //       })
+  //       .catch((err) => alert(err));
+  //   }
+  // };
 
   const renderDeleteButton = (): JSX.Element => {
     return (

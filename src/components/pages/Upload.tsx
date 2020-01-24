@@ -50,35 +50,65 @@ class _Upload extends PureComponent<Props, _UploadState> {
   };
 
   validateFormInputs = (): boolean => {
-    const { captionInput, fileInput } = this.state;
-    if (!fileInput) return false;
-    const captionInputValid =
-      stringIsOnlyWhiteSpace(captionInput) === true ? 'Empty' : 'Valid';
-    const fileInputValid = checkFileType(fileInput);
-    const formValid =
-      captionInputValid === 'Valid' && fileInputValid === 'Valid';
-
-    if (!formValid) {
+    console.log('validating form');
+    const {
+      captionInput,
+      captionInputValid,
+      fileInput,
+      fileInputValid
+    } = this.state;
+    this.setState({
+      captionInputValid: stringIsOnlyWhiteSpace(captionInput)
+        ? 'Empty'
+        : 'Valid'
+    });
+    if (fileInput)
       this.setState(
         {
-          captionInputValid,
-          fileInputValid,
-          showValidations: true
+          fileInputValid: checkFileType(fileInput)
         },
-        () => {
-          setInterval(() => this.setState({ showValidations: false }), 2000);
-        }
+        () => console.log('this.state', this.state)
       );
+    if (captionInputValid !== 'Valid' && fileInputValid !== 'Valid') {
+      this.setState({ showValidations: true });
       return false;
     }
+    console.log('good to upload');
     return true;
   };
+
+  // validateFormInputs = (): boolean => {
+  //   console.log('validateFormInputs');
+  //   const { captionInput, fileInput } = this.state;
+  //   if (!fileInput) return false;
+  //   const captionInputValid =
+  //     stringIsOnlyWhiteSpace(captionInput) === true ? 'Empty' : 'Valid';
+  //   const fileInputValid = checkFileType(fileInput);
+  //   const formValid =
+  //     captionInputValid === 'Valid' && fileInputValid === 'Valid';
+
+  //   if (!formValid) {
+  //     console.log('cmon');
+  //     this.setState(
+  //       {
+  //         captionInputValid,
+  //         fileInputValid,
+  //         showValidations: true
+  //       },
+  //       () => {
+  //         setInterval(() => this.setState({ showValidations: false }), 2000);
+  //       }
+  //     );
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   postPhoto = (): void => {
     const { captionInput } = this.state;
     const { history } = this.props;
     const formDataValid = this.validateFormInputs();
-
+    console.log('form data valid', formDataValid);
     if (formDataValid) {
       showLoading();
       this.S3FileUpload()
@@ -91,13 +121,14 @@ class _Upload extends PureComponent<Props, _UploadState> {
           };
           postPhoto(postData)
             .then(() => {
-              alertSuccessful();
+              alertSuccessful('Successfully uploaded.');
               history.push('/');
             })
             .catch((err) => alert(err));
         })
         .catch((err) => console.log('err', err));
     }
+    console.log('failed');
   };
 
   localFileUpload = (e: React.ChangeEvent<HTMLInputElement>): void => {

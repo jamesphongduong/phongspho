@@ -5,7 +5,7 @@ import shortid from 'shortid';
 import { numOrUndefined, Photo, RootState } from '../../types';
 import { Fab } from '@material-ui/core';
 import { Edit, Save } from '@material-ui/icons';
-import { filterData } from '../../utils';
+import { filterData, alertSuccessful, alertUnsuccessful } from '../../utils';
 import { connect } from 'react-redux';
 
 interface _GalleryProps {
@@ -92,7 +92,9 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
 
     await Promise.all([editPromises, deletePromises])
       .then((res) => {
+        alertSuccessful('Changes successful.');
         console.log('all promises completed');
+
         this.setState({
           idsEdited: [],
           idsDeleted: [],

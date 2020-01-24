@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { InputAdornment, Container } from '@material-ui/core';
+import { SweetAlertResult } from 'sweetalert2';
 import { CustomButton, CustomTextField, Image } from '../';
 import { RouteComponentProps, withRouter } from 'react-router';
 import {
@@ -9,7 +10,7 @@ import {
   VisibilityOff
 } from '@material-ui/icons';
 import { loginAdmin } from '../../redux/actions';
-import { alertUnsuccessful } from '../../utils/';
+import { alertUnsuccessful, alertSuccessful } from '../../utils/';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setLoggedInLocalStorage } from '../../utils';
@@ -33,7 +34,7 @@ class _Login extends PureComponent<Props, _LoginState> {
     };
   }
 
-  onLogin = (): any => {
+  onLogin = (): Promise<SweetAlertResult> => {
     const { loginAdmin, history } = this.props;
     const { passwordInput } = this.state;
 
@@ -43,6 +44,7 @@ class _Login extends PureComponent<Props, _LoginState> {
     loginAdmin();
     setLoggedInLocalStorage();
     history.push('/');
+    return alertSuccessful('Successfully logged in as admin.');
   };
 
   onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {

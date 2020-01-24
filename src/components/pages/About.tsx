@@ -1,13 +1,14 @@
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
 import { Image } from '../Image';
+import { app } from '../../styles';
 
 export const About = (): JSX.Element => {
   return (
     <Box px={16} style={styles.container}>
       <Image src={'./about.svg'} alt="about" />
       <div>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h2" gutterBottom style={app.headingStyle}>
           About
         </Typography>
         <Typography gutterBottom variant="body1">
@@ -16,19 +17,14 @@ export const About = (): JSX.Element => {
         </Typography>
         <br />
         <Typography gutterBottom variant="body1">
-          Technology used to build this website are: <br /> React / Redux /
-          JavaScript / Typescript / Jest
-        </Typography>
-
-        <Typography gutterBottom variant="body1">
-          <a href="https://github.com/jamesphongduong/phongsphotos">
-            Github Repo
-          </a>
+          Illustrations are sourced thanks to&nbsp;
+          <a href="https://undraw.co/">unDraw</a>
         </Typography>
         <br />
         <Typography gutterBottom variant="body1">
-          Illustrations are sourced thanks to&nbsp;
-          <a href="https://undraw.co/">unDraw</a>
+          <a href="https://github.com/jamesphongduong/phongsphotos">
+            Github Repository
+          </a>
         </Typography>
       </div>
     </Box>
