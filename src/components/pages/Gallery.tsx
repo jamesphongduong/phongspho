@@ -38,6 +38,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
 
   componentDidMount(): void {
     getPhotos().then((res) => {
+      console.log('res', res);
       this.setState({ photos: res.data });
     });
   }
@@ -134,7 +135,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
 
   renderGallery = (): JSX.Element[] | JSX.Element => {
     const { photos, editCaptionId, editMode, editMade, idsEdited } = this.state;
-
+    console.log('photos', photos);
     if (photos.length < 1) {
       return <div />;
     } else {

@@ -3,7 +3,7 @@ import { Photo } from '../types';
 
 //  GET REQS
 export const getPhotos = (): AxiosPromise => {
-  return axios.get(`${process.env.API}/photos/`);
+  return axios.get(`${process.env.REACT_APP_API}/photos/`);
 };
 
 // POST REQS
@@ -14,7 +14,7 @@ export const postPhoto = (data: Photo): AxiosPromise => {
     imageURL
   };
 
-  return axios.post(`${process.env.API}/photos/`, postData);
+  return axios.post(`${process.env.REACT_APP_API}/photos/`, postData);
 };
 
 // PUT / PATCH REQS
@@ -25,10 +25,10 @@ export const putPhoto = (id: number, data: Photo): AxiosPromise => {
     imageURL
   };
 
-  return axios.put(`${process.env.API}/photos/${id}`, putData);
+  return axios.put(`${process.env.REACT_APP_API}/photos/${id}`, putData);
 };
 
 // DELETE REQS
 export const deletePhoto = (id: number): AxiosPromise => {
-  return axios.delete(`${process.env.API}/photos/${id}`);
+  return axios.delete(`${process.env.REACT_APP_API}/photos/${id}`);
 };
