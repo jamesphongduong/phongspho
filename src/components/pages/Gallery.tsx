@@ -135,25 +135,27 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
   renderGallery = (): JSX.Element[] | JSX.Element => {
     const { photos, editCaptionId, editMode, editMade, idsEdited } = this.state;
 
-    if (photos.length < 1) return <div />;
-
-    return photos.map(
-      (photo: Photo): JSX.Element => {
-        return (
-          <PhotoCard
-            onEditMade={this.onEditMade}
-            onCaptionEdit={this.onPhotoCaptionEdit}
-            onDeleteMade={this.onPhotoDelete}
-            editMode={editMode}
-            key={shortid.generate()}
-            captionInput={photo.captionInput}
-            imageURL={photo.imageURL}
-            id={photo.id}
-            autoFocus={editCaptionId === photo.id}
-          />
-        );
-      }
-    );
+    if (photos.length < 1) {
+      return <div />;
+    } else {
+      return photos.map(
+        (photo: Photo): JSX.Element => {
+          return (
+            <PhotoCard
+              onEditMade={this.onEditMade}
+              onCaptionEdit={this.onPhotoCaptionEdit}
+              onDeleteMade={this.onPhotoDelete}
+              editMode={editMode}
+              key={shortid.generate()}
+              captionInput={photo.captionInput}
+              imageURL={photo.imageURL}
+              id={photo.id}
+              autoFocus={editCaptionId === photo.id}
+            />
+          );
+        }
+      );
+    }
   };
 
   render(): JSX.Element {
