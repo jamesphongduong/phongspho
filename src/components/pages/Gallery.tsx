@@ -132,8 +132,11 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
     );
   };
 
-  renderGallery = (): JSX.Element[] => {
+  renderGallery = (): JSX.Element[] | JSX.Element => {
     const { photos, editCaptionId, editMode, editMade, idsEdited } = this.state;
+
+    if (photos.length < 1) return <div />;
+
     return photos.map(
       (photo: Photo): JSX.Element => {
         return (
