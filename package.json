@@ -2,10 +2,6 @@
   "name": "phongspho",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "npm": "6.12.0",
-    "node": "12.13.0"
-  },
   "dependencies": {
     "@material-ui/core": "^4.6.1",
     "@material-ui/icons": "^4.5.1",
