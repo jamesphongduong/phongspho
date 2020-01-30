@@ -6,6 +6,11 @@ export const getPhotos = (): AxiosPromise => {
   return axios.get(`${process.env.REACT_APP_API}/photos/`);
 };
 
+// get PHOTO ALBUMNS
+export const getAlbums = (): AxiosPromise => {
+  return axios.get(`${process.env.REACT_APP_API}/albums/`);
+};
+
 // POST REQS
 export const postPhoto = (data: Photo): AxiosPromise => {
   const { captionInput, imageURL } = data;

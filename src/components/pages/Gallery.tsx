@@ -1,6 +1,6 @@
 import React, { Fragment, PureComponent } from 'react';
 import { PhotoCard } from '..';
-import { getPhotos, putPhoto, deletePhoto } from '../../api';
+import { getPhotos, putPhoto, deletePhoto, getAlbums } from '../../api';
 import shortid from 'shortid';
 import { numOrUndefined, Photo, RootState } from '../../types';
 import { Fab, Tabs, Tab } from '@material-ui/core';
@@ -20,15 +20,17 @@ interface _GalleryState {
   idsEdited: number[];
   idsDeleted: number[];
   albumSelected: number;
+  albums: string[];
 }
 
 type Props = _GalleryProps & LinkStateProps;
 
-const albumOptions = ['Vietnam', 'India'];
+// const albumOptions = ['Vietnam', 'India'];
 
 class _Gallery extends PureComponent<Props, _GalleryState> {
   constructor(props: Props) {
     super(props);
+    console.log('here2');
     this.state = {
       photos: [],
       editCaptionId: undefined,
@@ -36,6 +38,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
       editMade: false,
       idsEdited: [],
       idsDeleted: [],
+      albums: [],
       albumSelected: 0
     };
   }
@@ -45,6 +48,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
       console.log('res', res);
       this.setState({ photos: res.data });
     });
+    getAlbums().then((res) => this.setState({ albums: res.data }));
   }
 
   onPhotoCaptionEdit = (id: number, input: string): void => {
@@ -138,7 +142,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
   };
 
   renderAlbumOptions = (): JSX.Element => {
-    const { albumSelected } = this.state;
+    const { albumSelected, albums } = this.state;
     return (
       <Tabs
         value={albumSelected}
@@ -146,7 +150,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
         aria-label="simple tabs example"
         style={styles.tabsContainer}
       >
-        {albumOptions.map((option) => (
+        {albums.map((option) => (
           <Tab label={option} />
         ))}
       </Tabs>
@@ -154,14 +158,21 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
   };
 
   renderGallery = (): JSX.Element[] | JSX.Element => {
-    const { photos, editCaptionId, editMode, albumSelected } = this.state;
+    const {
+      photos,
+      editCaptionId,
+      editMode,
+      albumSelected,
+      albums
+    } = this.state;
     console.log('photos', photos);
     // if (photos.length < 1) {
     //   return <div />;
     // } else {
     const filteredPhotos = photos.filter(
-      (photo) => photo.album === albumOptions[albumSelected]
+      (photo) => photo.album === albums[albumSelected]
     );
+    console.log('filteredPhotos', filteredPhotos);
 
     return filteredPhotos.map(
       (photo: Photo): JSX.Element => {
