@@ -48,7 +48,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
       console.log('res', res);
       this.setState({ photos: res.data });
     });
-    getAlbums().then((res) => this.setState({ albums: res.data }));
+    getAlbums().then((res) => this.setState({ albums: res.data.sort() }));
   }
 
   onPhotoCaptionEdit = (id: number, input: string): void => {
