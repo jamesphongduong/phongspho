@@ -23,6 +23,7 @@ interface _UploadProps {}
 interface _UploadState {
   captionInput: string;
   fileInput: fileOrUndefined;
+  album: string;
   captionInputValid: InputValidation;
   fileInputValid: InputValidation;
   showValidations: boolean;
@@ -36,6 +37,7 @@ class _Upload extends PureComponent<Props, _UploadState> {
     super(props);
     this.state = {
       captionInput: '',
+      album: '',
       fileInput: undefined,
       captionInputValid: 'Empty',
       fileInputValid: 'Empty',
@@ -76,7 +78,7 @@ class _Upload extends PureComponent<Props, _UploadState> {
   };
 
   postPhoto = (): void => {
-    const { captionInput } = this.state;
+    const { captionInput, album } = this.state;
     const { history } = this.props;
     const formDataValid = this.validateFormInputs();
     console.log('form data valid', formDataValid);
@@ -88,7 +90,8 @@ class _Upload extends PureComponent<Props, _UploadState> {
 
           const postData = {
             captionInput,
-            imageURL
+            imageURL,
+            album
           };
           postPhoto(postData)
             .then(() => {

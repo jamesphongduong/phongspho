@@ -16,6 +16,7 @@ export interface Photo {
   captionInput: string;
   id?: number;
   imageURL: string;
+  album: string;
 }
 
 export interface S3response {

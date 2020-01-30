@@ -3,7 +3,7 @@ import { PhotoCard } from '..';
 import { getPhotos, putPhoto, deletePhoto } from '../../api';
 import shortid from 'shortid';
 import { numOrUndefined, Photo, RootState } from '../../types';
-import { Fab } from '@material-ui/core';
+import { Fab, Tabs, Tab } from '@material-ui/core';
 import { Edit, Save } from '@material-ui/icons';
 import { filterArray, alertSuccessful, alertUnsuccessful } from '../../utils';
 import { connect } from 'react-redux';
@@ -19,9 +19,12 @@ interface _GalleryState {
   editMade: boolean;
   idsEdited: number[];
   idsDeleted: number[];
+  albumSelected: number;
 }
 
 type Props = _GalleryProps & LinkStateProps;
+
+const albumOptions = ['Vietnam', 'India'];
 
 class _Gallery extends PureComponent<Props, _GalleryState> {
   constructor(props: Props) {
@@ -32,7 +35,8 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
       editMode: false,
       editMade: false,
       idsEdited: [],
-      idsDeleted: []
+      idsDeleted: [],
+      albumSelected: 0
     };
   }
 
@@ -82,8 +86,8 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
     const editPromises = idsEditedFiltered.map((id) => {
       const photo = photos.find((photo) => photo.id === id);
       if (photo) {
-        const { captionInput, imageURL } = photo;
-        putPhoto(id, { captionInput, imageURL });
+        const { captionInput, imageURL, album } = photo;
+        putPhoto(id, { captionInput, imageURL, album });
       }
     });
 
@@ -133,30 +137,51 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
     );
   };
 
+  renderAlbumOptions = (): JSX.Element => {
+    const { albumSelected } = this.state;
+    return (
+      <Tabs
+        value={albumSelected}
+        onChange={(e, newValue) => this.setState({ albumSelected: newValue })}
+        aria-label="simple tabs example"
+        style={styles.tabsContainer}
+      >
+        {albumOptions.map((option) => (
+          <Tab label={option} />
+        ))}
+      </Tabs>
+    );
+  };
+
   renderGallery = (): JSX.Element[] | JSX.Element => {
-    const { photos, editCaptionId, editMode, editMade, idsEdited } = this.state;
+    const { photos, editCaptionId, editMode, albumSelected } = this.state;
     console.log('photos', photos);
-    if (photos.length < 1) {
-      return <div />;
-    } else {
-      return photos.map(
-        (photo: Photo): JSX.Element => {
-          return (
-            <PhotoCard
-              onEditMade={this.onEditMade}
-              onCaptionEdit={this.onPhotoCaptionEdit}
-              onDeleteMade={this.onPhotoDelete}
-              editMode={editMode}
-              key={shortid.generate()}
-              captionInput={photo.captionInput}
-              imageURL={photo.imageURL}
-              id={photo.id}
-              autoFocus={editCaptionId === photo.id}
-            />
-          );
-        }
-      );
-    }
+    // if (photos.length < 1) {
+    //   return <div />;
+    // } else {
+    const filteredPhotos = photos.filter(
+      (photo) => photo.album === albumOptions[albumSelected]
+    );
+
+    return filteredPhotos.map(
+      (photo: Photo): JSX.Element => {
+        return (
+          <PhotoCard
+            onEditMade={this.onEditMade}
+            onCaptionEdit={this.onPhotoCaptionEdit}
+            onDeleteMade={this.onPhotoDelete}
+            editMode={editMode}
+            key={shortid.generate()}
+            captionInput={photo.captionInput}
+            imageURL={photo.imageURL}
+            id={photo.id}
+            autoFocus={editCaptionId === photo.id}
+            album={photo.album}
+          />
+        );
+      }
+    );
+    // }
   };
 
   render(): JSX.Element {
@@ -165,6 +190,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
     return (
       <div>
         {loggedIn && this.renderEditOptions()}
+        {this.renderAlbumOptions()}
         <div style={styles.container}>{this.renderGallery()}</div>
       </div>
     );
@@ -188,7 +214,10 @@ const styles = {
     display: 'flex',
     flexDirection: 'row' as 'row',
     flexWrap: 'wrap' as 'wrap',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center'
+  },
+  tabsContainer: {
+    margin: 16
   }
 };

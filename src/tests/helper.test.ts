@@ -11,3 +11,9 @@ describe('filterArray function', () => {
     expect(filterArray([1, 2, 3], [0])).toMatchObject([1, 2, 3]);
   });
 });
+
+describe('index ', () => {
+  test('two  matchingelements', () => {
+    expect(filterArray([1, 2, 3], [2, 3])).toMatchObject([1]);
+  });
+});
