@@ -55,6 +55,7 @@ class _Upload extends PureComponent<Props, _UploadState> {
     this.setState({ [id]: value } as any); // possible refactor
   };
 
+  // to fix
   validateFormInputs = (): boolean => {
     console.log('validating form');
     const {
@@ -65,22 +66,32 @@ class _Upload extends PureComponent<Props, _UploadState> {
       album,
       albumValid
     } = this.state;
-    this.setState({
-      captionInputValid: stringIsOnlyWhiteSpace(captionInput)
-        ? 'Empty'
-        : 'Valid',
-      albumValid: stringIsOnlyWhiteSpace(album) ? 'Empty' : 'Valid'
-    });
-    if (fileInput)
+
+    if (fileInput) {
       this.setState({
         fileInputValid: checkFileType(fileInput)
       });
-
-    if (captionInputValid !== 'Valid' && fileInputValid !== 'Valid') {
-      this.setState({ showValidations: true });
-      return false;
     }
-    return true;
+
+    this.setState(
+      {
+        captionInputValid: stringIsOnlyWhiteSpace(captionInput)
+          ? 'Empty'
+          : 'Valid',
+        albumValid: stringIsOnlyWhiteSpace(album) ? 'Empty' : 'Valid'
+      },
+      () => {
+        if (
+          captionInputValid !== 'Valid' &&
+          fileInputValid !== 'Valid' &&
+          albumValid !== 'Valid'
+        ) {
+          this.setState({ showValidations: true });
+          return false;
+        }
+        return true;
+      }
+    );
   };
 
   postPhoto = (): void => {

@@ -4,7 +4,7 @@ import { colors } from '../config';
 const successfulOptions = (title: string) =>
   ({
     title,
-    // timer: 2000,
+    timer: 2000,
     icon: 'success',
     confirmButtonColor: colors.action
   } as SweetAlertOptions);
