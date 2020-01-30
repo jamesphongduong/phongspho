@@ -7,59 +7,89 @@
       "album": "Vietnam"
     },
     {
-      "captionInput": "Trekking in Northern India",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170606_101100.jpg",
-      "id": 13,
-      "album": "India"
-    },
-    {
-      "captionInput": "Temple in remote Nepal village",
+      "captionInput": "Temple in remote village",
       "imageURL": "https://phongspho.s3.amazonaws.com/images/20170620_161951.jpg",
       "id": 14,
       "album": "Nepal"
     },
     {
-      "captionInput": "Nepal trekking",
+      "captionInput": "Quick celebration boys",
       "imageURL": "https://phongspho.s3.amazonaws.com/images/20170503_095646.jpg",
       "id": 15,
       "album": "Nepal"
     },
     {
-      "captionInput": "Halong Bay, Vietnam",
+      "captionInput": "Halong Bay",
       "imageURL": "https://phongspho.s3.amazonaws.com/images/IMG_0662.JPG",
       "id": 16,
       "album": "Vietnam"
     },
     {
-      "captionInput": "Vietnam Motorbike Trip",
+      "captionInput": "Motorbike Trip",
       "imageURL": "https://phongspho.s3.amazonaws.com/images/36745292_2151979811497706_4956720502459596800_o.jpg",
       "id": 17,
       "album": "Vietnam"
     },
     {
-      "captionInput": "Vietnam Traffic",
+      "captionInput": "Saigon Traffic",
       "imageURL": "https://phongspho.s3.amazonaws.com/images/IMG_1510.JPG",
       "id": 18,
       "album": "Vietnam"
     },
     {
-      "captionInput": "Remote Area in Dalat, Vietnam",
+      "captionInput": "Remote house in Da Lat",
       "imageURL": "https://phongspho.s3.amazonaws.com/images/IMG_1448.JPG",
       "id": 19,
       "album": "Vietnam"
     },
     {
-      "captionInput": "Saigon, Vietnam",
+      "captionInput": "Saigon",
       "imageURL": "https://phongspho.s3.amazonaws.com/images/IMG_1397.JPG",
       "id": 20,
       "album": "Vietnam"
     },
     {
-      "captionInput": "Himalayas, Nepal",
+      "captionInput": "Himalayas",
       "imageURL": "https://phongspho.s3.amazonaws.com/images/20170428_181937.jpg",
       "id": 21,
       "album": "Nepal"
+    },
+    {
+      "captionInput": "Himalayas",
+      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170428_180114.jpg",
+      "id": 22,
+      "album": "Nepal"
+    },
+    {
+      "captionInput": "First locals encountered on trek",
+      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170429_124718.jpg",
+      "album": "Nepal",
+      "id": 23
+    },
+    {
+      "captionInput": "Taking a quick break",
+      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170501_141220.jpg",
+      "album": "Nepal",
+      "id": 24
+    },
+    {
+      "captionInput": "Views",
+      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170502_093939.jpg",
+      "album": "Nepal",
+      "id": 25
+    },
+    {
+      "captionInput": "Let's go",
+      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170501_091230.jpg",
+      "album": "Nepal",
+      "id": 26
+    },
+    {
+      "captionInput": "Dead",
+      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170429_154823.jpg",
+      "album": "Nepal",
+      "id": 27
     }
   ],
-  "albums": ["Vietnam", "India", "Nepal"]
+  "albums": ["Vietnam", "Nepal"]
 }

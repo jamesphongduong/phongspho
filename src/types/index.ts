@@ -1,8 +1,6 @@
 import {
   ADMIN_LOGIN,
   ADMIN_LOGOUT,
-  PHOTO_HOVERED,
-  PHOTO_UNHOVERED,
   TOGGLE_EDIT
 } from '../redux/actions/actionTypes';
 import { rootReducer } from '../redux/reducers';
@@ -50,20 +48,6 @@ export interface LogoutAction {
 }
 
 export type AdminAction = LoginAction | LogoutAction;
-
-export interface PhotoHoveredAction {
-  type: typeof PHOTO_HOVERED;
-  payload: PhotoId;
-}
-
-export interface PhotoUnhoveredAction {
-  type: typeof PHOTO_UNHOVERED;
-}
-
-export type GalleryAction =
-  | PhotoHoveredAction
-  | PhotoUnhoveredAction
-  | ToggleEditAction;
 
 export interface ToggleEditAction {
   type: typeof TOGGLE_EDIT;

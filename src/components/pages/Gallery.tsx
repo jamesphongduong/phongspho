@@ -168,7 +168,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
     console.log('photos', photos);
     // if (photos.length < 1) {
     //   return <div />;
-    // } else {
+    // } else {y
     const filteredPhotos = photos.filter(
       (photo) => photo.album === albums[albumSelected]
     );

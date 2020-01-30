@@ -4,12 +4,7 @@ import { Delete } from '@material-ui/icons';
 import { Card, CardMedia, Fab, TextField } from '@material-ui/core';
 import { CustomTextField } from './';
 import { Photo, numOrNull, RootState } from '../types';
-import { putPhoto } from '../api';
-import {
-  updateHoveredPhotoId,
-  removeHoveredPhotoId,
-  toggleEdit
-} from '../redux/actions';
+import { toggleEdit } from '../redux/actions';
 import { connect } from 'react-redux';
 
 interface PhotoProps extends Photo {
@@ -49,21 +44,6 @@ const _PhotoCard = (props: Props): JSX.Element => {
   const onDelete = (): void => {
     if (id) onDeleteMade(id);
   };
-
-  // const onSave = (): void => {
-  //   const postData = {
-  //     imageURL,
-  //     captionInput
-  //   };
-  //   if (id) {
-  //     putPhoto(id, postData)
-  //       .then(() => {
-  //         alert('putted');
-  //         // onEditMade(false, id);
-  //       })
-  //       .catch((err) => alert(err));
-  //   }
-  // };
 
   const renderDeleteButton = (): JSX.Element => {
     return (
@@ -111,8 +91,6 @@ const _PhotoCard = (props: Props): JSX.Element => {
 };
 
 const actionCreators = {
-  updateHoveredPhotoId,
-  removeHoveredPhotoId,
   toggleEdit
 };
 

@@ -26,6 +26,7 @@ interface _UploadState {
   album: string;
   captionInputValid: InputValidation;
   fileInputValid: InputValidation;
+  albumValid: InputValidation;
   showValidations: boolean;
   show: boolean;
 }
@@ -41,6 +42,7 @@ class _Upload extends PureComponent<Props, _UploadState> {
       fileInput: undefined,
       captionInputValid: 'Empty',
       fileInputValid: 'Empty',
+      albumValid: 'Empty',
       showValidations: false,
       show: true
     };
@@ -59,17 +61,21 @@ class _Upload extends PureComponent<Props, _UploadState> {
       captionInput,
       captionInputValid,
       fileInput,
-      fileInputValid
+      fileInputValid,
+      album,
+      albumValid
     } = this.state;
     this.setState({
       captionInputValid: stringIsOnlyWhiteSpace(captionInput)
         ? 'Empty'
-        : 'Valid'
+        : 'Valid',
+      albumValid: stringIsOnlyWhiteSpace(album) ? 'Empty' : 'Valid'
     });
     if (fileInput)
       this.setState({
         fileInputValid: checkFileType(fileInput)
       });
+
     if (captionInputValid !== 'Valid' && fileInputValid !== 'Valid') {
       this.setState({ showValidations: true });
       return false;
@@ -121,6 +127,7 @@ class _Upload extends PureComponent<Props, _UploadState> {
     const {
       captionInput,
       captionInputValid,
+      album,
       fileInputValid,
       showValidations
     } = this.state;
@@ -147,6 +154,14 @@ class _Upload extends PureComponent<Props, _UploadState> {
           invalid={showValidations && fileInputValid !== 'Valid'}
           required
           handleInput={this.localFileUpload}
+        />
+        <CustomTextField
+          id="album"
+          label="Album"
+          handleInput={this.onInputChange}
+          value={album}
+          helperText={REQUIRED_FIELD_TEXT}
+          invalid={showValidations && captionInputValid !== 'Valid'}
         />
         <CustomButton
           onClick={this.postPhoto}
