@@ -5,7 +5,6 @@ import { Container, Box } from '@material-ui/core';
 import {
   stringIsOnlyWhiteSpace,
   checkFileType,
-  SUCCESSFUL_UPLOAD,
   alertSuccessful,
   showLoading
 } from '../../utils';

@@ -5,7 +5,7 @@ import shortid from 'shortid';
 import { numOrUndefined, Photo, RootState } from '../../types';
 import { Fab, Tabs, Tab } from '@material-ui/core';
 import { Edit, Save } from '@material-ui/icons';
-import { filterArray, alertSuccessful, alertUnsuccessful } from '../../utils';
+import { filterArray, alertSuccessful } from '../../utils';
 import { connect } from 'react-redux';
 
 interface _GalleryProps {
@@ -91,12 +91,13 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
       const photo = photos.find((photo) => photo.id === id);
       if (photo) {
         const { caption, imageURL, album } = photo;
-        putPhoto(id, { caption, imageURL, album });
+        return putPhoto(id, { caption, imageURL, album });
       }
+      return null;
     });
 
     const deletePromises = idsDeleted.map((id) => {
-      deletePhoto(id);
+      return deletePhoto(id);
     });
 
     await Promise.all([editPromises, deletePromises])
@@ -151,7 +152,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
         style={styles.tabsContainer}
       >
         {albums.map((option) => (
-          <Tab label={option} />
+          <Tab label={option} key={shortid.generate()} />
         ))}
       </Tabs>
     );
@@ -165,14 +166,10 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
       albumSelected,
       albums
     } = this.state;
-    console.log('photos', photos);
-    // if (photos.length < 1) {
-    //   return <div />;
-    // } else {y
+
     const filteredPhotos = photos.filter(
       (photo) => photo.album === albums[albumSelected]
     );
-    console.log('filteredPhotos', filteredPhotos);
 
     return filteredPhotos.map(
       (photo: Photo): JSX.Element => {
@@ -192,7 +189,6 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
         );
       }
     );
-    // }
   };
 
   render(): JSX.Element {

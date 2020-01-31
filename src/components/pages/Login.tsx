@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { InputAdornment, Container, Typography, Box } from '@material-ui/core';
+import { InputAdornment, Typography, Box } from '@material-ui/core';
 import { SweetAlertResult } from 'sweetalert2';
 import { CustomButton, CustomTextField, Image } from '../';
 import { RouteComponentProps, withRouter } from 'react-router';

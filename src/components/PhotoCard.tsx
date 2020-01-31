@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Delete } from '@material-ui/icons';
-import { Card, CardMedia, Fab, TextField } from '@material-ui/core';
+import { Card, CardMedia, Fab } from '@material-ui/core';
 import { CustomTextField } from './';
 import { Photo, numOrNull, RootState } from '../types';
 import { toggleEdit } from '../redux/actions';
