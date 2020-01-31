@@ -13,9 +13,9 @@ export const getAlbums = (): AxiosPromise => {
 
 // POST REQS
 export const postPhoto = (data: Photo): AxiosPromise => {
-  const { captionInput, imageURL, album } = data;
+  const { caption, imageURL, album } = data;
   const postData = {
-    captionInput,
+    caption,
     imageURL,
     album
   };
@@ -25,9 +25,9 @@ export const postPhoto = (data: Photo): AxiosPromise => {
 
 // PUT / PATCH REQS
 export const putPhoto = (id: number, data: Photo): AxiosPromise => {
-  const { captionInput, imageURL } = data;
+  const { caption, imageURL } = data;
   const putData = {
-    captionInput: captionInput,
+    caption: caption,
     imageURL
   };
 

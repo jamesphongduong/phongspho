@@ -11,7 +11,7 @@ export interface NavbarItem {
 }
 
 export interface Photo {
-  captionInput: string;
+  caption: string;
   id?: number;
   imageURL: string;
   album: string;

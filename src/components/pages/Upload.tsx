@@ -21,10 +21,10 @@ import { S3response, fileOrUndefined, InputValidation } from '../../types';
 interface _UploadProps {}
 
 interface _UploadState {
-  captionInput: string;
+  caption: string;
   fileInput: fileOrUndefined;
   album: string;
-  captionInputValid: InputValidation;
+  captionValid: InputValidation;
   fileInputValid: InputValidation;
   albumValid: InputValidation;
   showValidations: boolean;
@@ -37,10 +37,10 @@ class _Upload extends PureComponent<Props, _UploadState> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      captionInput: '',
+      caption: '',
       album: '',
       fileInput: undefined,
-      captionInputValid: 'Empty',
+      captionValid: 'Empty',
       fileInputValid: 'Empty',
       albumValid: 'Empty',
       showValidations: false,
@@ -55,50 +55,31 @@ class _Upload extends PureComponent<Props, _UploadState> {
     this.setState({ [id]: value } as any); // possible refactor
   };
 
-  // to fix
   validateFormInputs = (): boolean => {
     console.log('validating form');
-    const {
-      captionInput,
-      captionInputValid,
-      fileInput,
-      fileInputValid,
-      album,
-      albumValid
-    } = this.state;
+    const { caption, fileInput, album } = this.state;
 
-    if (fileInput) {
-      this.setState({
-        fileInputValid: checkFileType(fileInput)
-      });
+    const fileInputValid = fileInput ? checkFileType(fileInput) : 'Empty';
+    const captionValid = stringIsOnlyWhiteSpace(caption) ? 'Empty' : 'Valid';
+    const albumValid = stringIsOnlyWhiteSpace(album) ? 'Empty' : 'Valid';
+
+    if (
+      captionValid === 'Valid' &&
+      fileInputValid === 'Valid' &&
+      albumValid === 'Valid'
+    ) {
+      return true;
     }
-
-    this.setState(
-      {
-        captionInputValid: stringIsOnlyWhiteSpace(captionInput)
-          ? 'Empty'
-          : 'Valid',
-        albumValid: stringIsOnlyWhiteSpace(album) ? 'Empty' : 'Valid'
-      },
-      () => {
-        if (
-          captionInputValid !== 'Valid' &&
-          fileInputValid !== 'Valid' &&
-          albumValid !== 'Valid'
-        ) {
-          this.setState({ showValidations: true });
-          return false;
-        }
-        return true;
-      }
-    );
+    this.setState({ fileInputValid, captionValid, albumValid }, () => {
+      this.setState({ showValidations: true });
+    });
+    return false;
   };
 
   postPhoto = (): void => {
-    const { captionInput, album } = this.state;
+    const { caption, album } = this.state;
     const { history } = this.props;
     const formDataValid = this.validateFormInputs();
-    console.log('form data valid', formDataValid);
     if (formDataValid) {
       showLoading();
       this.S3FileUpload()
@@ -106,7 +87,7 @@ class _Upload extends PureComponent<Props, _UploadState> {
           const imageURL = data.location;
 
           const postData = {
-            captionInput,
+            caption,
             imageURL,
             album
           };
@@ -136,9 +117,10 @@ class _Upload extends PureComponent<Props, _UploadState> {
 
   renderForm = (): JSX.Element => {
     const {
-      captionInput,
-      captionInputValid,
+      caption,
+      captionValid,
       album,
+      albumValid,
       fileInputValid,
       showValidations
     } = this.state;
@@ -146,12 +128,12 @@ class _Upload extends PureComponent<Props, _UploadState> {
     return (
       <Container maxWidth="xs" style={{ padding: 0 }}>
         <CustomTextField
-          id="captionInput"
+          id="caption"
           label="Caption"
           handleInput={this.onInputChange}
-          value={captionInput}
+          value={caption}
           helperText={REQUIRED_FIELD_TEXT}
-          invalid={showValidations && captionInputValid !== 'Valid'}
+          invalid={showValidations && captionValid !== 'Valid'}
         />
         <CustomTextField
           label="File"
@@ -172,7 +154,7 @@ class _Upload extends PureComponent<Props, _UploadState> {
           handleInput={this.onInputChange}
           value={album}
           helperText={REQUIRED_FIELD_TEXT}
-          invalid={showValidations && captionInputValid !== 'Valid'}
+          invalid={showValidations && albumValid !== 'Valid'}
         />
         <CustomButton
           onClick={this.postPhoto}

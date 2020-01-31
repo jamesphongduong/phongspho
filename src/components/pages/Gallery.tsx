@@ -56,7 +56,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
     const newPhotos = [...photos];
     const clickedPhoto = newPhotos.find((photo) => photo.id === id);
 
-    if (clickedPhoto) clickedPhoto.captionInput = input;
+    if (clickedPhoto) clickedPhoto.caption = input;
     this.setState({ photos: newPhotos, editCaptionId: id });
   };
 
@@ -90,8 +90,8 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
     const editPromises = idsEditedFiltered.map((id) => {
       const photo = photos.find((photo) => photo.id === id);
       if (photo) {
-        const { captionInput, imageURL, album } = photo;
-        putPhoto(id, { captionInput, imageURL, album });
+        const { caption, imageURL, album } = photo;
+        putPhoto(id, { caption, imageURL, album });
       }
     });
 
@@ -183,7 +183,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
             onDeleteMade={this.onPhotoDelete}
             editMode={editMode}
             key={shortid.generate()}
-            captionInput={photo.captionInput}
+            caption={photo.caption}
             imageURL={photo.imageURL}
             id={photo.id}
             autoFocus={editCaptionId === photo.id}

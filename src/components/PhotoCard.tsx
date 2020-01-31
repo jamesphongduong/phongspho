@@ -20,7 +20,7 @@ type Props = PhotoProps & linkStateProps;
 
 const _PhotoCard = (props: Props): JSX.Element => {
   const {
-    captionInput,
+    caption,
     imageURL,
     id,
     onCaptionEdit,
@@ -68,10 +68,10 @@ const _PhotoCard = (props: Props): JSX.Element => {
       </div>
       <CustomTextField
         style={{ marginBottom: '0px' }}
-        id="captionInput"
+        id="caption"
         fullWidth
         multiline
-        value={captionInput}
+        value={caption}
         handleInput={onInputChange}
         autoFocus={autoFocus}
         InputProps={
