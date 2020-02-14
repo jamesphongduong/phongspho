@@ -6,5 +6,6 @@ export const setLoggedInLocalStorage = (): void =>
 export const removeLoggedInLocalStorage = (): void =>
   localStorage.removeItem('loggedIn');
 
-export const checkLoggedInLocalStorage = (): strOrNull =>
-  localStorage.getItem('loggedIn');
+export const checkLoggedInLocalStorage = (): boolean => {
+  return localStorage.getItem('loggedIn') === null ? false : true;
+};

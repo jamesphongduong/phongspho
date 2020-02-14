@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { InputAdornment, Typography, Box } from '@material-ui/core';
 import { SweetAlertResult } from 'sweetalert2';
-import { CustomButton, CustomTextField, Image } from '../';
+import { CustomButton, CustomTextField, Image, AppContext } from '../';
 import { RouteComponentProps, withRouter } from 'react-router';
 import {
   AccountCircle,
@@ -23,6 +23,7 @@ interface State {
 type Props = _LoginProps & RouteComponentProps; // possible refactor on routecomponentprops
 
 class _Login extends PureComponent<Props, State> {
+  static contextType = AppContext;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -34,10 +35,12 @@ class _Login extends PureComponent<Props, State> {
   onLogin = (): Promise<SweetAlertResult> => {
     const { history } = this.props;
     const { passwordInput } = this.state;
+    const appContext = this.context;
 
     if (passwordInput !== 'password')
       return alertUnsuccessful('Incorrect credentials.');
-    //
+
+    appContext.updateState.toggleLogin();
     setLoggedInLocalStorage();
     history.push('/');
     return alertSuccessful('Successfully logged in as admin.');

@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import { AppContextInterface } from '../types';
+import { checkLoggedInLocalStorage } from '../utils';
 
-const ctxt = React.createContext<AppContextInterface | null>(null);
-export const AppContextProvider = ctxt.Provider;
-export const AppContextConsumer = ctxt.Consumer;
+export const AppContext = React.createContext<AppContextInterface | null>(null);
+export const AppContextProvider = AppContext.Provider;
+export const AppContextConsumer = AppContext.Consumer;
 
 interface Props {}
 interface State {
@@ -14,7 +15,7 @@ export class MyProvider extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      loggedIn: true
+      loggedIn: checkLoggedInLocalStorage() ? true : false
     };
   }
   render() {
