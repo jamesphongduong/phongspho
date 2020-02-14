@@ -33,15 +33,23 @@ export const PhotoCard = (props: Props): JSX.Element => {
   } = props;
   const classes = useStyles();
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const {
-      target: { value }
-    } = e;
-    console.log('id', id);
-    console.log('value', value);
-    if (id) {
-      onCaptionEdit(id, value);
-      onEditMade(id);
+  const onInputChange = (e): void => {
+    const { target } = e;
+
+    // if album
+    if (e.target.name === 'album') {
+      if (e.target.value !== album) {
+        if (id) onEdit(id, e.target.value);
+        return;
+      }
+    }
+
+    // if caption
+    if (e.target.getAttribute('id') === 'caption') {
+      if (id) {
+        onCaptionEdit(id, target.value);
+        return onEditMade(id);
+      }
     }
   };
 
@@ -60,13 +68,6 @@ export const PhotoCard = (props: Props): JSX.Element => {
         <Delete />
       </Fab>
     );
-  };
-
-  const onAlbumChange = ({ target }): void => {
-    if (target.value !== album) {
-      if (id) onEdit(id, target.value);
-      return;
-    }
   };
 
   return (
@@ -98,12 +99,7 @@ export const PhotoCard = (props: Props): JSX.Element => {
         }}
       />
       {editMode && (
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={album}
-          onChange={onAlbumChange}
-        >
+        <Select name="album" value={album} onChange={onInputChange}>
           {countries.map((country) => (
             <MenuItem key={country} value={country}>
               {country}
