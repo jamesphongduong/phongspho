@@ -8,9 +8,7 @@ import { countries } from '../config/db.js';
 
 interface PhotoProps extends Photo {
   editMode: boolean;
-  autoFocus: boolean;
   toggleEdit?: () => void;
-  onEditMade: (id: number) => void;
   onDeleteMade: (id: number) => void;
   onEdit: (id: number, prop: string, newValue: string) => void;
 }
@@ -22,7 +20,6 @@ export const PhotoCard = (props: Props): JSX.Element => {
     caption,
     imageURL,
     id,
-    autoFocus,
     editMode,
     onDeleteMade,
     album,
@@ -39,6 +36,7 @@ export const PhotoCard = (props: Props): JSX.Element => {
         if (id) return onEdit(id, 'album', target.value);
         return;
       }
+      return;
     }
 
     // if caption
@@ -80,7 +78,6 @@ export const PhotoCard = (props: Props): JSX.Element => {
         multiline
         value={caption}
         handleInput={onInputChange}
-        autoFocus={autoFocus}
         InputProps={
           !editMode
             ? {

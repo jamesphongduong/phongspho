@@ -1,3 +1,5 @@
+import shortid from 'shortid';
+
 export const filterArray = <T>(arrayOne: T[], arrayTwo: T[]) =>
   [...arrayOne].filter((e) => !arrayTwo.includes(e));
 
@@ -9,3 +11,9 @@ export const updateArray = (array, args) => {
 
   return newArray;
 };
+
+export const addKeysToObjectsArray = (array) =>
+  array.map((e) => ({
+    ...e,
+    key: shortid.generate()
+  }));

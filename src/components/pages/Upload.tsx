@@ -65,10 +65,7 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
             id={file.id}
             editMode
             caption={file.caption}
-            autoFocus
-            // onCaptionEdit={this.onPhotoCaptionEdit}
-            // toggleEdit={() => {}}
-            onEditMade={() => {}}
+            // autoFocus
             onDeleteMade={this.onPhotoDelete}
             imageURL={URL.createObjectURL(file.file)}
             album=""

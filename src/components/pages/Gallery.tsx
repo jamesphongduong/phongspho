@@ -1,15 +1,19 @@
 import React, { Fragment, PureComponent } from 'react';
 import { PhotoCard, AppContextConsumer } from '..';
 import { getPhotos, putPhoto, deletePhoto, getAlbums } from '../../api';
-import shortid from 'shortid';
 import { numOrUndefined, Photo } from '../../types';
 import { Fab, Tabs, Tab } from '@material-ui/core';
 import { Edit, Save } from '@material-ui/icons';
-import { filterArray, alertSuccessful, updateArray } from '../../utils';
+import shortid from 'shortid';
+import {
+  filterArray,
+  alertSuccessful,
+  updateArray,
+  addKeysToObjectsArray
+} from '../../utils';
 
 interface State {
   photos: Photo[];
-  editCaptionId: numOrUndefined;
   editMode: boolean;
   editMade: boolean;
   idsEdited: number[];
@@ -25,7 +29,6 @@ export class Gallery extends PureComponent<Props, State> {
     super(props);
     this.state = {
       photos: [],
-      editCaptionId: undefined,
       editMode: false,
       editMade: false,
       idsEdited: [],
@@ -38,7 +41,7 @@ export class Gallery extends PureComponent<Props, State> {
   componentDidMount(): void {
     getPhotos().then((res) => {
       console.log('res', res);
-      this.setState({ photos: res.data });
+      this.setState({ photos: addKeysToObjectsArray(res.data) });
     });
     getAlbums().then((res) => this.setState({ albums: res.data.sort() }));
   }
@@ -61,13 +64,6 @@ export class Gallery extends PureComponent<Props, State> {
     this.setState((prevState) => ({
       photos: newPhotos,
       idsDeleted: [...prevState.idsDeleted, id],
-      editMade: true
-    }));
-  };
-
-  onEditMade = (id: number): void => {
-    this.setState((prevState) => ({
-      idsEdited: [...prevState.idsEdited, id],
       editMade: true
     }));
   };
@@ -145,21 +141,15 @@ export class Gallery extends PureComponent<Props, State> {
         aria-label="simple tabs example"
         style={styles.tabsContainer}
       >
-        {albums.map((option) => (
-          <Tab label={option} key={shortid.generate()} />
+        {albums.map((album) => (
+          <Tab label={album} key={album} />
         ))}
       </Tabs>
     );
   };
 
   renderGallery = (): JSX.Element[] => {
-    const {
-      photos,
-      editCaptionId,
-      editMode,
-      albumSelected,
-      albums
-    } = this.state;
+    const { photos, editMode, albumSelected, albums } = this.state;
 
     const filteredPhotos = photos.filter(
       (photo) => photo.album === albums[albumSelected]
@@ -167,16 +157,15 @@ export class Gallery extends PureComponent<Props, State> {
 
     return filteredPhotos.map(
       (photo: Photo): JSX.Element => {
+        console.log('photo');
         return (
           <PhotoCard
-            onEditMade={this.onEditMade}
             onDeleteMade={this.onPhotoDelete}
             editMode={editMode}
-            key={shortid.generate()}
+            key={photo.key}
             caption={photo.caption}
             imageURL={photo.imageURL}
             id={photo.id}
-            autoFocus={editCaptionId === photo.id}
             album={photo.album}
             onEdit={this.onPhotoEdit}
           />
@@ -186,6 +175,7 @@ export class Gallery extends PureComponent<Props, State> {
   };
 
   render(): JSX.Element {
+    console.log('render');
     return (
       <AppContextConsumer>
         {(context) => (
