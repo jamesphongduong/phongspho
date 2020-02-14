@@ -13,6 +13,7 @@ interface PhotoProps extends Photo {
   toggleEdit?: () => void;
   onEditMade: (id: number) => void;
   onDeleteMade: (id: number) => void;
+  onEdit: (id: number, album: string) => void;
 }
 
 type Props = PhotoProps;
@@ -27,7 +28,8 @@ export const PhotoCard = (props: Props): JSX.Element => {
     editMode,
     onEditMade,
     onDeleteMade,
-    album
+    album,
+    onEdit
   } = props;
   const classes = useStyles();
 
@@ -62,9 +64,9 @@ export const PhotoCard = (props: Props): JSX.Element => {
 
   const onAlbumChange = ({ target }): void => {
     if (target.value !== album) {
+      if (id) onEdit(id, target.value);
       return;
     }
-    return;
   };
 
   return (

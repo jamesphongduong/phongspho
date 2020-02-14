@@ -5,7 +5,7 @@ import shortid from 'shortid';
 import { numOrUndefined, Photo } from '../../types';
 import { Fab, Tabs, Tab } from '@material-ui/core';
 import { Edit, Save } from '@material-ui/icons';
-import { filterArray, alertSuccessful } from '../../utils';
+import { filterArray, alertSuccessful, updateArray } from '../../utils';
 
 interface State {
   photos: Photo[];
@@ -42,6 +42,17 @@ export class Gallery extends PureComponent<Props, State> {
     });
     getAlbums().then((res) => this.setState({ albums: res.data.sort() }));
   }
+
+  onPhotoEdit = (id: number, album: string): void => {
+    const args = { matcher: id, newValue: album, prop: 'album' };
+    const updatedPhotoList = updateArray(this.state.photos, args);
+
+    this.setState((prevState) => ({
+      photos: updatedPhotoList,
+      editMade: true,
+      idsEdited: [...prevState.idsEdited, id]
+    }));
+  };
 
   onPhotoCaptionEdit = (id: number, input: string): void => {
     const { photos } = this.state;
@@ -177,6 +188,7 @@ export class Gallery extends PureComponent<Props, State> {
             id={photo.id}
             autoFocus={editCaptionId === photo.id}
             album={photo.album}
+            onEdit={this.onPhotoEdit}
           />
         );
       }

@@ -72,6 +72,7 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
             onDeleteMade={this.onPhotoDelete}
             imageURL={URL.createObjectURL(file.file)}
             album=""
+            onEdit={() => {}} //tofix
           />
         </div>
       );
