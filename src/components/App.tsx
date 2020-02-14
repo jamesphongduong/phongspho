@@ -6,14 +6,10 @@ import { colors } from '../config';
 import { Switch, Route } from 'react-router-dom';
 import { About, Login, Gallery, NotFound, Upload } from './pages';
 import { Box } from '@material-ui/core';
-import { connect } from 'react-redux';
-import { RootState } from '../types';
 
-interface AppProps {}
+interface Props {}
 
-type Props = AppProps & linkStateProps;
-
-const App = (props: Props): JSX.Element => {
+export const App = (props: Props): JSX.Element => {
   const navbarItems = [
     { label: 'Gallery', route: '/' },
     { label: 'About', route: 'about' }
@@ -48,18 +44,6 @@ const App = (props: Props): JSX.Element => {
     </MyProvider>
   );
 };
-
-interface linkStateProps {
-  loggedIn: boolean;
-}
-
-const mapStateToProps = (state: RootState): linkStateProps => {
-  return {
-    loggedIn: state.adminReducer.loggedIn
-  };
-};
-
-export default connect(mapStateToProps)(App);
 
 const theme = createMuiTheme({
   palette: {

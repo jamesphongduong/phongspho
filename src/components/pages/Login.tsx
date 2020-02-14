@@ -9,24 +9,20 @@ import {
   Visibility,
   VisibilityOff
 } from '@material-ui/icons';
-import { loginAdmin } from '../../redux/actions';
 import { alertUnsuccessful, alertSuccessful } from '../../utils/';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import { setLoggedInLocalStorage } from '../../utils';
-import { LoginAction } from '../../types';
 import { app } from '../../styles';
 
 interface _LoginProps {}
 
-interface _LoginState {
+interface State {
   passwordInput: string;
   showPassword: boolean;
 }
 
-type Props = _LoginProps & RouteComponentProps & linkDispatchProps; // possible refactor on routecomponentprops
+type Props = _LoginProps & RouteComponentProps; // possible refactor on routecomponentprops
 
-class _Login extends PureComponent<Props, _LoginState> {
+class _Login extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -36,13 +32,12 @@ class _Login extends PureComponent<Props, _LoginState> {
   }
 
   onLogin = (): Promise<SweetAlertResult> => {
-    const { loginAdmin, history } = this.props;
+    const { history } = this.props;
     const { passwordInput } = this.state;
 
     if (passwordInput !== 'password')
       return alertUnsuccessful('Incorrect credentials.');
-
-    loginAdmin();
+    //
     setLoggedInLocalStorage();
     history.push('/');
     return alertSuccessful('Successfully logged in as admin.');
@@ -119,27 +114,4 @@ class _Login extends PureComponent<Props, _LoginState> {
   }
 }
 
-interface linkDispatchProps {
-  loginAdmin: () => LoginAction;
-}
-
-const mapDispatchToProps = (dispatch: Dispatch): linkDispatchProps => {
-  return {
-    loginAdmin: () => dispatch(loginAdmin())
-  };
-};
-
-export const Login = connect(null, mapDispatchToProps)(withRouter(_Login));
-
-// const styles = {
-//   container: {
-//     display: 'flex',
-//     flexDirection: 'column' as 'column',
-//     alignItems: 'center',
-//     height: '100%',
-//     justifyContent: 'center'
-//   },
-//   imageContainer: {
-//     marginBottom: 40
-//   }
-// };
+export const Login = withRouter(_Login);

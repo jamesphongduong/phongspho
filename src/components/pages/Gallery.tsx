@@ -2,7 +2,7 @@ import React, { Fragment, PureComponent } from 'react';
 import { PhotoCard, AppContextConsumer } from '..';
 import { getPhotos, putPhoto, deletePhoto, getAlbums } from '../../api';
 import shortid from 'shortid';
-import { numOrUndefined, Photo, RootState } from '../../types';
+import { numOrUndefined, Photo } from '../../types';
 import { Fab, Tabs, Tab } from '@material-ui/core';
 import { Edit, Save } from '@material-ui/icons';
 import { filterArray, alertSuccessful } from '../../utils';

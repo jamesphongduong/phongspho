@@ -1,32 +1,23 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Delete } from '@material-ui/icons';
-import {
-  Card,
-  CardMedia,
-  Fab,
-  Select,
-  MenuItem,
-  InputLabel
-} from '@material-ui/core';
+import { Card, CardMedia, Fab, Select, MenuItem } from '@material-ui/core';
 import { CustomTextField } from './';
-import { Photo, numOrNull, RootState } from '../types';
+import { Photo } from '../types';
 import { countries } from '../config/db.js';
-import { toggleEdit } from '../redux/actions';
-import { connect } from 'react-redux';
 
 interface PhotoProps extends Photo {
   editMode: boolean;
   onCaptionEdit: (id: number, input: string) => void;
   autoFocus: boolean;
-  toggleEdit: () => void;
+  toggleEdit?: () => void;
   onEditMade: (id: number) => void;
   onDeleteMade: (id: number) => void;
 }
 
 type Props = PhotoProps;
 
-const _PhotoCard = (props: Props): JSX.Element => {
+export const PhotoCard = (props: Props): JSX.Element => {
   const {
     caption,
     imageURL,
@@ -121,12 +112,6 @@ const _PhotoCard = (props: Props): JSX.Element => {
     </Card>
   );
 };
-
-const actionCreators = {
-  toggleEdit
-};
-
-export const PhotoCard = connect(null, actionCreators)(_PhotoCard);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

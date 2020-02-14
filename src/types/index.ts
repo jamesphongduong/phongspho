@@ -1,10 +1,3 @@
-import {
-  ADMIN_LOGIN,
-  ADMIN_LOGOUT,
-  TOGGLE_EDIT
-} from '../redux/actions/actionTypes';
-import { rootReducer } from '../redux/reducers';
-
 export interface AppContextInterface {
   state: { loggedIn: boolean };
   updateState: { toggleLogin: () => void }; //tofix
@@ -41,31 +34,3 @@ export type buttonVariant = 'text' | 'contained';
 export type strOrNull = string | null;
 export type imageSize = 'icon' | 'banner';
 export type InputValidation = 'Valid' | 'Invalid' | 'Empty';
-
-// REDUX
-// actions
-export interface LoginAction {
-  type: typeof ADMIN_LOGIN;
-}
-
-export interface LogoutAction {
-  type: typeof ADMIN_LOGOUT;
-}
-
-export type AdminAction = LoginAction | LogoutAction;
-
-export interface ToggleEditAction {
-  type: typeof TOGGLE_EDIT;
-}
-
-// states
-export type RootState = ReturnType<typeof rootReducer>;
-
-export interface GalleryState {
-  photoIdHovered: numOrNull;
-  editMode: boolean;
-}
-
-export interface AdminState {
-  loggedIn: boolean;
-}
