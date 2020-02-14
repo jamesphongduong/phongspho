@@ -6,7 +6,6 @@ import { numOrUndefined, Photo } from '../../types';
 import { Fab, Tabs, Tab } from '@material-ui/core';
 import { Edit, Save } from '@material-ui/icons';
 import { filterArray, alertSuccessful } from '../../utils';
-import { connect } from 'react-redux';
 
 interface State {
   photos: Photo[];
