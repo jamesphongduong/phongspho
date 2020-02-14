@@ -185,13 +185,15 @@
 import React, { PureComponent } from 'react';
 import Dropzone from 'react-dropzone';
 import shortid from 'shortid';
-import { Image } from '..';
+import { Image, PhotoCard } from '..';
 
 interface UploadProps {}
 
 interface UploadState {
   files: any[];
 }
+
+const dummyFile = new File([''], 'filename');
 
 export class Upload extends PureComponent<UploadProps, UploadState> {
   constructor(props: UploadProps) {
@@ -203,21 +205,60 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
 
   onDrop = (acceptedFiles): void => {
     console.log('acceptedFiles', acceptedFiles);
+    const files = acceptedFiles.map((file) => ({
+      file,
+      id: shortid.generate(),
+      caption: ''
+    }));
+    console.log('files', files);
     this.setState((prevState) => ({
-      files: [...prevState.files, ...acceptedFiles]
+      files: [...prevState.files, ...files]
     }));
   };
 
-  renderUploadItems = (): JSX.Element[] => {
+  onPhotoCaptionEdit = (id: number | string, caption: string): void => {
+    console.log('executing');
+    console.log('id', id);
+    console.log('caption', caption);
+    const { files } = this.state;
+    const selectedFile = files.find((file) => file.id === id);
+    const selectedFileIndex = files.findIndex((file) => file.id === id);
+    const editedFile = { ...selectedFile, caption };
+    let newFileList = [...files];
+    newFileList[selectedFileIndex] = editedFile;
+    this.setState({ files: newFileList });
+  };
+
+  onPhotoDelete = (id: number | string): void => {
+    const { files } = this.state;
+    this.setState({ files: [...files.filter((file) => file.id !== id)] });
+  };
+
+  renderUploadItems = (): JSX.Element[] | JSX.Element => {
     console.log('renderUploadItems');
     const { files } = this.state;
     console.log('state', files);
-
+    if (files.length < 1) {
+      return <div> loading</div>;
+    }
     return files.map((file) => {
+      console.log('file', file);
       return (
         <div style={styles.upload} key={shortid.generate()}>
           {file.name}
-          <Image src={URL.createObjectURL(file)} alt="" size="banner" />
+          {/* <Image src={URL.createObjectURL(file)} alt="" size="banner" /> */}
+          <PhotoCard
+            id={file.id}
+            editMode
+            caption={file.caption}
+            autoFocus
+            onCaptionEdit={this.onPhotoCaptionEdit}
+            // toggleEdit={() => {}}
+            onEditMade={() => {}}
+            onDeleteMade={this.onPhotoDelete}
+            imageURL={URL.createObjectURL(file.file)}
+            album=""
+          />
         </div>
       );
     });
@@ -231,7 +272,9 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
             <section>
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
+                <p style={styles.uploadArea}>
+                  Drag 'n' drop some files here, or click to select files
+                </p>
               </div>
             </section>
           )}
@@ -253,5 +296,8 @@ const styles = {
   },
   upload: {
     margin: 16
+  },
+  uploadArea: {
+    border: '1px solid black'
   }
 };

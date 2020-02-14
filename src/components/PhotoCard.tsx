@@ -16,7 +16,7 @@ interface PhotoProps extends Photo {
   onDeleteMade: (id: number) => void;
 }
 
-type Props = PhotoProps & linkStateProps;
+type Props = PhotoProps;
 
 const _PhotoCard = (props: Props): JSX.Element => {
   const {
@@ -35,6 +35,8 @@ const _PhotoCard = (props: Props): JSX.Element => {
     const {
       target: { value }
     } = e;
+    console.log('id', id);
+    console.log('value', value);
     if (id) {
       onCaptionEdit(id, value);
       onEditMade(id);
@@ -94,17 +96,17 @@ const actionCreators = {
   toggleEdit
 };
 
-interface linkStateProps {
-  photoIdHovered: numOrNull;
-}
+// interface linkStateProps {
+//   photoIdHovered: numOrNull;
+// }
 
-const mapStateToProps = (state: RootState): linkStateProps => {
-  return {
-    photoIdHovered: state.galleryReducer.photoIdHovered
-  };
-};
+// const mapStateToProps = (state: RootState): linkStateProps => {
+//   return {
+//     photoIdHovered: state.galleryReducer.photoIdHovered
+//   };
+// };
 
-export const PhotoCard = connect(mapStateToProps, actionCreators)(_PhotoCard);
+export const PhotoCard = connect(null, actionCreators)(_PhotoCard);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
