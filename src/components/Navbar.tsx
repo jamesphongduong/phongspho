@@ -59,8 +59,9 @@ export const Navbar = (props: Props): JSX.Element => {
                 <Image src={'/camera.svg'} size="icon" alt="camera" />
               </div>
               <div>
-                {context && context.state.loggedIn && renderUploadButton()}
-                {context && !context.state.loggedIn && renderAdminLoginButton()}
+                {context && context.state.loggedIn
+                  ? renderUploadButton()
+                  : renderAdminLoginButton()}
                 {renderItems()}
                 {context && context.state.loggedIn && (
                   <CustomButton
