@@ -8,12 +8,11 @@ import { countries } from '../config/db.js';
 
 interface PhotoProps extends Photo {
   editMode: boolean;
-  onCaptionEdit: (id: number, input: string) => void;
   autoFocus: boolean;
   toggleEdit?: () => void;
   onEditMade: (id: number) => void;
   onDeleteMade: (id: number) => void;
-  onEdit: (id: number, album: string) => void;
+  onEdit: (id: number, prop: string, newValue: string) => void;
 }
 
 type Props = PhotoProps;
@@ -23,10 +22,8 @@ export const PhotoCard = (props: Props): JSX.Element => {
     caption,
     imageURL,
     id,
-    onCaptionEdit,
     autoFocus,
     editMode,
-    onEditMade,
     onDeleteMade,
     album,
     onEdit
@@ -37,19 +34,17 @@ export const PhotoCard = (props: Props): JSX.Element => {
     const { target } = e;
 
     // if album
-    if (e.target.name === 'album') {
-      if (e.target.value !== album) {
-        if (id) onEdit(id, e.target.value);
+    if (target.name === 'album') {
+      if (target.value !== album) {
+        if (id) return onEdit(id, 'album', target.value);
         return;
       }
     }
 
     // if caption
-    if (e.target.getAttribute('id') === 'caption') {
-      if (id) {
-        onCaptionEdit(id, target.value);
-        return onEditMade(id);
-      }
+    if (target.getAttribute('id') === 'caption') {
+      if (id) return onEdit(id, 'caption', target.value);
+      return;
     }
   };
 

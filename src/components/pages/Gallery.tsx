@@ -43,8 +43,8 @@ export class Gallery extends PureComponent<Props, State> {
     getAlbums().then((res) => this.setState({ albums: res.data.sort() }));
   }
 
-  onPhotoEdit = (id: number, album: string): void => {
-    const args = { matcher: id, newValue: album, prop: 'album' };
+  onPhotoEdit = (id: number, prop: string, newValue: string): void => {
+    const args = { matcher: id, newValue, prop };
     const updatedPhotoList = updateArray(this.state.photos, args);
 
     this.setState((prevState) => ({
@@ -52,15 +52,6 @@ export class Gallery extends PureComponent<Props, State> {
       editMade: true,
       idsEdited: [...prevState.idsEdited, id]
     }));
-  };
-
-  onPhotoCaptionEdit = (id: number, input: string): void => {
-    const { photos } = this.state;
-    const newPhotos = [...photos];
-    const clickedPhoto = newPhotos.find((photo) => photo.id === id);
-
-    if (clickedPhoto) clickedPhoto.caption = input;
-    this.setState({ photos: newPhotos, editCaptionId: id });
   };
 
   onPhotoDelete = (id: number): void => {
@@ -179,7 +170,6 @@ export class Gallery extends PureComponent<Props, State> {
         return (
           <PhotoCard
             onEditMade={this.onEditMade}
-            onCaptionEdit={this.onPhotoCaptionEdit}
             onDeleteMade={this.onPhotoDelete}
             editMode={editMode}
             key={shortid.generate()}
