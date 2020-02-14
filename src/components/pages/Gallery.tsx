@@ -1,5 +1,5 @@
 import React, { Fragment, PureComponent } from 'react';
-import { PhotoCard } from '..';
+import { PhotoCard, AppContextConsumer } from '..';
 import { getPhotos, putPhoto, deletePhoto, getAlbums } from '../../api';
 import shortid from 'shortid';
 import { numOrUndefined, Photo, RootState } from '../../types';
@@ -195,11 +195,15 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
     const { loggedIn } = this.props;
 
     return (
-      <div>
-        {loggedIn && this.renderEditOptions()}
-        {this.renderAlbumOptions()}
-        <div style={styles.container}>{this.renderGallery()}</div>
-      </div>
+      <AppContextConsumer>
+        {(context) => (
+          <React.Fragment>
+            {context && context.loggedIn && this.renderEditOptions()}
+            {this.renderAlbumOptions()}
+            <div style={styles.container}>{this.renderGallery()}</div>
+          </React.Fragment>
+        )}
+      </AppContextConsumer>
     );
   }
 }

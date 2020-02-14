@@ -5,6 +5,10 @@ import {
 } from '../redux/actions/actionTypes';
 import { rootReducer } from '../redux/reducers';
 
+export interface AppContextInterface {
+  loggedIn: boolean;
+}
+
 export interface NavbarItem {
   label: string;
   route: string;

@@ -6,7 +6,12 @@ import { Switch, Route } from 'react-router-dom';
 import { About, Login, Gallery, NotFound, Upload } from './pages';
 import { Box } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { RootState } from '../types';
+import { RootState, AppContextInterface } from '../types';
+import { AppContextProvider } from './';
+
+const sampleAppContext: AppContextInterface = {
+  loggedIn: true
+};
 
 interface AppProps {}
 
@@ -19,30 +24,32 @@ const App = (props: Props): JSX.Element => {
   ];
 
   return (
-    <div style={styles.container}>
-      <MuiThemeProvider theme={theme}>
-        <Navbar items={navbarItems} />
-        <Box p={4} style={{ height: '100%' }}>
-          <Switch>
-            <Route exact path="/about">
-              <About />
-            </Route>
-            <Route exact path="/login">
-              <Login />
-            </Route>
-            <Route exact path="/upload">
-              <Upload />
-            </Route>
-            <Route exact path="/">
-              <Gallery />
-            </Route>
-            <Route path="*">
-              <NotFound />
-            </Route>
-          </Switch>
-        </Box>
-      </MuiThemeProvider>
-    </div>
+    <AppContextProvider value={sampleAppContext}>
+      <div style={styles.container}>
+        <MuiThemeProvider theme={theme}>
+          <Navbar items={navbarItems} />
+          <Box p={4} style={{ height: '100%' }}>
+            <Switch>
+              <Route exact path="/about">
+                <About />
+              </Route>
+              <Route exact path="/login">
+                <Login />
+              </Route>
+              <Route exact path="/upload">
+                <Upload />
+              </Route>
+              <Route exact path="/">
+                <Gallery />
+              </Route>
+              <Route path="*">
+                <NotFound />
+              </Route>
+            </Switch>
+          </Box>
+        </MuiThemeProvider>
+      </div>
+    </AppContextProvider>
   );
 };
 
