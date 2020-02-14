@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import Dropzone from 'react-dropzone';
 import shortid from 'shortid';
 import { PhotoCard } from '..';
+import { updateArray } from '../../utils';
 
 interface UploadProps {}
 
@@ -20,9 +21,10 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
   onDrop = (acceptedFiles): void => {
     console.log('acceptedFiles', acceptedFiles);
     const files = acceptedFiles.map((file) => ({
-      file,
       id: shortid.generate(),
-      caption: ''
+      caption: '',
+      album: '',
+      url: URL.createObjectURL(file)
     }));
     console.log('files', files);
     this.setState((prevState) => ({
@@ -30,17 +32,13 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
     }));
   };
 
-  onPhotoCaptionEdit = (id: number | string, caption: string): void => {
-    console.log('executing');
-    console.log('id', id);
-    console.log('caption', caption);
-    const { files } = this.state;
-    const selectedFile = files.find((file) => file.id === id);
-    const selectedFileIndex = files.findIndex((file) => file.id === id);
-    const editedFile = { ...selectedFile, caption };
-    let newFileList = [...files];
-    newFileList[selectedFileIndex] = editedFile;
-    this.setState({ files: newFileList });
+  onPhotoEdit = (id: number, prop: string, newValue: string): void => {
+    const args = { matcher: id, newValue, prop };
+    const updatedFileList = updateArray(this.state.files, args);
+
+    this.setState({
+      files: updatedFileList
+    });
   };
 
   onPhotoDelete = (id: number | string): void => {
@@ -48,28 +46,23 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
     this.setState({ files: [...files.filter((file) => file.id !== id)] });
   };
 
-  renderUploadItems = (): JSX.Element[] | JSX.Element => {
+  renderUploadItems = (): JSX.Element[] => {
     console.log('renderUploadItems');
     const { files } = this.state;
     console.log('state', files);
-    if (files.length < 1) {
-      return <div> loading</div>;
-    }
     return files.map((file) => {
       console.log('file', file);
       return (
-        <div style={styles.upload} key={shortid.generate()}>
+        <div style={styles.upload} key={file.id}>
           {file.name}
-          {/* <Image src={URL.createObjectURL(file)} alt="" size="banner" /> */}
           <PhotoCard
             id={file.id}
             editMode
             caption={file.caption}
-            // autoFocus
             onDeleteMade={this.onPhotoDelete}
-            imageURL={URL.createObjectURL(file.file)}
-            album=""
-            onEdit={() => {}} //tofix
+            imageURL={file.url}
+            album={file.album}
+            onEdit={this.onPhotoEdit} //tofix
           />
         </div>
       );
@@ -77,6 +70,7 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
   };
 
   render() {
+    console.log('render');
     return (
       <div>
         <Dropzone onDrop={(acceptedFiles) => this.onDrop(acceptedFiles)}>

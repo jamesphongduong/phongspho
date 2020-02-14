@@ -12,8 +12,8 @@ export const updateArray = (array, args) => {
   return newArray;
 };
 
-export const addKeysToObjectsArray = (array) =>
+export const addIdToObjectsArray = (array) =>
   array.map((e) => ({
     ...e,
-    key: shortid.generate()
+    id: shortid.generate()
   }));

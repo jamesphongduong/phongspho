@@ -13,7 +13,6 @@ export interface Photo {
   id?: number;
   imageURL: string;
   album: string;
-  key?: string;
 }
 
 export interface S3response {

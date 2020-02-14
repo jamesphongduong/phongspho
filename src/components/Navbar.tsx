@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { AppBar, Toolbar } from '@material-ui/core';
 import { CustomButton, Image, AppContextConsumer } from './';
-import shortid from 'shortid';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { NavbarItem } from '../types';
@@ -21,11 +20,7 @@ export const Navbar = (props: Props): JSX.Element => {
       (item): JSX.Element => {
         const { label, route } = item;
         return (
-          <Link
-            className={classes.link}
-            to={`${route}`}
-            key={shortid.generate()}
-          >
+          <Link className={classes.link} to={`${route}`} key={label}>
             <CustomButton color="secondary" label={label} variant="text" />
           </Link>
         );

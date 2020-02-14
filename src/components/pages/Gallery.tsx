@@ -4,12 +4,11 @@ import { getPhotos, putPhoto, deletePhoto, getAlbums } from '../../api';
 import { numOrUndefined, Photo } from '../../types';
 import { Fab, Tabs, Tab } from '@material-ui/core';
 import { Edit, Save } from '@material-ui/icons';
-import shortid from 'shortid';
 import {
   filterArray,
   alertSuccessful,
   updateArray,
-  addKeysToObjectsArray
+  addIdToObjectsArray
 } from '../../utils';
 
 interface State {
@@ -41,7 +40,9 @@ export class Gallery extends PureComponent<Props, State> {
   componentDidMount(): void {
     getPhotos().then((res) => {
       console.log('res', res);
-      this.setState({ photos: addKeysToObjectsArray(res.data) });
+      this.setState({ photos: addIdToObjectsArray(res.data) }, () =>
+        console.log('here', this.state.photos)
+      );
     });
     getAlbums().then((res) => this.setState({ albums: res.data.sort() }));
   }
@@ -162,7 +163,7 @@ export class Gallery extends PureComponent<Props, State> {
           <PhotoCard
             onDeleteMade={this.onPhotoDelete}
             editMode={editMode}
-            key={photo.key}
+            key={photo.id}
             caption={photo.caption}
             imageURL={photo.imageURL}
             id={photo.id}
