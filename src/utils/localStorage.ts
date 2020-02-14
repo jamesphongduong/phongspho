@@ -1,5 +1,3 @@
-import { strOrNull } from '../types';
-
 export const setLoggedInLocalStorage = (): void =>
   localStorage.setItem('loggedIn', '1');
 

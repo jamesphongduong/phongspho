@@ -41,6 +41,14 @@ export const Navbar = (props: Props): JSX.Element => {
     );
   };
 
+  const renderAdminLoginButton = (): JSX.Element => {
+    return (
+      <Link className={classes.link} to="/login">
+        <CustomButton color="secondary" label="Admin Login" />
+      </Link>
+    );
+  };
+
   return (
     <AppContextConsumer>
       {(context) => (
@@ -52,6 +60,7 @@ export const Navbar = (props: Props): JSX.Element => {
               </div>
               <div>
                 {context && context.state.loggedIn && renderUploadButton()}
+                {context && !context.state.loggedIn && renderAdminLoginButton()}
                 {renderItems()}
                 {context && context.state.loggedIn && (
                   <CustomButton
