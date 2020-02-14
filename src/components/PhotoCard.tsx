@@ -1,9 +1,17 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Delete } from '@material-ui/icons';
-import { Card, CardMedia, Fab } from '@material-ui/core';
+import {
+  Card,
+  CardMedia,
+  Fab,
+  Select,
+  MenuItem,
+  InputLabel
+} from '@material-ui/core';
 import { CustomTextField } from './';
 import { Photo, numOrNull, RootState } from '../types';
+import { countries } from '../config/db.js';
 import { toggleEdit } from '../redux/actions';
 import { connect } from 'react-redux';
 
@@ -27,7 +35,8 @@ const _PhotoCard = (props: Props): JSX.Element => {
     autoFocus,
     editMode,
     onEditMade,
-    onDeleteMade
+    onDeleteMade,
+    album
   } = props;
   const classes = useStyles();
 
@@ -60,6 +69,13 @@ const _PhotoCard = (props: Props): JSX.Element => {
     );
   };
 
+  const onAlbumChange = ({ target }): void => {
+    if (target.value !== album) {
+      return;
+    }
+    return;
+  };
+
   return (
     <Card className={classes.card} raised>
       <div>
@@ -88,6 +104,20 @@ const _PhotoCard = (props: Props): JSX.Element => {
           maxLength: 40
         }}
       />
+      {editMode && (
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={album}
+          onChange={onAlbumChange}
+        >
+          {countries.map((country) => (
+            <MenuItem key={country} value={country}>
+              {country}
+            </MenuItem>
+          ))}
+        </Select>
+      )}
     </Card>
   );
 };
@@ -95,16 +125,6 @@ const _PhotoCard = (props: Props): JSX.Element => {
 const actionCreators = {
   toggleEdit
 };
-
-// interface linkStateProps {
-//   photoIdHovered: numOrNull;
-// }
-
-// const mapStateToProps = (state: RootState): linkStateProps => {
-//   return {
-//     photoIdHovered: state.galleryReducer.photoIdHovered
-//   };
-// };
 
 export const PhotoCard = connect(null, actionCreators)(_PhotoCard);
 

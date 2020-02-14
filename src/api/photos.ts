@@ -25,10 +25,11 @@ export const postPhoto = (data: Photo): AxiosPromise => {
 
 // PUT / PATCH REQS
 export const putPhoto = (id: number, data: Photo): AxiosPromise => {
-  const { caption, imageURL } = data;
+  const { caption, imageURL, album } = data;
   const putData = {
     caption: caption,
-    imageURL
+    imageURL,
+    album
   };
 
   return axios.put(`${process.env.REACT_APP_API}/photos/${id}`, putData);
