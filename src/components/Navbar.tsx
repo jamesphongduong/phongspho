@@ -4,26 +4,17 @@ import { CustomButton, Image, AppContextConsumer } from './';
 import shortid from 'shortid';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { NavbarItem, LogoutAction } from '../types';
-import { connect } from 'react-redux';
-import { logoutAdmin } from '../redux/actions';
+import { NavbarItem } from '../types';
 import { removeLoggedInLocalStorage } from '../utils';
-import { RootState } from '../types';
-import { Dispatch } from 'redux';
 import { alertSuccessful } from '../utils';
-import { SweetAlertResult } from 'sweetalert2';
 
-interface _NavbarProps {
+interface Props {
   items: NavbarItem[];
-  logoutAdmin: () => void;
-  loggedIn: boolean;
 }
 
-type Props = _NavbarProps & LinkStateProps & LinkDispatchProps;
-
-const _Navbar = (props: Props): JSX.Element => {
+export const Navbar = (props: Props): JSX.Element => {
   const classes = useStyles();
-  const { items, loggedIn, logoutAdmin } = props;
+  const { items } = props;
 
   const renderItems = (): JSX.Element[] => {
     return items.map(
@@ -50,12 +41,6 @@ const _Navbar = (props: Props): JSX.Element => {
     );
   };
 
-  const onLogOut = (): Promise<SweetAlertResult> => {
-    logoutAdmin();
-    removeLoggedInLocalStorage();
-    return alertSuccessful('Successfully logged out.');
-  };
-
   return (
     <AppContextConsumer>
       {(context) => (
@@ -71,7 +56,11 @@ const _Navbar = (props: Props): JSX.Element => {
                 {context && context.state.loggedIn && (
                   <CustomButton
                     label="Log out"
-                    onClick={context.updateState.toggleLogin}
+                    onClick={() => {
+                      context.updateState.toggleLogin();
+                      removeLoggedInLocalStorage();
+                      return alertSuccessful('Successfully logged out.');
+                    }}
                     variant="text"
                   />
                 )}
@@ -83,28 +72,6 @@ const _Navbar = (props: Props): JSX.Element => {
     </AppContextConsumer>
   );
 };
-
-interface LinkStateProps {
-  loggedIn: boolean;
-}
-
-const mapStateToProps = (state: RootState): LinkStateProps => {
-  return {
-    loggedIn: state.adminReducer.loggedIn
-  };
-};
-
-interface LinkDispatchProps {
-  logoutAdmin: () => LogoutAction;
-}
-
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchProps => {
-  return {
-    logoutAdmin: () => dispatch(logoutAdmin())
-  };
-};
-
-export const Navbar = connect(mapStateToProps, mapDispatchToProps)(_Navbar);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
