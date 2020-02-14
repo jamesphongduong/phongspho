@@ -6,7 +6,8 @@ import {
 import { rootReducer } from '../redux/reducers';
 
 export interface AppContextInterface {
-  loggedIn: boolean;
+  state: { loggedIn: boolean };
+  updateState: { toggleLogin: () => void }; //tofix
 }
 
 export interface NavbarItem {

@@ -1,17 +1,13 @@
 import React from 'react';
 import { Navbar } from './Navbar';
+import { MyProvider } from './';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { colors } from '../config';
 import { Switch, Route } from 'react-router-dom';
 import { About, Login, Gallery, NotFound, Upload } from './pages';
 import { Box } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { RootState, AppContextInterface } from '../types';
-import { AppContextProvider } from './';
-
-const sampleAppContext: AppContextInterface = {
-  loggedIn: true
-};
+import { RootState } from '../types';
 
 interface AppProps {}
 
@@ -24,7 +20,7 @@ const App = (props: Props): JSX.Element => {
   ];
 
   return (
-    <AppContextProvider value={sampleAppContext}>
+    <MyProvider>
       <div style={styles.container}>
         <MuiThemeProvider theme={theme}>
           <Navbar items={navbarItems} />
@@ -49,7 +45,7 @@ const App = (props: Props): JSX.Element => {
           </Box>
         </MuiThemeProvider>
       </div>
-    </AppContextProvider>
+    </MyProvider>
   );
 };
 

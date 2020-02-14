@@ -8,11 +8,7 @@ import { Edit, Save } from '@material-ui/icons';
 import { filterArray, alertSuccessful } from '../../utils';
 import { connect } from 'react-redux';
 
-interface _GalleryProps {
-  loggedIn: boolean;
-}
-
-interface _GalleryState {
+interface State {
   photos: Photo[];
   editCaptionId: numOrUndefined;
   editMode: boolean;
@@ -23,14 +19,11 @@ interface _GalleryState {
   albums: string[];
 }
 
-type Props = _GalleryProps & LinkStateProps;
+interface Props {}
 
-// const albumOptions = ['Vietnam', 'India'];
-
-class _Gallery extends PureComponent<Props, _GalleryState> {
+export class Gallery extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
-    console.log('here2');
     this.state = {
       photos: [],
       editCaptionId: undefined,
@@ -158,7 +151,7 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
     );
   };
 
-  renderGallery = (): JSX.Element[] | JSX.Element => {
+  renderGallery = (): JSX.Element[] => {
     const {
       photos,
       editCaptionId,
@@ -192,33 +185,19 @@ class _Gallery extends PureComponent<Props, _GalleryState> {
   };
 
   render(): JSX.Element {
-    const { loggedIn } = this.props;
-
     return (
       <AppContextConsumer>
         {(context) => (
-          <React.Fragment>
-            {context && context.loggedIn && this.renderEditOptions()}
+          <Fragment>
+            {context && context.state.loggedIn && this.renderEditOptions()}
             {this.renderAlbumOptions()}
             <div style={styles.container}>{this.renderGallery()}</div>
-          </React.Fragment>
+          </Fragment>
         )}
       </AppContextConsumer>
     );
   }
 }
-
-interface LinkStateProps {
-  loggedIn: boolean;
-}
-
-const mapStateToProps = (state: RootState): LinkStateProps => {
-  return {
-    loggedIn: state.adminReducer.loggedIn
-  };
-};
-
-export const Gallery = connect(mapStateToProps)(_Gallery);
 
 const styles = {
   container: {

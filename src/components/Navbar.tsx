@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { AppBar, Toolbar } from '@material-ui/core';
-import { CustomButton, Image } from './';
+import { CustomButton, Image, AppContextConsumer } from './';
 import shortid from 'shortid';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
@@ -42,7 +42,7 @@ const _Navbar = (props: Props): JSX.Element => {
     );
   };
 
-  const renderNewDishButton = (): JSX.Element => {
+  const renderUploadButton = (): JSX.Element => {
     return (
       <Link className={classes.link} to="/upload">
         <CustomButton color="secondary" label="Upload" />
@@ -57,20 +57,30 @@ const _Navbar = (props: Props): JSX.Element => {
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar className={classes.container}>
-        <div>
-          <Image src={'/camera.svg'} size="icon" alt="camera" />
-        </div>
-        <div>
-          {loggedIn && renderNewDishButton()}
-          {renderItems()}
-          {loggedIn && (
-            <CustomButton label="Log out" onClick={onLogOut} variant="text" />
-          )}
-        </div>
-      </Toolbar>
-    </AppBar>
+    <AppContextConsumer>
+      {(context) => (
+        <Fragment>
+          <AppBar position="static">
+            <Toolbar className={classes.container}>
+              <div>
+                <Image src={'/camera.svg'} size="icon" alt="camera" />
+              </div>
+              <div>
+                {context && context.state.loggedIn && renderUploadButton()}
+                {renderItems()}
+                {context && context.state.loggedIn && (
+                  <CustomButton
+                    label="Log out"
+                    onClick={context.updateState.toggleLogin}
+                    variant="text"
+                  />
+                )}
+              </div>
+            </Toolbar>
+          </AppBar>
+        </Fragment>
+      )}
+    </AppContextConsumer>
   );
 };
 
