@@ -1,101 +1,14 @@
 {
   "photos": [
     {
-      "caption": "6 am sunrise in Hanoi",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170913_060115.jpg",
-      "id": 12,
-      "album": "Vietnam"
-    },
-    {
-      "caption": "Temple in remote village",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170620_161951.jpg",
-      "id": 14,
-      "album": "Nepal"
-    },
-    {
-      "caption": "Quick celebration boys",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170503_095646.jpg",
-      "id": 15,
-      "album": "Nepal"
-    },
-    {
-      "caption": "Halong Bay",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/IMG_0662.JPG",
-      "id": 16,
-      "album": "Vietnam"
-    },
-    {
-      "caption": "Motorbike Trip",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/36745292_2151979811497706_4956720502459596800_o.jpg",
-      "id": 17,
-      "album": "Vietnam"
-    },
-    {
-      "caption": "Saigon Traffic",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/IMG_1510.JPG",
-      "id": 18,
-      "album": "Vietnam"
-    },
-    {
-      "caption": "Remote house in Da Lat",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/IMG_1448.JPG",
-      "id": 19,
-      "album": "Vietnam"
-    },
-    {
-      "caption": "Saigon",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/IMG_1397.JPG",
-      "id": 20,
-      "album": "Vietnam"
-    },
-    {
-      "caption": "Himalayas",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170428_181937.jpg",
-      "id": 21,
-      "album": "Nepal"
-    },
-    {
-      "caption": "Himalayas",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170428_180114.jpg",
-      "id": 22,
-      "album": "Nepal"
-    },
-    {
-      "caption": "First locals encountered on trek",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170429_124718.jpg",
-      "album": "Nepal",
-      "id": 23
-    },
-    {
-      "caption": "Taking a quick break",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170501_141220.jpg",
-      "album": "Nepal",
-      "id": 24
-    },
-    {
-      "caption": "Views",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170502_093939.jpg",
-      "album": "Nepal",
-      "id": 25
-    },
-    {
-      "caption": "Let's go",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170501_091230.jpg",
-      "album": "Nepal",
-      "id": 26
-    },
-    {
-      "caption": "Dead",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170429_154823.jpg",
-      "album": "Nepal",
-      "id": 27
-    },
-    {
-      "caption": "da",
-      "imageURL": "https://phongspho.s3.amazonaws.com/images/20170430_100934.jpg",
-      "album": "a",
-      "id": 28
+      "caption": "",
+      "imageURL": "https://jamesphotos6.s3.amazonaws.com/images/20170428_181937.jpg",
+      "album": "",
+      "id": "Xa37XSvG"
     }
   ],
-  "albums": ["Vietnam", "Nepal"]
+  "albums": [
+    "Vietnam",
+    "Nepal"
+  ]
 }

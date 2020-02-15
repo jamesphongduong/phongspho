@@ -1,8 +1,13 @@
 import React, { PureComponent } from 'react';
+import { CustomButton } from '../';
 import Dropzone from 'react-dropzone';
+import ReactS3 from 'react-s3';
 import shortid from 'shortid';
 import { PhotoCard } from '..';
 import { updateArray } from '../../utils';
+import { postPhoto } from '../..//api';
+import { S3response } from '../../types';
+import { S3Config } from '../../config';
 
 interface UploadProps {}
 
@@ -21,12 +26,12 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
   onDrop = (acceptedFiles): void => {
     console.log('acceptedFiles', acceptedFiles);
     const files = acceptedFiles.map((file) => ({
+      file,
       id: shortid.generate(),
       caption: '',
       album: '',
       url: URL.createObjectURL(file)
     }));
-    console.log('files', files);
     this.setState((prevState) => ({
       files: [...prevState.files, ...files]
     }));
@@ -69,6 +74,34 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
     });
   };
 
+  S3FileUpload = (): any => {
+    const { files } = this.state;
+
+    const promises = files.map((file) => {
+      return ReactS3.uploadFile(file.file, S3Config);
+    });
+
+    Promise.all(promises)
+      .then((res) => {
+        console.log('res', res);
+        console.log('posting to backend');
+        const fileList = files.map(({ caption, album, id }, index) => {
+          return {
+            caption,
+            album,
+            id,
+            imageURL: res[index].location
+          };
+        });
+        console.log('fileList', fileList);
+        const promises2 = fileList.map((file) => postPhoto(file));
+        Promise.all(promises2)
+          .then((res) => console.log('dbres', res))
+          .catch((err) => console.log('err', err));
+      })
+      .catch((err) => console.log('err', err));
+  };
+
   render() {
     console.log('render');
     return (
@@ -87,6 +120,12 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
         </Dropzone>
         files
         <div style={styles.uploadsContainer}>{this.renderUploadItems()}</div>
+        <CustomButton
+          onClick={this.S3FileUpload}
+          color="secondary"
+          label="Submit"
+          fullWidth
+        />
       </div>
     );
   }
@@ -104,6 +143,10 @@ const styles = {
     margin: 16
   },
   uploadArea: {
-    border: '1px solid black'
+    border: '1px solid black',
+    height: 200,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 };

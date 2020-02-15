@@ -13,11 +13,12 @@ export const getAlbums = (): AxiosPromise => {
 
 // POST REQS
 export const postPhoto = (data: Photo): AxiosPromise => {
-  const { caption, imageURL, album } = data;
+  const { caption, imageURL, album, id } = data;
   const postData = {
     caption,
     imageURL,
-    album
+    album,
+    id
   };
 
   return axios.post(`${process.env.REACT_APP_API}/photos/`, postData);
