@@ -64,10 +64,9 @@ class _Login extends PureComponent<Props, State> {
 
     return (
       <Box px={16} style={app.splitContainer}>
-        <Image src={'/login.svg'} alt="login" />
         <div>
           <Typography variant="h2" gutterBottom style={app.headingStyle}>
-            Login
+            Admin Login
           </Typography>
           <CustomTextField
             id="loginInput"
@@ -105,8 +104,9 @@ class _Login extends PureComponent<Props, State> {
             handleInput={this.onInputChange}
           />
           <CustomButton
+            style={{ marginTop: '32px' }}
             fullWidth
-            label="Login"
+            label="Submit"
             color="secondary"
             onClick={this.onLogin}
             size="large"

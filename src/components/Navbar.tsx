@@ -3,17 +3,21 @@ import { AppBar, Toolbar } from '@material-ui/core';
 import { CustomButton, Image, AppContextConsumer } from './';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router';
 import { NavbarItem } from '../types';
 import { removeLoggedInLocalStorage } from '../utils';
 import { alertSuccessful } from '../utils';
 
-interface Props {
+interface _NavbarProps {
   items: NavbarItem[];
 }
 
-export const Navbar = (props: Props): JSX.Element => {
+type Props = _NavbarProps & RouteComponentProps;
+
+const _Navbar = (props: Props): JSX.Element => {
   const classes = useStyles();
-  const { items } = props;
+  const { items, location } = props;
+  console.log('location', location);
 
   const renderItems = (): JSX.Element[] => {
     return items.map(
@@ -54,9 +58,14 @@ export const Navbar = (props: Props): JSX.Element => {
                 <Image src={'/camera.svg'} size="icon" alt="camera" />
               </div>
               <div>
-                {context && context.state.loggedIn
-                  ? renderUploadButton()
-                  : renderAdminLoginButton()}
+                {context &&
+                  context.state.loggedIn &&
+                  location.pathname !== '/upload' &&
+                  renderUploadButton()}
+                {context &&
+                  !context.state.loggedIn &&
+                  location.pathname !== '/login' &&
+                  renderAdminLoginButton()}
                 {renderItems()}
                 {context && context.state.loggedIn && (
                   <CustomButton
@@ -77,6 +86,8 @@ export const Navbar = (props: Props): JSX.Element => {
     </AppContextConsumer>
   );
 };
+
+export const Navbar = withRouter(_Navbar);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

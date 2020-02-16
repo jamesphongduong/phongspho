@@ -9,6 +9,7 @@ export interface CustomButtonProps {
   onClick?: () => void;
   fullWidth?: boolean;
   size?: any;
+  style?: object;
 }
 
 export const CustomButton = (props: CustomButtonProps): JSX.Element => {

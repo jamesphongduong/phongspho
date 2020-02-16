@@ -10,7 +10,6 @@ interface CustomTextFieldProps {
   multiline?: boolean;
   handleInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string;
-  required?: boolean;
   helperText?: string;
   invalid?: boolean;
   autoFocus?: boolean;
@@ -34,7 +33,7 @@ export const CustomTextField = (props: CustomTextFieldProps): JSX.Element => {
       }}
       fullWidth
       helperText={invalid && helperText}
-      style={{ marginBottom: '32px' }}
+      style={{ marginBottom: '16px' }}
       onFocus={(e) => {
         const val = e.target.value;
         e.target.value = '';
@@ -43,8 +42,4 @@ export const CustomTextField = (props: CustomTextFieldProps): JSX.Element => {
       {...other}
     />
   );
-};
-
-CustomTextField.defaultProps = {
-  required: true
 };

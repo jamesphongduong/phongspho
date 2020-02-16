@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Delete } from '@material-ui/icons';
-import { Card, CardMedia, Fab, Select, MenuItem } from '@material-ui/core';
-import { CustomTextField } from './';
+import { Card, CardMedia, Fab, MenuItem, TextField } from '@material-ui/core';
+import { CustomTextField, AppContext } from './';
 import { Photo } from '../types';
-import { countries } from '../config/db.js';
 
 interface PhotoProps extends Photo {
   editMode: boolean;
@@ -16,6 +15,9 @@ interface PhotoProps extends Photo {
 type Props = PhotoProps;
 
 export const PhotoCard = (props: Props): JSX.Element => {
+  const contextValue = useContext(AppContext);
+  console.log('contextValue', contextValue);
+  const albums = contextValue ? contextValue.state.albums : [];
   const {
     caption,
     imageURL,
@@ -25,11 +27,14 @@ export const PhotoCard = (props: Props): JSX.Element => {
     album,
     onEdit
   } = props;
+  console.log(26, album);
+  console.log(39, albums);
+
   const classes = useStyles();
 
   const onInputChange = (e): void => {
     const { target } = e;
-
+    console.log('target', target);
     // if album
     if (target.name === 'album') {
       if (target.value !== album) {
@@ -72,7 +77,8 @@ export const PhotoCard = (props: Props): JSX.Element => {
         <CardMedia className={classes.media} image={imageURL} />
       </div>
       <CustomTextField
-        style={{ marginBottom: '0px' }}
+        // style={{ marginBottom: '16px' }}
+        label="Caption"
         id="caption"
         fullWidth
         multiline
@@ -91,13 +97,19 @@ export const PhotoCard = (props: Props): JSX.Element => {
         }}
       />
       {editMode && (
-        <Select name="album" value={album} onChange={onInputChange}>
-          {countries.map((country) => (
-            <MenuItem key={country} value={country}>
-              {country}
+        <TextField
+          select
+          name="album"
+          label="Album"
+          value={album}
+          onChange={onInputChange}
+        >
+          {albums.map((album) => (
+            <MenuItem key={album} value={album}>
+              {album}
             </MenuItem>
           ))}
-        </Select>
+        </TextField>
       )}
     </Card>
   );

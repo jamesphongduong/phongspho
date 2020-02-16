@@ -30,7 +30,7 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
       file,
       id: shortid.generate(),
       caption: '',
-      album: '',
+      album: 'Random',
       url: URL.createObjectURL(file)
     }));
     this.setState((prevState) => ({
