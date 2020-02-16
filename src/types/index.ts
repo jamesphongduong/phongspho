@@ -1,6 +1,9 @@
 export interface AppContextInterface {
-  state: { loggedIn: boolean };
-  updateState: { toggleLogin: () => void }; //tofix
+  state: { loggedIn: boolean; albums: string[]; albumSelected: number };
+  updateState: {
+    toggleLogin: () => void;
+    changeAlbum: (index: number) => void;
+  }; //tofix
 }
 
 export interface NavbarItem {

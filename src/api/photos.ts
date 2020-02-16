@@ -6,7 +6,7 @@ export const getPhotos = (): AxiosPromise => {
   return axios.get(`${process.env.REACT_APP_API}/photos/`);
 };
 
-// get PHOTO ALBUMNS
+// get PHOTO ALBUMS
 export const getAlbums = (): AxiosPromise => {
   return axios.get(`${process.env.REACT_APP_API}/albums/`);
 };

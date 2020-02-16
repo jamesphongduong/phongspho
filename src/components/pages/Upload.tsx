@@ -127,7 +127,7 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
         <CustomButton
           onClick={this.S3FileUpload}
           color="secondary"
-          label="Submit files"
+          label="Upload files"
           fullWidth
         />
       </div>

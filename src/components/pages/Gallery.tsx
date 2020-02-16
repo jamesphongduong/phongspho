@@ -1,7 +1,7 @@
 import React, { Fragment, PureComponent } from 'react';
-import { PhotoCard, AppContextConsumer } from '..';
+import { PhotoCard, AppContextConsumer, AppContext } from '..';
 import { getPhotos, putPhoto, deletePhoto, getAlbums } from '../../api';
-import { numOrUndefined, Photo } from '../../types';
+import { Photo } from '../../types';
 import { Fab, Tabs, Tab } from '@material-ui/core';
 import { Edit, Save } from '@material-ui/icons';
 import {
@@ -18,12 +18,12 @@ interface State {
   idsEdited: number[];
   idsDeleted: number[];
   albumSelected: number;
-  albums: string[];
 }
 
 interface Props {}
 
 export class Gallery extends PureComponent<Props, State> {
+  static contextType = AppContext;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -32,7 +32,6 @@ export class Gallery extends PureComponent<Props, State> {
       editMade: false,
       idsEdited: [],
       idsDeleted: [],
-      albums: ['All'],
       albumSelected: 0
     };
   }
@@ -43,12 +42,6 @@ export class Gallery extends PureComponent<Props, State> {
       this.setState({ photos: addIdToObjectsArray(res.data) }, () =>
         console.log('here', this.state.photos)
       );
-    });
-    getAlbums().then((res) => {
-      console.log('123', res);
-      this.setState((prevState) => ({
-        albums: [...prevState.albums, ...res.data.sort()]
-      }));
     });
   }
 
@@ -139,15 +132,17 @@ export class Gallery extends PureComponent<Props, State> {
   };
 
   renderAlbumOptions = (): JSX.Element => {
-    const { albumSelected, albums } = this.state;
+    const appContext = this.context;
     return (
       <Tabs
-        value={albumSelected}
-        onChange={(e, newValue) => this.setState({ albumSelected: newValue })}
+        value={appContext.state.albumSelected}
+        onChange={(e, newValue) => {
+          appContext.updateState.changeAlbum(newValue);
+        }}
         aria-label="simple tabs example"
         style={styles.tabsContainer}
       >
-        {albums.map((album) => (
+        {appContext.state.albums.map((album) => (
           <Tab label={album} key={album} />
         ))}
       </Tabs>
@@ -155,12 +150,15 @@ export class Gallery extends PureComponent<Props, State> {
   };
 
   renderGallery = (): JSX.Element[] => {
-    const { photos, editMode, albumSelected, albums } = this.state;
+    const { photos, editMode, albumSelected } = this.state;
+    const appContext = this.context;
 
     const filteredPhotos =
       albumSelected === 0
         ? photos
-        : photos.filter((photo) => photo.album === albums[albumSelected]);
+        : photos.filter(
+            (photo) => photo.album === appContext.state.albums[albumSelected]
+          );
 
     return filteredPhotos.map(
       (photo: Photo): JSX.Element => {
