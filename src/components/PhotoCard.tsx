@@ -77,7 +77,6 @@ export const PhotoCard = (props: Props): JSX.Element => {
         <CardMedia className={classes.media} image={imageURL} />
       </div>
       <CustomTextField
-        // style={{ marginBottom: '16px' }}
         label="Caption"
         id="caption"
         fullWidth
@@ -92,6 +91,13 @@ export const PhotoCard = (props: Props): JSX.Element => {
               }
             : {}
         }
+        InputLabelProps={{
+          style: !editMode
+            ? {
+                display: 'none'
+              }
+            : {}
+        }}
         inputProps={{
           maxLength: 40
         }}
@@ -99,6 +105,7 @@ export const PhotoCard = (props: Props): JSX.Element => {
       {editMode && (
         <TextField
           select
+          fullWidth
           name="album"
           label="Album"
           value={album}

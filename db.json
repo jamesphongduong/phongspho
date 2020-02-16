@@ -47,7 +47,17 @@
       "album": "",
       "id": "QhJOLQJK",
       "imageURL": "https://jamesphotos6.s3.amazonaws.com/images/20170428_181937.jpg"
+    },
+    {
+      "caption": "fish",
+      "album": "Nepal",
+      "id": "d93vsAQt",
+      "imageURL": "https://jamesphotos6.s3.amazonaws.com/images/20170428_181937.jpg"
     }
   ],
-  "albums": ["Vietnam", "Nepal", "Random"]
+  "albums": [
+    "Vietnam",
+    "Nepal",
+    "Random"
+  ]
 }

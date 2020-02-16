@@ -16,6 +16,7 @@ interface CustomTextFieldProps {
   fullWidth?: boolean;
   InputProps?: object;
   inputProps?: object;
+  InputLabelProps?: object;
 }
 
 export const CustomTextField = (props: CustomTextFieldProps): JSX.Element => {
