@@ -32,7 +32,7 @@ export class Gallery extends PureComponent<Props, State> {
       editMade: false,
       idsEdited: [],
       idsDeleted: [],
-      albums: [],
+      albums: ['All'],
       albumSelected: 0
     };
   }
@@ -44,7 +44,12 @@ export class Gallery extends PureComponent<Props, State> {
         console.log('here', this.state.photos)
       );
     });
-    getAlbums().then((res) => this.setState({ albums: res.data.sort() }));
+    getAlbums().then((res) => {
+      console.log('123', res);
+      this.setState((prevState) => ({
+        albums: [...prevState.albums, ...res.data.sort()]
+      }));
+    });
   }
 
   onPhotoEdit = (id: number, prop: string, newValue: string): void => {
@@ -152,9 +157,10 @@ export class Gallery extends PureComponent<Props, State> {
   renderGallery = (): JSX.Element[] => {
     const { photos, editMode, albumSelected, albums } = this.state;
 
-    const filteredPhotos = photos.filter(
-      (photo) => photo.album === albums[albumSelected]
-    );
+    const filteredPhotos =
+      albumSelected === 0
+        ? photos
+        : photos.filter((photo) => photo.album === albums[albumSelected]);
 
     return filteredPhotos.map(
       (photo: Photo): JSX.Element => {
