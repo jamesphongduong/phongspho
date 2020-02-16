@@ -4,10 +4,11 @@ import Dropzone from 'react-dropzone';
 import ReactS3 from 'react-s3';
 import shortid from 'shortid';
 import { PhotoCard } from '..';
-import { updateArray } from '../../utils';
+import { updateArray, showLoading } from '../../utils';
 import { postPhoto } from '../..//api';
 import { S3response } from '../../types';
 import { S3Config } from '../../config';
+import SweetAlert from 'sweetalert2';
 
 interface UploadProps {}
 
@@ -77,6 +78,7 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
   S3FileUpload = (): any => {
     const { files } = this.state;
 
+    showLoading('Uploading files');
     const promises = files.map((file) => {
       return ReactS3.uploadFile(file.file, S3Config);
     });
@@ -96,7 +98,10 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
         console.log('fileList', fileList);
         const promises2 = fileList.map((file) => postPhoto(file));
         Promise.all(promises2)
-          .then((res) => console.log('dbres', res))
+          .then((res) => {
+            console.log('dbres', res);
+            SweetAlert.close();
+          })
           .catch((err) => console.log('err', err));
       })
       .catch((err) => console.log('err', err));
@@ -118,12 +123,11 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
             </section>
           )}
         </Dropzone>
-        files
         <div style={styles.uploadsContainer}>{this.renderUploadItems()}</div>
         <CustomButton
           onClick={this.S3FileUpload}
           color="secondary"
-          label="Submit"
+          label="Submit files"
           fullWidth
         />
       </div>
@@ -136,7 +140,6 @@ const styles = {
     display: 'flex',
     flexDirection: 'row' as 'row',
     flexWrap: 'wrap' as 'wrap',
-    border: '1px solid black',
     alignItems: 'center'
   },
   upload: {

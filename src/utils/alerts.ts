@@ -32,7 +32,14 @@ export const alertSuccessful = (title: string): Promise<SweetAlertResult> =>
 export const alertUnsuccessful = (title: string): Promise<SweetAlertResult> =>
   SweetAlert.fire(unsuccessfulOptions(title));
 
-export const showLoading = (): void => SweetAlert.showLoading();
+export const showLoading = (text: string): void => {
+  SweetAlert.fire({
+    title: text,
+    onBeforeOpen: () => {
+      SweetAlert.showLoading();
+    }
+  });
+};
 
 export const alertConfirm = (): Promise<SweetAlertResult> => {
   return SweetAlert.fire(confirmOptions);
