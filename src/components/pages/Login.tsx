@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-import { InputAdornment, Typography, Box } from '@material-ui/core';
+import { InputAdornment, Typography } from '@material-ui/core';
 import { SweetAlertResult } from 'sweetalert2';
-import { CustomButton, CustomTextField, Image, AppContext } from '../';
+import { CustomButton, CustomTextField, AppContext } from '../';
 import { RouteComponentProps, withRouter } from 'react-router';
 import {
   AccountCircle,
@@ -13,14 +13,14 @@ import { alertUnsuccessful, alertSuccessful } from '../../utils/';
 import { setLoggedInLocalStorage } from '../../utils';
 import { app } from '../../styles';
 
-interface _LoginProps {}
+interface _Props {}
 
 interface State {
   passwordInput: string;
   showPassword: boolean;
 }
 
-type Props = _LoginProps & RouteComponentProps; // possible refactor on routecomponentprops
+type Props = _Props & RouteComponentProps;
 
 class _Login extends PureComponent<Props, State> {
   static contextType = AppContext;
@@ -63,58 +63,78 @@ class _Login extends PureComponent<Props, State> {
     const { passwordInput, showPassword } = this.state;
 
     return (
-      <Box px={16} style={app.splitContainer}>
+      <div style={styles.container}>
         <div>
           <Typography variant="h2" gutterBottom style={app.headingStyle}>
             Admin Login
           </Typography>
-          <CustomTextField
-            id="loginInput"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <AccountCircle />
-                </InputAdornment>
-              )
-            }}
-            value="admin"
-            handleInput={this.onInputChange}
-            disabled
-          />
-          <CustomTextField
-            type={showPassword ? 'text' : 'password'}
-            id="passwordInput"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Lock />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="start">
-                  {showPassword ? (
-                    <Visibility onClick={this.toggleShowPassword} />
-                  ) : (
-                    <VisibilityOff onClick={this.toggleShowPassword} />
-                  )}
-                </InputAdornment>
-              )
-            }}
-            value={passwordInput}
-            handleInput={this.onInputChange}
-          />
-          <CustomButton
-            style={{ marginTop: '32px' }}
-            fullWidth
-            label="Submit"
-            color="secondary"
-            onClick={this.onLogin}
-            size="large"
-          />
+          <div>
+            <CustomTextField
+              id="loginInput"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AccountCircle />
+                  </InputAdornment>
+                )
+              }}
+              value="admin"
+              handleInput={this.onInputChange}
+              disabled
+            />
+          </div>
+          <div style={styles.inputMargin}>
+            <CustomTextField
+              type={showPassword ? 'text' : 'password'}
+              id="passwordInput"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Lock />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="start">
+                    {showPassword ? (
+                      <Visibility onClick={this.toggleShowPassword} />
+                    ) : (
+                      <VisibilityOff onClick={this.toggleShowPassword} />
+                    )}
+                  </InputAdornment>
+                )
+              }}
+              value={passwordInput}
+              handleInput={this.onInputChange}
+            />
+            <div style={styles.buttonMargin}>
+              <CustomButton
+                fullWidth
+                label="Login"
+                color="secondary"
+                onClick={this.onLogin}
+                size="large"
+              />
+            </div>
+          </div>
         </div>
-      </Box>
+      </div>
     );
   }
 }
 
 export const Login = withRouter(_Login);
+
+const styles = {
+  container: {
+    marginTop: 64,
+    display: 'flex',
+    flexDirection: 'column' as 'column',
+    alignItems: 'center'
+  },
+  inputMargin: {
+    marginTop: 16
+  },
+  buttonMargin: {
+    marginTop: 32
+  }
+};

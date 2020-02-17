@@ -110,26 +110,23 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
   render() {
     console.log('render');
     return (
-      <div>
-        <Dropzone onDrop={(acceptedFiles) => this.onDrop(acceptedFiles)}>
-          {({ getRootProps, getInputProps }) => (
-            <section>
-              <div {...getRootProps()}>
+      <div style={styles.container}>
+        <div>
+          <Dropzone onDrop={(acceptedFiles) => this.onDrop(acceptedFiles)}>
+            {({ getRootProps, getInputProps }) => (
+              <div style={styles.uploadArea} {...getRootProps()}>
                 <input {...getInputProps()} />
-                <p style={styles.uploadArea}>
-                  Drag 'n' drop some files here, or click to select files
-                </p>
+                <p>Drag 'n' drop some files here, or click to select files</p>
               </div>
-            </section>
-          )}
-        </Dropzone>
-        <div style={styles.uploadsContainer}>{this.renderUploadItems()}</div>
-        <CustomButton
-          onClick={this.S3FileUpload}
-          color="secondary"
-          label="Upload files"
-          fullWidth
-        />
+            )}
+          </Dropzone>
+          <div style={styles.uploadsContainer}>{this.renderUploadItems()}</div>
+          <CustomButton
+            onClick={this.S3FileUpload}
+            color="secondary"
+            label="Upload files"
+          />
+        </div>
       </div>
     );
   }
@@ -147,9 +144,17 @@ const styles = {
   },
   uploadArea: {
     border: '1px solid black',
-    height: 200,
+    height: 400,
+    width: 400,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  container: {
+    border: '1px solid purple'
+    // display: 'flex',
+    // // flexDirection: 'column' as 'column',
+    // justifyContent: 'center'
+    // // alignItems: 'center'
   }
 };
