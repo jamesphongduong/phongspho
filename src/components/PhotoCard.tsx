@@ -16,7 +16,6 @@ type Props = PhotoProps;
 
 export const PhotoCard = (props: Props): JSX.Element => {
   const contextValue = useContext(AppContext);
-  console.log('contextValue', contextValue);
   const albums = contextValue ? contextValue.state.albums : [];
   const {
     caption,
@@ -27,9 +26,6 @@ export const PhotoCard = (props: Props): JSX.Element => {
     album,
     onEdit
   } = props;
-  console.log(26, album);
-  console.log(39, albums);
-
   const classes = useStyles();
 
   const onInputChange = (e): void => {
@@ -104,6 +100,7 @@ export const PhotoCard = (props: Props): JSX.Element => {
       />
       {editMode && (
         <TextField
+          className={classes.inputMargin}
           select
           fullWidth
           name="album"
@@ -150,6 +147,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     hide: {
       display: 'none'
+    },
+    inputMargin: {
+      marginTop: 16
     }
   })
 );

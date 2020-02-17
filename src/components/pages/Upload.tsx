@@ -8,16 +8,18 @@ import { updateArray, showLoading } from '../../utils';
 import { postPhoto } from '../..//api';
 import { S3response } from '../../types';
 import { S3Config } from '../../config';
+import { Typography } from '@material-ui/core';
 import SweetAlert from 'sweetalert2';
+import { app } from '../../styles';
 
-interface UploadProps {}
+interface Props {}
 
-interface UploadState {
+interface State {
   files: any[];
 }
 
-export class Upload extends PureComponent<UploadProps, UploadState> {
-  constructor(props: UploadProps) {
+export class Upload extends PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       files: []
@@ -53,11 +55,9 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
   };
 
   renderUploadItems = (): JSX.Element[] => {
-    console.log('renderUploadItems');
     const { files } = this.state;
-    console.log('state', files);
+
     return files.map((file) => {
-      console.log('file', file);
       return (
         <div style={styles.upload} key={file.id}>
           {file.name}
@@ -85,8 +85,6 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
 
     Promise.all(promises)
       .then((res) => {
-        console.log('res', res);
-        console.log('posting to backend');
         const fileList = files.map(({ caption, album, id }, index) => {
           return {
             caption,
@@ -95,38 +93,47 @@ export class Upload extends PureComponent<UploadProps, UploadState> {
             imageURL: res[index].location
           };
         });
-        console.log('fileList', fileList);
         const promises2 = fileList.map((file) => postPhoto(file));
         Promise.all(promises2)
           .then((res) => {
-            console.log('dbres', res);
             SweetAlert.close();
           })
-          .catch((err) => console.log('err', err));
+          .catch((err) => console.warn('err', err));
       })
-      .catch((err) => console.log('err', err));
+      .catch((err) => console.warn('err', err));
   };
 
   render() {
-    console.log('render');
+    const { files } = this.state;
+
     return (
       <div style={styles.container}>
+        <Typography variant="h2" gutterBottom style={app.headingStyle}>
+          Upload
+        </Typography>
         <div>
           <Dropzone onDrop={(acceptedFiles) => this.onDrop(acceptedFiles)}>
             {({ getRootProps, getInputProps }) => (
               <div style={styles.uploadArea} {...getRootProps()}>
                 <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
+                <p style={styles.dragText}>
+                  Drag 'n' drop some files here, or click to select files
+                </p>
               </div>
             )}
           </Dropzone>
-          <div style={styles.uploadsContainer}>{this.renderUploadItems()}</div>
-          <CustomButton
-            onClick={this.S3FileUpload}
-            color="secondary"
-            label="Upload files"
-          />
+          {files.length !== 0 && (
+            <CustomButton
+              style={styles.button}
+              fullWidth
+              onClick={this.S3FileUpload}
+              color="secondary"
+              label="Upload files"
+            />
+          )}
         </div>
+
+        <div style={styles.uploadsContainer}>{this.renderUploadItems()}</div>
       </div>
     );
   }
@@ -136,25 +143,32 @@ const styles = {
   uploadsContainer: {
     display: 'flex',
     flexDirection: 'row' as 'row',
+    paddingHorizontal: 16,
     flexWrap: 'wrap' as 'wrap',
-    alignItems: 'center'
+    width: '100%'
+    // alignItems: 'center'
+  },
+  dragText: {
+    textAlign: 'center' as 'center'
   },
   upload: {
     margin: 16
   },
   uploadArea: {
     border: '1px solid black',
-    height: 400,
-    width: 400,
+    borderRadius: 4,
+    height: 200,
+    width: 200,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
   },
   container: {
-    border: '1px solid purple'
-    // display: 'flex',
-    // // flexDirection: 'column' as 'column',
-    // justifyContent: 'center'
-    // // alignItems: 'center'
+    display: 'flex',
+    flexDirection: 'column' as 'column',
+    alignItems: 'center'
+  },
+  button: {
+    marginTop: 16
   }
 };
